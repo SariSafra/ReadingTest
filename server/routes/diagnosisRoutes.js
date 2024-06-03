@@ -10,4 +10,4 @@ diagnosisRoute.post('/', validateDiagnosis, diagnosisController.createDiagnosis)
 diagnosisRoute.put('/:id', validateDiagnosis, diagnosisController.updateDiagnosis);
 diagnosisRoute.delete('/:id', diagnosisController.deleteDiagnosis);
 
-export default diagnosisRoute;
+export { diagnosisRoute};

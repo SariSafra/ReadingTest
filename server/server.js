@@ -1,6 +1,6 @@
 import express from 'express';
-import connectDB from './config/db';
-import diagnosisRoutes from'./routes/diagnosisRoutes';
+import connectDB from './config/db.js';
+import diagnosisRoute from'./routes/diagnosisRoutes.js';
 import 'dotenv/config'
 
 const app = express();
@@ -13,7 +13,7 @@ connectDB();
 app.use(express.json());
 
 // Routes
-app.use('/diagnosis', diagnosisRoutes);
+app.use('/diagnosis', diagnosisRoute);
 
 app.get('/', (req, res) => {
   res.send('Reading Diagnosis Server');
