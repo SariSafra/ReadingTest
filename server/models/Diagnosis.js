@@ -26,4 +26,4 @@ const diagnosisSchema = new mongoose.Schema({
 
 const Diagnosis = mongoose.model('Diagnosis', diagnosisSchema);
 
-export{Diagnosis};
+export default Diagnosis;
