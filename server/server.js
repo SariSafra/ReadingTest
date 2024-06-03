@@ -19,4 +19,4 @@ app.get('/', (req, res) => {
   res.send('Reading Diagnosis Server');
 });
 
-app.listen(process.env.PORT, () => console.log(`listening on port: ${process.env.PORT}`));
+app.listen(port, () => console.log(`listening on port: ${port}`));
