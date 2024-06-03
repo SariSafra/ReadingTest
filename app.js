@@ -4,10 +4,10 @@ import 'dotenv/config'
 const app = express();
 app.use(express.json());
 
-app.use("/login", loginRouter)
+// app.use("/login", loginRouter)
 
-//app.use(authenticateToken);
-app.use("/users", usersRouter);
+// //app.use(authenticateToken);
+// app.use("/users", usersRouter);
 
 
 
