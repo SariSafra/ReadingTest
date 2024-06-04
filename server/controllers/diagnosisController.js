@@ -27,20 +27,7 @@ getDiagnosisById = async (req, res) => {
 
   createDiagnosis = async (req, res) => {
     try {
-      const student=await studentService.getStudents({email:req.params.email});
-      if(student)
-      {
-        const diagnosis = await diagnosisService.createDiagnosis(req.body.Diagnosis);
-        //i need to check the studen object and how it's correct to ask the _id
-        if(diagnosis)
-       { studentService.updateStudent(student._id,  { $set: { diagnosis: diagnosis } })}
-        else{
-          throw "Diagnosis creation failed";
-        }
-      }
-      else{
-        res.status(404).json({ message: 'Student not found' });
-      }
+      const diagnosis = await diagnosisService.createDiagnosis(req.body);
       res.status(201).json(diagnosis);
     } catch (error) {
       res.status(400).json({ message: error.message });

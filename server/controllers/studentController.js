@@ -1,5 +1,5 @@
 import StudentService from '../services/studentService.js';
-
+import Diagnosis from '../models/Diagnosis.js';
 const studentService = new StudentService();
 
 export default class StudentController {
@@ -54,6 +54,22 @@ export default class StudentController {
       res.status(200).json(student);
     } catch (error) {
       res.status(500).json({ message: error.message });
+    }
+  };
+   addDiagnosisToStudent = async (req, res) => {
+    try {
+      const diagnosis = new Diagnosis(req.body);
+      await diagnosis.save();
+  
+      const student = await studentService.findById(req.params.id);
+      if (!student) return res.status(404).json({ error: 'Student not found' });
+  
+      student.diagnosis = diagnosis._id;
+      await student.save();
+  
+      res.status(200).json(student);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
     }
   };
 }

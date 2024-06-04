@@ -9,5 +9,6 @@ studentRoute.get('/:id', studentController.getStudentById);
 studentRoute.post('/', studentController.createStudent);
 studentRoute.put('/:id', studentController.updateStudent);
 studentRoute.delete('/:id', studentController.deleteStudent);
+studentRoute.put('/:id/diagnosis', studentController.addDiagnosisToStudent);
 
 export default studentRoute;
