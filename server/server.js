@@ -7,6 +7,7 @@ import teacherRoute from './routes/teacherRoute.js';
 import signupRoute from './routes/signupRoute.js';
 import 'dotenv/config';
 import authMiddleware from './middlewares/authMiddleware.js';
+import morgan from 'morgan';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ connectDB();
 
 // Middleware
 app.use(express.json());
+app.use(morgan('dev'));
 
 // Routes
 app.use('/diagnosis', authMiddleware, diagnosisRoute);
