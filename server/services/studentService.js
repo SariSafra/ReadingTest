@@ -1,6 +1,6 @@
 import Student from "../models/Student.js";
 
-export default class studentService{
+export default class StudentService{
     getAllDiagnoses = async () => {
         return await Student.find();
       }

@@ -1,6 +1,5 @@
-import Student from '../models/Student.js';
 import DiagnosisService from '../services/diagnosisService.js';
-import StudentService from
+import StudentService from '../services/studentService.js';
 const diagnosisService = new DiagnosisService();
 const studentService=new StudentService();
 
@@ -32,7 +31,15 @@ getDiagnosisById = async (req, res) => {
       if(student)
       {
         const diagnosis = await diagnosisService.createDiagnosis(req.body.Diagnosis);
-        studentService.fi
+        //i need to check the studen object and how it's correct to ask the _id
+        if(diagnosis)
+       { studentService.updateStudent(student._id,  { $set: { diagnosis: diagnosis } })}
+        else{
+          throw "Diagnosis creation failed";
+        }
+      }
+      else{
+        res.status(404).json({ message: 'Student not found' });
       }
       res.status(201).json(diagnosis);
     } catch (error) {

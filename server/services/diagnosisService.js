@@ -1,6 +1,6 @@
 import Diagnosis from "../models/Diagnosis.js";
 
-export default class diagnosisService{
+export default class DiagnosisService{
     getAllDiagnoses = async () => {
         return await Diagnosis.find();
       }
