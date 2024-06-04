@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const Student = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -11,10 +11,12 @@ const Student = new mongoose.Schema({
   }
 });
 
-Student.methods.toJSON = function() {
+studentSchema.methods.toJSON = function() {
   const obj = this.toObject();
   delete obj.password;
   return obj;
 };
+
+const Student = mongoose.model('Student', studentSchema);
 
 export default Student;
