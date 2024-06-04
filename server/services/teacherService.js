@@ -1,24 +1,29 @@
-import Teacher from "../models/Teacher.js";
+import Teacher from '../models/Teacher.js';
 
-export default class TeacherService{
-    getAllDiagnoses = async () => {
+export default class TeacherService {
+
+    getAllDiagnosis = async () => {
         return await Teacher.find();
-      }
+    };
 
-      getTeacherById = async (id) => {
-        return await Teacher.findById(id);
-      }
+    getAllTeachers = async () => {
+        return await Teacher.find();
+    };
 
-      createTeacher = async (teacherData) => {
-        const Teacher = new Teacher(teacherData);
-        return await Teacher.save();
-      }
+    getTeacherById = async (id) => {
+        return await Teacher.findById(id).populate('students');
+    };
 
-      updateTeacher = async (id, teacherData) => {
+    createTeacher = async (teacherData) => {
+        const teacher = new Teacher(teacherData);
+        return await teacher.save();
+    };
+
+    updateTeacher = async (id, teacherData) => {
         return await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true });
-      }
+    };
 
-      deleteTeacher = async (id) => {
+    deleteTeacher = async (id) => {
         return await Teacher.findByIdAndDelete(id);
-      }
+    };
 }
