@@ -11,7 +11,7 @@ const Student = new mongoose.Schema({
   }
 });
 
-studentSchema.methods.toJSON = function() {
+Student.methods.toJSON = function() {
   const obj = this.toObject();
   delete obj.password;
   return obj;
