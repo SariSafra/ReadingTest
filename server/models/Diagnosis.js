@@ -11,7 +11,7 @@ const frequencyMapSchema = new mongoose.Schema({
   swaps: [swapSchema]
 });
 
-const Diagnosis = new mongoose.Schema({
+const diagnosisSchema = new mongoose.Schema({
   ExeNum: { type: String, required: true },
   Diagnosis: {
     frequencyMap: frequencyMapSchema,
@@ -23,5 +23,7 @@ const Diagnosis = new mongoose.Schema({
     Repeat: { type: String, required: true }
   }
 });
+
+const Diagnosis = mongoose.model('Diagnosis', diagnosisSchema);
 
 export default Diagnosis;
