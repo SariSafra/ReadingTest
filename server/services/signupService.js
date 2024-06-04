@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import Student from '../models/Student.js';
 import Teacher from '../models/Teacher.js';
+import generateToken from '../utils/token.js';
 
 export default class SignupService {
   signup = async (userData) => {
@@ -16,6 +17,9 @@ export default class SignupService {
       throw new Error('Invalid role');
     }
 
-    return await user.save();
+    const savedUser = await user.save();
+    const token = generateToken(savedUser);
+
+    return { user: savedUser, token };
   };
 }
