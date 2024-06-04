@@ -1,6 +1,8 @@
+import Student from '../models/Student.js';
 import DiagnosisService from '../services/diagnosisService.js';
-
+import StudentService from
 const diagnosisService = new DiagnosisService();
+const studentService=new StudentService();
 
 export default class DiagnosisController{
 getAllDiagnoses = async (req, res) => {
@@ -26,7 +28,12 @@ getDiagnosisById = async (req, res) => {
 
   createDiagnosis = async (req, res) => {
     try {
-      const diagnosis = await diagnosisService.createDiagnosis(req.body);
+      const student=await studentService.getStudents({email:req.params.email});
+      if(student)
+      {
+        const diagnosis = await diagnosisService.createDiagnosis(req.body.Diagnosis);
+        studentService.fi
+      }
       res.status(201).json(diagnosis);
     } catch (error) {
       res.status(400).json({ message: error.message });
