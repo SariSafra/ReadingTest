@@ -4,7 +4,8 @@ import Teacher from '../models/Teacher.js';
 import generateToken from '../utils/token.js';
 
 export default class SignupService {
-  signup = async (userData) => {
+  signup = async (userData) => { console.log("in signUp: "+userData)
+   
     const { name, email, password, role } = userData;
     const hashedPassword = await bcrypt.hash(password, 10);
 

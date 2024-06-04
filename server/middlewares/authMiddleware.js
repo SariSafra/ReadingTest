@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import Student from '../models/Student.js';
 import Teacher from '../models/Teacher.js';
-
 const authMiddleware = async (req, res, next) => {
+  console.log("in auth middleware")
   const token = req.header('Authorization').replace('Bearer ', '');
   if (!token) {
     return res.status(401).json({ message: 'No token, authorization denied' });
