@@ -1,5 +1,6 @@
 import Teacher from '../models/Teacher.js';
 import Password from '../models/Password.js';
+import mongoose from 'mongoose';
 
 export default class TeacherService {
 
@@ -11,8 +12,8 @@ export default class TeacherService {
         return await Teacher.find();
     };
 
-    getTeacherById = async (email) => {
-        return await Teacher.findOne({email}).populate('students');
+    getTeacherById = async (id) => {
+        return await Teacher.findById(id).populate('students');
     };
 
     createTeacher = async (teacherData) => {
@@ -39,11 +40,11 @@ export default class TeacherService {
         }
     };
 
-    updateTeacher = async (email, teacherData) => {
+    updateTeacher = async (id, teacherData) => {
         const session = await mongoose.startSession();
         session.startTransaction();
         try {
-            const teacher = await Teacher.findOneAndUpdate({ email }, teacherData, { new: true, runValidators: true, session });
+            const teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true, session });
 
             if (teacherData.password) {
                 await Password.findOneAndUpdate({ userId: teacher._id }, { password: teacherData.password }, { session });
@@ -59,11 +60,11 @@ export default class TeacherService {
         }
     };
 
-    deleteTeacher = async (email) => {
+    deleteTeacher = async (id) => {
         const session = await mongoose.startSession();
         session.startTransaction();
         try {
-            const teacher = await Teacher.findOneAndDelete({ email }, { session });
+            const teacher = await Teacher.findByIdAndDelete(id, { session });
             await Password.findOneAndDelete({ userId: teacher._id }, { session });
 
             await session.commitTransaction();

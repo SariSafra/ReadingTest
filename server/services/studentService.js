@@ -1,5 +1,6 @@
 import Student from '../models/Student.js';
 import Password from '../models/Password.js';
+import mongoose from 'mongoose';
 
 export default class StudentService {
     getAllDiagnosis = async () => {
@@ -41,19 +42,27 @@ export default class StudentService {
     updateStudent = async (id, studentData) => {
         const session = await mongoose.startSession();
         session.startTransaction();
+        console.log("start update student session")
+
         try {
+            console.log("d");
             const student = await Student.findByIdAndUpdate(id, studentData, { new: true, runValidators: true, session });
-            
+            console.log("c");
             if (studentData.password) {
                 await Password.findOneAndUpdate({ userId: id }, { password: studentData.password }, { session });
+                console.log("a")
             }
 
             await session.commitTransaction();
+            console.log("b")
             return student;
         } catch (error) {
             await session.abortTransaction();
+            console.log("catch in session student update")
+
             throw error;
         } finally {
+            console.log("finish update student session")
             session.endSession();
         }
     };
