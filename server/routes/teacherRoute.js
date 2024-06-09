@@ -5,9 +5,9 @@ const teacherRoute = express.Router();
 const teacherController = new TeacherController();
 
 teacherRoute.get('/', teacherController.getAllTeachers);
-teacherRoute.get('/:id', teacherController.getTeacherById);
+teacherRoute.get('/:email', teacherController.getTeacherById);
 teacherRoute.post('/', teacherController.createTeacher);
-teacherRoute.put('/:id', teacherController.updateTeacher);
-teacherRoute.delete('/:id', teacherController.deleteTeacher);
+teacherRoute.put('/:email', teacherController.updateTeacher);
+teacherRoute.delete('/:email', teacherController.deleteTeacher);
 
 export default teacherRoute;

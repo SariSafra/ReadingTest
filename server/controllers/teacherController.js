@@ -14,7 +14,7 @@ export default class TeacherController {
 
   getTeacherById = async (req, res) => {
     try {
-      const teacher = await teacherService.getTeacherById(req.params.id);
+      const teacher = await teacherService.getTeacherById(req.params.email);
       if (!teacher) {
         return res.status(404).json({ message: 'Teacher not found' });
       }
@@ -35,7 +35,7 @@ export default class TeacherController {
 
   updateTeacher = async (req, res) => {
     try {
-      const teacher = await teacherService.updateTeacher(req.params.id, req.body);
+      const teacher = await teacherService.updateTeacher(req.params.email, req.body);
       if (!teacher) {
         return res.status(404).json({ message: 'Teacher not found' });
       }
@@ -47,7 +47,7 @@ export default class TeacherController {
 
   deleteTeacher = async (req, res) => {
     try {
-      const teacher = await teacherService.deleteTeacher(req.params.id);
+      const teacher = await teacherService.deleteTeacher(req.params.email);
       if (!teacher) {
         return res.status(404).json({ message: 'Teacher not found' });
       }

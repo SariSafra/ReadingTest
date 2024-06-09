@@ -10,8 +10,8 @@ export default class TeacherService {
         return await Teacher.find();
     };
 
-    getTeacherById = async (id) => {
-        return await Teacher.findById(id).populate('students');
+    getTeacherById = async (email) => {
+        return await Teacher.findOne({email}).populate('students');
     };
 
     createTeacher = async (teacherData) => {
@@ -19,11 +19,11 @@ export default class TeacherService {
         return await teacher.save();
     };
 
-    updateTeacher = async (id, teacherData) => {
-        return await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true });
-    };
+    updateTeacher = async (email, teacherData) => {
+            return await Teacher.findOneAndUpdate({ email }, teacherData, { new: true, runValidators: true });
+         };
 
-    deleteTeacher = async (id) => {
-        return await Teacher.findByIdAndDelete(id);
+    deleteTeacher = async (email) => {
+        return await Teacher.findOneAndDelete({ email });
     };
 }
