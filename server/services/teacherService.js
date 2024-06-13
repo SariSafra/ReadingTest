@@ -1,5 +1,5 @@
-import Teacher from '../models/Teacher.js';
-import Student from '../models/Student.js';
+import Teacher from '../models/Teacher.model.js';
+import Student from '../models/Student.model.js';
 import Password from '../models/Password.js';
 import mongoose from 'mongoose';
 

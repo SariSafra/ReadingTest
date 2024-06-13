@@ -2,7 +2,6 @@ import Student from '../models/Student.model.js';
 import Password from '../models/Password.js';
 import mongoose from 'mongoose';
 import Diagnosis from '../models/Diagnosis.js';
-import mongoose from 'mongoose';
 
 export default class StudentService {
     getAllDiagnosis = async () => {

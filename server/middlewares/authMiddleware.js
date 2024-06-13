@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import Student from '../models/Student.js';
-import Teacher from '../models/Teacher.js';
+import Student from '../models/Student.model.js';
+import Teacher from '../models/Teacher.model.js';
 const authMiddleware = async (req, res, next) => {
   console.log("in auth middleware")
   const token = req.header('Authorization').replace('Bearer ', '');
