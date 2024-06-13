@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
-import Student from '../models/Student.js';
-import Teacher from '../models/Teacher.js';
+import Student from '../models/Student.model.js';
+import Teacher from '../models/Teacher.model.js';
 import Password from '../models/Password.js'; // Import Password model
 import generateToken from '../utils/token.js';
 import mongoose from 'mongoose';

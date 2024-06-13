@@ -5,6 +5,7 @@ import loginRoute from './routes/loginRoute.js';
 import studentRoute from './routes/studentRoute.js';
 import teacherRoute from './routes/teacherRoute.js';
 import signupRoute from './routes/signupRoute.js';
+import passwordResetRoute from './routes/passwordReset.route.js'
 import 'dotenv/config';
 import authMiddleware from './middlewares/authMiddleware.js';
 import morgan from 'morgan';
@@ -25,6 +26,7 @@ app.use('/signup', signupRoute);
 app.use('/login', loginRoute);
 app.use('/students', authMiddleware, studentRoute);
 app.use('/teachers', authMiddleware, teacherRoute);
+app.use('/password', passwordResetRoute);
 
 app.get('/', (req, res) => {
   res.send('Reading Diagnosis Server');
