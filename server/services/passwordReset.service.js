@@ -2,7 +2,6 @@ import Teacher from '../models/Teacher.model.js';
 import Student from '../models/Student.model.js';
 import Token from '../models/Token.model.js';
 import sendEmail from '../utils/email/sendEmail.js';
-import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 
 const getUserModel = (userType) => {
@@ -19,7 +18,8 @@ export const requestPasswordReset = async (email, userType) => {
   let token = await Token.findOne({ userId: user._id, userType });
   if (token) await token.deleteOne();
 
-  let resetToken = crypto.randomBytes(32).toString('hex');
+  // Generate reset token as a random string using bcrypt
+  const resetToken = (await bcrypt.genSalt(10)).replace(/\//g, ''); // Remove slashes to ensure URL-safe token
   const hash = await bcrypt.hash(resetToken, 10);
 
   await new Token({
@@ -30,7 +30,7 @@ export const requestPasswordReset = async (email, userType) => {
   }).save();
 
   const link = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user._id}&type=${userType}`;
-  sendEmail(user.email, 'Password Reset Request', { name: user.name, link: link }, './template/requestResetPassword.handlebars');
+  sendEmail(user.email, 'Password Reset Request', { name: user.name, link: link }, '../template/requestResetPassword.handlebars');
   return link;
 };
 
