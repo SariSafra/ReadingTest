@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
   diagnosis: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Diagnosis',
@@ -11,11 +10,6 @@ const studentSchema = new mongoose.Schema({
   }
 });
 
-studentSchema.methods.toJSON = function() {
-  const obj = this.toObject();
-  delete obj.password;
-  return obj;
-};
 
 studentSchema.pre('remove', async function(next) {
   try {
@@ -29,3 +23,4 @@ studentSchema.pre('remove', async function(next) {
 const Student = mongoose.model('Student', studentSchema);
 
 export default Student;
+
