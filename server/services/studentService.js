@@ -1,4 +1,4 @@
-import Student from '../models/Student.js';
+import Student from '../models/Student.model.js';
 import Password from '../models/Password.js';
 import mongoose from 'mongoose';
 import Diagnosis from '../models/Diagnosis.js';

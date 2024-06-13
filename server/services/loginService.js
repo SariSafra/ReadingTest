@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import Student from '../models/Student.js';
-import Teacher from '../models/Teacher.js';
+import Student from '../models/Student.model.js';
+import Teacher from '../models/Teacher.model.js';
 
 export default class LoginService {
   login = async (email, password) => {
