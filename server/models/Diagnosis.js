@@ -12,7 +12,7 @@ const frequencyMapSchema = new mongoose.Schema({
 });
 
 const diagnosisSchema = new mongoose.Schema({
-  ExeNum: { type: String, required: true },
+  ExeNum: { type: Number, required: true },
   Diagnosis: {
     frequencyMap: frequencyMapSchema,
     successRate: { type: Number, required: true },

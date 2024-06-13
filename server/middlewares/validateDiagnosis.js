@@ -3,10 +3,10 @@ import DiagnosisService from '../services/diagnosisService.js';
 const diagnosisService = new DiagnosisService();
 
 export default class ValidateDiagnosis{
-    getAllDiagnoses = async (req, res) => {
+    getAllDiagnosis = async (req, res) => {
         try {
-          const diagnoses = await diagnosisService.getAllDiagnoses();
-          res.status(200).json(diagnoses);
+          const diagnosis = await diagnosisService.getAllDiagnosis();
+          res.status(200).json(diagnosis);
         } catch (error) {
           res.status(500).json({ message: error.message });
         }

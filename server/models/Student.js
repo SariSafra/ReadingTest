@@ -17,6 +17,15 @@ studentSchema.methods.toJSON = function() {
   return obj;
 };
 
+studentSchema.pre('remove', async function(next) {
+  try {
+    await Diagnosis.deleteMany({ _id: this.diagnosis });
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 const Student = mongoose.model('Student', studentSchema);
 
 export default Student;

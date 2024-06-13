@@ -1,5 +1,6 @@
 import StudentService from '../services/studentService.js';
 import Diagnosis from '../models/Diagnosis.js';
+import DiagnosisService from '../services/diagnosisService.js';
 const studentService = new StudentService();
 
 export default class StudentController {
@@ -56,17 +57,16 @@ export default class StudentController {
       res.status(500).json({ message: error.message });
     }
   };
+
    addDiagnosisToStudent = async (req, res) => {
     try {
-      const diagnosis = new Diagnosis(req.body);
-      await diagnosis.save();
-  
-      const student = await studentService.findById(req.params.id);
+      console.log("student id: "+req.params.id);
+      const student = await studentService.getStudentById(req.params.id);
       if (!student) return res.status(404).json({ error: 'Student not found' });
-  
-      student.diagnosis = diagnosis._id;
-      await student.save();
-  
+      const diagnosisService = new DiagnosisService();
+      const response = await diagnosisService.createDiagnosis(req.body);
+      student.diagnosis = response._id;
+      await studentService.updateStudent(student._id, student);
       res.status(200).json(student);
     } catch (error) {
       res.status(400).json({ error: error.message });

@@ -7,7 +7,7 @@ const diagnosisRoute = express.Router();
 
 const diagnosisController = new DiagnosisController();
 
-diagnosisRoute.get('/', allowRoles(['teacher']), diagnosisController.getAllDiagnoses);
+diagnosisRoute.get('/', allowRoles(['teacher']), diagnosisController.getAllDiagnosis);
 diagnosisRoute.get('/:id', allowRoles(['teacher', 'student']), diagnosisController.getDiagnosisById);
 diagnosisRoute.post('/', allowRoles(['teacher']), validateDiagnosis, diagnosisController.createDiagnosis);
 diagnosisRoute.put('/:id', allowRoles(['teacher']), validateDiagnosis, diagnosisController.updateDiagnosis);

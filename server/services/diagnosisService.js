@@ -1,7 +1,7 @@
 import Diagnosis from "../models/Diagnosis.js";
 
 export default class DiagnosisService{
-    getAllDiagnoses = async () => {
+    getAllDiagnosis = async () => {
         return await Diagnosis.find();
       }
 
