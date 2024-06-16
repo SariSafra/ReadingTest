@@ -18,8 +18,7 @@ export const requestPasswordReset = async (email, userType) => {
   let token = await Token.findOne({ userId: user._id, userType });
   if (token) await token.deleteOne();
 
-  // Generate reset token as a random string using bcrypt
-  const resetToken = (await bcrypt.genSalt(10)).replace(/\//g, ''); // Remove slashes to ensure URL-safe token
+  const resetToken = (await bcrypt.genSalt(10)).replace(/\//g, ''); // URL-safe token
   const hash = await bcrypt.hash(resetToken, 10);
 
   await new Token({
@@ -30,7 +29,8 @@ export const requestPasswordReset = async (email, userType) => {
   }).save();
 
   const link = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user._id}&type=${userType}`;
-  sendEmail(user.email, 'Password Reset Request', { name: user.name, link: link }, '../template/requestResetPassword.handlebars');
+  const payload = { name: user.name, link: link };
+  sendEmail(user.email, 'Password Reset Request', payload, '../template/requestResetPassword.handlebars');
   return link;
 };
 
