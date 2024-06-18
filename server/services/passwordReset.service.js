@@ -4,6 +4,7 @@ import Token from '../models/Token.model.js';
 import sendEmail from '../utils/email/sendEmail.js';
 import bcrypt from 'bcrypt';
 
+
 const getUserModel = (userType) => {
   if (userType === 'Teacher') return Teacher;
   if (userType === 'Student') return Student;
@@ -11,9 +12,11 @@ const getUserModel = (userType) => {
 };
 
 export const requestPasswordReset = async (email, userType) => {
+  console.log("in service, email: "+email);
   const User = getUserModel(userType);
   const user = await User.findOne({ email });
   if (!user) throw new Error('User does not exist');
+  console.log("user : "+user);
 
   let token = await Token.findOne({ userId: user._id, userType });
   if (token) await token.deleteOne();
@@ -21,16 +24,15 @@ export const requestPasswordReset = async (email, userType) => {
   // Generate reset token as a random string using bcrypt
   const resetToken = (await bcrypt.genSalt(10)).replace(/\//g, ''); // Remove slashes to ensure URL-safe token
   const hash = await bcrypt.hash(resetToken, 10);
-
   await new Token({
     userId: user._id,
     userType,
     token: hash,
     createdAt: Date.now(),
   }).save();
-
+  console.log("before sending email");
   const link = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user._id}&type=${userType}`;
-  sendEmail(user.email, 'Password Reset Request', { name: user.name, link: link }, '../template/requestResetPassword.handlebars');
+  await sendEmail(user.email, 'Password Reset Request', { name: user.name, link: link }, '../template/requestResetPassword.handlebars');
   return link;
 };
 
