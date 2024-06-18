@@ -3,6 +3,7 @@ import { requestPasswordReset, resetPassword } from '../services/passwordReset.s
 export const handleRequestPasswordReset = async (req, res) => {
   try {
     const { email, userType } = req.body;
+    console.log("usertype: "+userType)
     const link = await requestPasswordReset(email, userType);
     res.send('Password reset link sent to your email account');
   } catch (error) {
