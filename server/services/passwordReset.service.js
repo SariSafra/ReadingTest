@@ -32,7 +32,7 @@ export const requestPasswordReset = async (email, userType) => {
   console.log("before sending email");
   const link = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user._id}&type=${userType}`;
   const payload = { name: user.name, link: link };
-  sendEmail(user.email, 'Password Reset Request', payload, '../template/requestResetPassword.handlebars');
+  sendEmail(user.email, 'Password Reset Request', payload, 'requestResetPassword.handlebars');
   return link;
 };
 
