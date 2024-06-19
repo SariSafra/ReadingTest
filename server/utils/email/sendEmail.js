@@ -22,7 +22,7 @@ const sendEmail = (to, subject, payload, templatePath) => {
 
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const templateDir = path.join(__dirname, '../../template');
+  const templateDir = path.join(__dirname, '../template');
   const fullTemplatePath = path.join(templateDir, path.basename(templatePath));
 
   const source = fs.readFileSync(fullTemplatePath, 'utf8');
