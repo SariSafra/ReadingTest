@@ -9,17 +9,21 @@ import passwordResetRoute from './routes/passwordReset.route.js'
 import 'dotenv/config';
 import authMiddleware from './middlewares/authMiddleware.js';
 import morgan from 'morgan';
-
+import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 connectDB();
-
+const corsOptions = {
+  origin: 'http://localhost:5173', // Adjust the origin as needed
+  credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
+app.use(cors(corsOptions));
 // Middleware
 app.use(express.json());
 app.use(morgan('dev'));
-
 // Routes
 app.use('/diagnosis', authMiddleware, diagnosisRoute);
 app.use('/signup', signupRoute);
