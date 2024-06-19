@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -16,9 +15,7 @@ API.interceptors.request.use(
     }
     if (!config.headers['Content-Type']) {
         config.headers['Content-Type'] = 'application/json';
-        
       }
-    console.log('Request config:', config); // Log the config object
     return config;
   },
   (error) => {
@@ -28,5 +25,7 @@ API.interceptors.request.use(
 
 export const login = (data) => API.post('/login', data);
 export const signup = (data) => API.post('/signup', data);
+export const generateVerificationCode = (data) => API.post('/signup/generate-code', data);
+export const completeSignup = (data) => API.post('/signup/complete-signup', data);
 export const requestPasswordReset = (data) => API.post('/password/requestPasswordReset', data);
 export const resetPassword = (data) => API.post('/password/resetPassword', data);

@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const sendEmail = (to, subject, payload, templatePath) => {
+  console.log("in send email email: "+email);
 
   let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
