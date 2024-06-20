@@ -1,43 +1,43 @@
-// signupService.js
 import bcrypt from 'bcrypt';
 import Student from '../models/Student.model.js';
 import Teacher from '../models/Teacher.model.js';
 import Password from '../models/Password.js';
 import generateToken from '../utils/token.js';
 import mongoose from 'mongoose';
+import sendEmail from '../utils/email/sendEmail.js';
 import crypto from 'crypto';
 import Verification from '../models/Verification.model.js'; // Model to store verification codes
-import sendEmail from '../utils/email/sendEmail.js' ;
+
 export default class SignupService {
   generateVerificationCode = async (email) => {
-    console.log("in generateVerificationCode email: "+email);
+    console.log("In generateVerificationCode: email received:", email);
     const verificationCode = crypto.randomBytes(3).toString('hex'); // Generate a random 6-character code
-
+    console.log("Generated verification code:", verificationCode);
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
       // Store the verification code in the Verification collection
       const verificationDoc = new Verification({ email, code: verificationCode });
       await verificationDoc.save({ session });
-      console.log("in generateVerificationCode after make and save verificationDoc: ");
-
-      // Send verification email
-      console.log("Attempting to send verification email...");
-      const payload={code: verificationCode}
-      sendEmail(email, 'Email Verification', payload, 'verificationTemplate.handlebars');
-      console.log("in generateVerificationCode after sending email: ");
+      console.log("Verification document saved successfully.");
 
       await session.commitTransaction();
       session.endSession();
 
       const token = generateToken({ email });
-      console.log("in generateVerificationCode after make token: "+token);
+      console.log("Token generated successfully:", token);
+
+      // Send verification email outside the transaction
+      console.log("Attempting to send verification email...");
+      await sendEmail(email, 'Email Verification', { code: verificationCode }, 'verificationTemplate.handlebars');
+      console.log("Verification email sent successfully.");
 
       return { message: 'Verification code sent to email', token };
     } catch (error) {
-      console.log("ssomthing made an error")
+      console.log("somthing made an error");
       await session.abortTransaction();
       session.endSession();
+      console.error("Error during verification code generation:", error.message);
       throw error;
     }
   };
