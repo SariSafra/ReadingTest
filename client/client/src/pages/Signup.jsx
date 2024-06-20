@@ -7,7 +7,6 @@ function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('student');
   const [verificationCode, setVerificationCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [token, setToken] = useState('');
@@ -29,8 +28,8 @@ function Signup() {
     e.preventDefault();
     try {
       const response = await completeSignup({
-        userData: { name, email, password, role },
-        verificationCode
+        userData: { name, email, password },
+        verificationCode,
       });
       Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
       navigate('/'); // Redirect to home page
@@ -41,7 +40,7 @@ function Signup() {
 
   return (
     <form onSubmit={isCodeSent ? handleCompleteSignup : handleGenerateCode}>
-      <h2>Sign Up</h2>
+      <h2>Teacher Sign Up</h2>
       {!isCodeSent ? (
         <>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
@@ -52,10 +51,6 @@ function Signup() {
           <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} placeholder="Verification Code" required />
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required />
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-          <select value={role} onChange={(e) => setRole(e.target.value)}>
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-          </select>
           <button type="submit">Complete Signup</button>
           <button type="button" onClick={handleGenerateCode}>Resend Verification Code</button>
         </>

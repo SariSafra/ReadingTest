@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 const API = axios.create({
   baseURL: 'http://localhost:3000', // Adjust the base URL as needed
   timeout: 10000, // Timeout of 10 seconds
-  withCredentials: true
+  withCredentials: true,
 });
 
 API.interceptors.request.use(
@@ -14,8 +14,8 @@ API.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     if (!config.headers['Content-Type']) {
-        config.headers['Content-Type'] = 'application/json';
-      }
+      config.headers['Content-Type'] = 'application/json';
+    }
     return config;
   },
   (error) => {
@@ -29,3 +29,5 @@ export const generateVerificationCode = (data) => API.post('/signup/generate-cod
 export const completeSignup = (data) => API.post('/signup/complete-signup', data);
 export const requestPasswordReset = (data) => API.post('/password/requestPasswordReset', data);
 export const resetPassword = (data) => API.post('/password/resetPassword', data);
+export const createStudent = (data) => API.post('/teachers/students', data);
+export const updateTeacherPassword = (data) => API.put('/teachers/password', data);

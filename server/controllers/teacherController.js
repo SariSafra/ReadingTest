@@ -56,4 +56,21 @@ export default class TeacherController {
       res.status(500).json({ message: error.message });
     }
   };
+  createStudent = async (req, res) => {
+    try {
+      const student = await teacherService.createStudent(req.user.id, req.body);
+      res.status(201).json(student);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
+
+  updateTeacherPassword = async (req, res) => {
+    try {
+      const teacher = await teacherService.updateTeacherPassword(req.user.id, req.body.newPassword);
+      res.status(200).json(teacher);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
 }
