@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import sendEmail from '../utils/email/sendEmail.js';
 import crypto from 'crypto';
 import Verification from '../models/Verification.model.js'; // Model to store verification codes
+import Password from './path/to/Password'; // Import Password model
 
 export default class SignupService {
   generateVerificationCode = async (email) => {
@@ -42,34 +43,39 @@ export default class SignupService {
     }
   };
 
-  signup = async (userData, verificationCode) => {
-    const { name, email, password } = userData;
-    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const verificationDoc = await Verification.findOne({ email, code: verificationCode });
-    if (!verificationDoc) {
-      throw new Error('Invalid verification code');
-    }
+ signup = async (userData, verificationCode) => {
+  const { name, email, password } = userData;
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    try {
-      const teacher = new Teacher({ name, email, password: hashedPassword });
-      const savedTeacher = await teacher.save({ session });
+  const verificationDoc = await Verification.findOne({ email, code: verificationCode });
+  if (!verificationDoc) {
+    throw new Error('Invalid verification code');
+  }
 
-      // Delete the verification document as it's no longer needed
-      await Verification.findOneAndDelete({ email, code: verificationCode }).session(session);
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const teacher = new Teacher({ name, email, password: hashedPassword });
+    const savedTeacher = await teacher.save({ session });
 
-      await session.commitTransaction();
-      session.endSession();
+    // Delete the verification document as it's no longer needed
+    await Verification.findOneAndDelete({ email, code: verificationCode }).session(session);
 
-      const token = generateToken(savedTeacher);
+    // Save the password to the Password model
+    const passwordEntry = new Password({ userId: savedTeacher._id, userType: 'Teacher', password: hashedPassword });
+    await passwordEntry.save({ session });
 
-      return { user: savedTeacher, token };
-    } catch (error) {
-      await session.abortTransaction();
-      session.endSession();
-      throw error;
-    }
-  };
+    await session.commitTransaction();
+    session.endSession();
+
+    const token = generateToken(savedTeacher);
+
+    return { user: savedTeacher, token };
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+};
 }
