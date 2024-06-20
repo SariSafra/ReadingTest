@@ -30,4 +30,3 @@ export const completeSignup = (data) => API.post('/signup/complete-signup', data
 export const requestPasswordReset = (data) => API.post('/password/requestPasswordReset', data);
 export const resetPassword = (data) => API.post('/password/resetPassword', data);
 export const createStudent = (data) => API.post('/teachers/students', data);
-export const updateTeacherPassword = (data) => API.put('/teachers/password', data);
