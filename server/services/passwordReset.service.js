@@ -1,5 +1,6 @@
 import Teacher from '../models/Teacher.model.js';
 import Student from '../models/Student.model.js';
+import Password from '../models/Password.js';
 import Token from '../models/Token.model.js';
 import sendEmail from '../utils/email/sendEmail.js';
 import bcrypt from 'bcrypt';
@@ -43,8 +44,7 @@ export const resetPassword = async (userId, token, newPassword, userType) => {
   const isValid = await bcrypt.compare(token, passwordResetToken.token);
   if (!isValid) throw new Error('Invalid or expired password reset token');
 
-  const User = getUserModel(userType);
   const hash = await bcrypt.hash(newPassword, 10);
-  await User.updateOne({ _id: userId }, { password: hash }, { new: true });
+  await Password.updateOne({ userId: userId }, {$set: {password: hash} });
   await passwordResetToken.deleteOne();
 };
