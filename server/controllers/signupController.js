@@ -5,6 +5,7 @@ const signupService = new SignupService();
 
 export default class SignupController {
   generateVerificationCode = async (req, res) => {
+    console.log("generate verification code controller")
     const { email } = req.body;
     try {
       const result = await signupService.generateVerificationCode(email);

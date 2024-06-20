@@ -8,6 +8,7 @@ import signupRoute from './routes/signupRoute.js';
 import passwordResetRoute from './routes/passwordReset.route.js'
 import 'dotenv/config';
 import authMiddleware from './middlewares/authMiddleware.js';
+import checkTeacherEmailExists from './middlewares/checkTeacherEmailExists.js'
 import morgan from 'morgan';
 import cors from 'cors';
 const app = express();
@@ -20,13 +21,13 @@ const corsOptions = {
   credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
   optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 };
-app.use(cors(corsOptions));
 // Middleware
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 // Routes
 app.use('/diagnosis', authMiddleware, diagnosisRoute);
-app.use('/signup', signupRoute);
+app.use('/signup', checkTeacherEmailExists, signupRoute);
 app.use('/login', loginRoute);
 app.use('/students', authMiddleware, studentRoute);
 app.use('/teachers', authMiddleware, teacherRoute);
