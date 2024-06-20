@@ -11,7 +11,7 @@ function PasswordResetRequest() {
     e.preventDefault();
     try {
       const response = await requestPasswordReset({ email, userType });
-      if (!response.ok) {
+      if (response.status!=201) {
         throw new Error(await response.text());
       }
       setSuccessMessage('Link for reset sent to your email');

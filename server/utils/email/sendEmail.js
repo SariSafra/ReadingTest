@@ -4,8 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const sendEmail = (to, subject, payload, templatePath) => {
-  console.log("in send email email: "+email);
+const sendEmail = async (to, subject, payload, templatePath) => {
+  console.log("in send email email: "+to);
 
   let transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -38,12 +38,12 @@ const sendEmail = (to, subject, payload, templatePath) => {
     html: html, // HTML version of the email
   };
 
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(`Email sent: ${info.response}`);
-    }
-  });
+  let info = await transporter.sendMail(mailOptions);
+
+  if (info.accepted.length === 0) {
+    throw new Error('Email not accepted by any recipient.');
+  }
+
+  console.log(`Email sent: ${info.response}`);
 };
 export default sendEmail;
