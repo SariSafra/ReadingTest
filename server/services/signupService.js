@@ -19,9 +19,9 @@ export default class SignupService {
       // Check if a verification document already exists and delete it
       await Verification.findOneAndDelete({ email }).session(session);
       console.log("Previous verification document deleted if existed.");
-
+      const lowerEmail=email.toLowerCase();
       // Store the verification code in the Verification collection
-      const verificationDoc = new Verification({ email, code: verificationCode });
+      const verificationDoc = new Verification({ email:lowerEmail, code: verificationCode });
       await verificationDoc.save({ session });
       console.log("Verification document saved successfully.");
 
@@ -46,13 +46,18 @@ export default class SignupService {
 
  signup = async (userData, verificationCode) => {
   const { name, email, password } = userData;
+  console.log( "in signup service ",name, email, password);
   const hashedPassword = await bcrypt.hash(password, 10);
-  const emailLower=emailOrName.toLowerCase();
+  console.log("hashed code:",hashedPassword)
+  const emailLower=email.toLowerCase();
+  console.log("email lower: ",emailLower,verificationCode);
   const verificationDoc = await Verification.findOne({ email:emailLower, code: verificationCode });
+  console.log("verificationDoc: ",verificationDoc)
   if (!verificationDoc) {
+    console.log('Invalid verification code')
     throw new Error('Invalid verification code');
   }
-
+console.log("there is email in Verification")
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
