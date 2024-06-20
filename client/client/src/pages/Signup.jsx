@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {generateVerificationCode,completeSignup} from '../services/api'
+import { generateVerificationCode, completeSignup } from '../services/api';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
@@ -57,6 +57,7 @@ function Signup() {
             <option value="teacher">Teacher</option>
           </select>
           <button type="submit">Complete Signup</button>
+          <button type="button" onClick={handleGenerateCode}>Resend Verification Code</button>
         </>
       )}
       <button type="button" onClick={() => navigate('/login')}>Login</button>
