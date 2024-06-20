@@ -5,8 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const sendEmail = async (to, subject, payload, templatePath) => {
-  try {
-    console.log("in sendEmail, email: " + to);
+  console.log("in send email email: "+to);
 
     let transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -21,14 +20,10 @@ const sendEmail = async (to, subject, payload, templatePath) => {
       },
     });
 
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const templateDir = path.join(__dirname, '../../template');
-    const fullTemplatePath = path.join(templateDir, path.basename(templatePath));
-
-    if (!fs.existsSync(fullTemplatePath)) {
-      throw new Error(`Template file not found: ${fullTemplatePath}`);
-    }
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const templateDir = path.join(__dirname, '../template');
+  const fullTemplatePath = path.join(templateDir, path.basename(templatePath));
 
     const source = fs.readFileSync(fullTemplatePath, 'utf8');
     const template = handlebars.compile(source);
@@ -42,21 +37,13 @@ const sendEmail = async (to, subject, payload, templatePath) => {
       html: html, // HTML version of the email
     };
 
-    return new Promise((resolve, reject) => {
-      transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-          console.error(`Error sending email: ${err.message}`);
-          reject(err);
-        } else {
-          console.log(`Email sent: ${info.response}`);
-          resolve(info);
-        }
-      });
-    });
-  } catch (error) {
-    console.error(`Error in sendEmail function: ${error.message}`);
-    throw error;
+  let info = await transporter.sendMail(mailOptions);
+
+  if (info.accepted.length === 0) {
+    throw new Error('Email not accepted by any recipient.');
   }
+
+  console.log(`Email sent: ${info.response}`);
 };
 
 export default sendEmail;

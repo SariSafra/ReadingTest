@@ -1,7 +1,7 @@
 // src/pages/Login.js
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../services/api';
 
 function Login() {
@@ -21,14 +21,17 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-      <button type="submit">Login</button>
-      <button type="button" onClick={() => navigate('/signup')}>Sign Up</button>
-      <button type="button" onClick={() => navigate('/password-reset')}>Forgot Password?</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+        <button type="submit">Login</button>
+        <button type="button" onClick={() => navigate('/signup')}>Sign Up</button>
+        <button type="button" onClick={() => navigate('/password-reset')}>Forgot Password?</button>
+      </form>
+      <Link to="../password-reset-request">forget password? click to reset</Link>
+    </div>
   );
 }
 

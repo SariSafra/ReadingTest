@@ -5,6 +5,7 @@ import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import PasswordReset from './pages/PasswordReset.jsx';
 import './index.css';
+import PasswordResetRequest from './pages/PasswordResetRequest.jsx';
 function Index()
 {
     return(<>
@@ -13,6 +14,7 @@ function Index()
       <Route path="/" exact element={<App/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<Signup/>} />
+      <Route path="/password-reset-request" element={<PasswordResetRequest/>} />
       <Route path="/password-reset" element={<PasswordReset/>} />
     </Routes>
   </BrowserRouter></>);
