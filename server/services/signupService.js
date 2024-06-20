@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import sendEmail from '../utils/email/sendEmail.js';
 import crypto from 'crypto';
 import Verification from '../models/Verification.model.js'; // Model to store verification codes
-import Password from './path/to/Password'; // Import Password model
+import Password from '../models/Password.js'; // Import Password model
 
 export default class SignupService {
   generateVerificationCode = async (email) => {
