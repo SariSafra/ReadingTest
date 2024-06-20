@@ -65,12 +65,6 @@ export default class TeacherController {
     }
   };
 
-  updateTeacherPassword = async (req, res) => {
-    try {
-      const teacher = await teacherService.updateTeacherPassword(req.user.id, req.body.newPassword);
-      res.status(200).json(teacher);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
-  };
+
+
 }
