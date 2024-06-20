@@ -13,13 +13,23 @@ export default class SignupService {
     console.log("In generateVerificationCode: email received:", email);
     const verificationCode = crypto.randomBytes(3).toString('hex'); // Generate a random 6-character code
     console.log("Generated verification code:", verificationCode);
+
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
+      // Check if a verification document already exists and delete it
+      await Verification.findOneAndDelete({ email }).session(session);
+      console.log("Previous verification document deleted if existed.");
+
       // Store the verification code in the Verification collection
       const verificationDoc = new Verification({ email, code: verificationCode });
       await verificationDoc.save({ session });
       console.log("Verification document saved successfully.");
+
+      // Send verification email
+      console.log("Attempting to send verification email...");
+      await sendEmail(email, 'Email Verification', { code: verificationCode }, 'verificationTemplate.handlebars');
+      console.log("Verification email sent successfully.");
 
       await session.commitTransaction();
       session.endSession();
@@ -27,14 +37,9 @@ export default class SignupService {
       const token = generateToken({ email });
       console.log("Token generated successfully:", token);
 
-      // Send verification email outside the transaction
-      console.log("Attempting to send verification email...");
-      await sendEmail(email, 'Email Verification', { code: verificationCode }, 'verificationTemplate.handlebars');
-      console.log("Verification email sent successfully.");
-
       return { message: 'Verification code sent to email', token };
     } catch (error) {
-      console.log("somthing made an error");
+      console.log("Something caused an error");
       await session.abortTransaction();
       session.endSession();
       console.error("Error during verification code generation:", error.message);
@@ -68,9 +73,12 @@ export default class SignupService {
       const passwordDoc = new Password({
         userId: savedUser._id,
         userType: role === 'student' ? 'Student' : 'Teacher',
-        password: hashedPassword
+        password: hashedPassword,
       });
       await passwordDoc.save({ session });
+
+      // Delete the verification document as it's no longer needed
+      await Verification.findOneAndDelete({ email, code: verificationCode }).session(session);
 
       await session.commitTransaction();
       session.endSession();
