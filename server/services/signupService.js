@@ -47,8 +47,8 @@ export default class SignupService {
  signup = async (userData, verificationCode) => {
   const { name, email, password } = userData;
   const hashedPassword = await bcrypt.hash(password, 10);
-
-  const verificationDoc = await Verification.findOne({ email, code: verificationCode });
+  const emailLower=emailOrName.toLowerCase();
+  const verificationDoc = await Verification.findOne({ email:emailLower, code: verificationCode });
   if (!verificationDoc) {
     throw new Error('Invalid verification code');
   }

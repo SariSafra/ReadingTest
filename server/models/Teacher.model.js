@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const teacherSchema = new Schema({
   name: { type: String, required: true }, // Ensure the name is unique
-  email: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
   students: [{ type: Schema.Types.ObjectId, ref: 'Student' }] // Reference to students
 }, { timestamps: true });
 
