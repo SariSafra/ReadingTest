@@ -57,13 +57,13 @@ export default class SignupService {
     console.log('Invalid verification code')
     throw new Error('Invalid verification code');
   }
-console.log("there is email in Verification")
+  console.log('hi from complete signup')
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
     const teacher = new Teacher({ name, email, password: hashedPassword });
     const savedTeacher = await teacher.save({ session });
-
+    console.log("after aseing the teacher "+ savedTeacher)
     // Delete the verification document as it's no longer needed
     await Verification.findOneAndDelete({ email, code: verificationCode }).session(session);
 
@@ -78,6 +78,7 @@ console.log("there is email in Verification")
 
     return { user: savedTeacher, token };
   } catch (error) {
+    console.log('error on signup: '+error.message)
     await session.abortTransaction();
     session.endSession();
     throw error;

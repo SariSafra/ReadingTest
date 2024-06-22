@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AddStudent from './pages/teacherArea/AddStudent.jsx';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <h1>Welcome to Reading Diagnosis</h1>
       <nav>
         <ul>
+          <AddStudent/>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/signup">Sign Up</Link></li>
         </ul>
