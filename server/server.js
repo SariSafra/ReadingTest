@@ -8,7 +8,7 @@ import signupRoute from './routes/signupRoute.js';
 import passwordResetRoute from './routes/passwordReset.route.js'
 import 'dotenv/config';
 import authMiddleware from './middlewares/authMiddleware.js';
-import checkTeacherEmailExists from './middlewares/checkTeacherEmailExists.js'
+import checkEmailExists from './middlewares/checkEmailExists.js'
 import morgan from 'morgan';
 import cors from 'cors';
 const app = express();
@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 // Routes
 app.use('/diagnosis', authMiddleware, diagnosisRoute);
-app.use('/signup', checkTeacherEmailExists, signupRoute);
+app.use('/signup', checkEmailExists, signupRoute);
 app.use('/login', loginRoute);
 app.use('/students', authMiddleware, studentRoute);
 app.use('/teachers', authMiddleware, teacherRoute);

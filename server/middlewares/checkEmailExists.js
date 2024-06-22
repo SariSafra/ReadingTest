@@ -1,11 +1,15 @@
 import Teacher from '../models/Teacher.model.js';
+import Student from '../models/Student.model.js';
+import mongoose from 'mongoose';
 
-const checkTeacherEmailExists = async (req, res, next) => {
+const checkEmailExists = async (req, res, next) => {
   console.log("on checkTeacherEmailExists middleware ");
-  const { email } = req.body;
+  const { email, type } = req.body;
+  const lowerCaseEmail = email.toLowerCase();
+  const userModel = mongoose.model(type);
   try {
-    const teacher = await Teacher.findOne({ email });
-    if (teacher) {
+    const user = await userModel.findOne({ lowerCaseEmail });
+    if (user) {
       console.log("email exists")
       return res.status(400).json({ message: 'Email already exists' });
     }
@@ -17,4 +21,4 @@ const checkTeacherEmailExists = async (req, res, next) => {
   }
 };
 
-export default checkTeacherEmailExists;
+export default checkEmailExists;
