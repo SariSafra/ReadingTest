@@ -93,6 +93,7 @@ export default class TeacherService {
             session.endSession();
         }
     };
+    
     createStudent = async (teacherId, studentData) => {
         const { name, password } = studentData;
         const hashedPassword = await bcrypt.hash(password, 10);

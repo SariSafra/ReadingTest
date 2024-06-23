@@ -27,7 +27,7 @@ export default class SignupService {
 
       // Send verification email
       console.log("Attempting to send verification email...");
-      await sendEmail(email, 'Email Verification', { code: verificationCode }, 'verificationTemplate.handlebars');
+      await sendEmail(email, 'Email Verification', { code: verificationCode }, 'verificationTemplate.hbs');
       console.log("Verification email sent successfully.");
 
       await session.commitTransaction();

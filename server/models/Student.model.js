@@ -4,13 +4,8 @@ import bcrypt from 'bcrypt';
 const { Schema } = mongoose;
 
 const studentSchema = new Schema({
-  name: { type: String, required: true, unique: true }, // Ensure the name is unique
-  email: {
-    type: String,
-    required: true,
-    unique: true, // Ensure the email is unique
-    match: [/.+\@.+\..+/, 'Please fill a valid email address'], // Email format validation
-  },
+  studentId: { type: String, required: true, unique: true }, // Unique student identifier
+  name: { type: String, required: true },
   password: { type: String, required: true },
   diagnosis: { type: String, default: '' },
 }, { timestamps: true });
