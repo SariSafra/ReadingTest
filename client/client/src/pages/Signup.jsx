@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Cookies from 'js-cookie';
 import { generateVerificationCode, completeSignup } from '../services/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from '../AuthContext';
 
 const Signup = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [token, setToken] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const emailValidationSchema = Yup.object().shape({
@@ -28,17 +30,15 @@ const Signup = () => {
       const response = await generateVerificationCode({ email: values.email });
       setIsCodeSent(true);
       setToken(response.data.token);
-      setSuccessMessage('Verification code sent to your email');
-      setErrorMessage('');
+      toast.success('Verification code sent to your email');
       console.log('Verification code sent:', response.data.message);
     } catch (error) {
       console.error('Error generating verification code:', error);
       if (error.response && error.response.status === 400) {
-        setErrorMessage('Email already in use');
+        toast.error('Email already in use');
       } else {
-        setErrorMessage('Error generating verification code, try later');
+        toast.error('Error generating verification code, try later');
       }
-      setSuccessMessage('');
     }
     setSubmitting(false);
   };
@@ -54,10 +54,11 @@ const Signup = () => {
         verificationCode: values.verificationCode,
       });
       Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
-      navigate('/'); // Redirect to home page
+      setAuth({ role: 'teacher', token: response.data.token });
+      navigate('/teacherHome'); // Redirect to teacher home page
     } catch (error) {
       console.error('Error completing signup:', error);
-      setErrorMessage('Error completing signup, try later');
+      toast.error('Error completing signup, try later');
     }
     setSubmitting(false);
   };
@@ -65,6 +66,7 @@ const Signup = () => {
   return (
     <div>
       <h2>Teacher Sign Up</h2>
+      <ToastContainer />
       {isCodeSent ? (
         <Formik
           initialValues={{ name: '', email: '', password: '', verificationCode: '' }}
@@ -111,8 +113,6 @@ const Signup = () => {
           )}
         </Formik>
       )}
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <button type="button" onClick={() => navigate('/login')}>Login</button>
     </div>
   );

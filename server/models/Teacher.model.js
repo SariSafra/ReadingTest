@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 const { Schema } = mongoose;
 
 const teacherSchema = new Schema({
-  name: { type: String, required: true }, // Ensure the name is unique
+  name: { type: String, required: true }, 
   email: { type: String, required: true, unique: true, lowercase: true },
   students: [{ type: Schema.Types.ObjectId, ref: 'Student' }] // Reference to students
 }, { timestamps: true });
