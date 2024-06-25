@@ -16,5 +16,6 @@ studentSchema.pre('save', async function (next) {
   this.password = hash;
   next();
 });
+const Student = mongoose.model('Student',studentSchema );
 
-export default mongoose.model('Student', studentSchema);
+export default Student;

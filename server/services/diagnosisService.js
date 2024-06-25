@@ -9,10 +9,16 @@ export default class DiagnosisService{
       getDiagnosisById = async (id) => {
         return await Diagnosis.findById(id);
       }
-      getDiagnosisByStudentId = async (studentId) =>{
-
-        const diagnosisId=await Student.findById(studentId);
-        return await Diagnosis.findById(diagnosisId);
+      getDiagnosisByStudentId = async (id) => {
+        console.log("in get diagnosis by student id service::", id);
+        const student = await Student.findById(id).populate('diagnosis');
+        console.log("student with populated diagnosis: ", student);
+        if (!student || !student.diagnosis) {
+          console.log("No diagnosis found for this student.");
+          return null;
+        }
+        console.log("Diagnosis found:", student.diagnosis);
+        return student.diagnosis;
       }
 
       createDiagnosis = async (diagnosisData) => {

@@ -26,7 +26,9 @@ getDiagnosisById = async (req, res) => {
   }
   getDiagnosisByStudentId = async (req,res) => {
     try{
+      console.log("in get diagnosis by student id")
         const diagnosis= await diagnosisService.getDiagnosisByStudentId(req.params.studentId);
+        console.log(diagnosis);
         if (!diagnosis) {
           return res.status(404).json({ message: 'Diagnosis not found' });
         }
