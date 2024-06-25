@@ -10,7 +10,8 @@ export default class DiagnosisService{
         return await Diagnosis.findById(id);
       }
       getDiagnosisByStudentId = async (id) => {
-        console.log("in get diagnosis by student id service::", id);
+        //console.log("in get diagnosis by student id service::", id);
+        console.log("in get diagnosis by student id service::",id);
         const student = await Student.findById(id).populate('diagnosis');
         console.log("student with populated diagnosis: ", student);
         if (!student || !student.diagnosis) {
