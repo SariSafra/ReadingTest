@@ -35,7 +35,7 @@ export default class SignupService {
 
     return { message: 'Verification code sent to email'};
     } catch (error) {
-      console.log("Something caused an error");
+      console.log("Something caused an error" );
       await session.abortTransaction();
       session.endSession();
       console.error("Error during verification code generation:", error.message);
