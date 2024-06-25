@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-//import { getStudents } from '../../services/api';
+import { getStudents } from '../../services/api';
 import AddStudent from './AddStudent';
 import ShowStudentDiagnosis from './ShowStudentDiagnosis';
 
@@ -29,7 +29,10 @@ function TeacherHome() {
                 {students.map((student) => (
                     <li key={student.id}>
                         {student.name}
-                        <button onClick={() => setSelectedStudentId(student.id)}>Show Diagnosis</button>
+                        <button onClick={() => {
+    console.log(`Selected student ID: ${student.id}`);
+    setSelectedStudentId(student._id);
+}}>Show Diagnosis</button>
                     </li>
                 ))}
             </ul>
