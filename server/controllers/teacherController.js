@@ -57,8 +57,10 @@ export default class TeacherController {
     }
   };
   createStudent = async (req, res) => {
+    console.log('create student controller '+req.user._id)
     try {
-      const student = await teacherService.createStudent(req.user.id, req.body);
+      const student = await teacherService.createStudent(req.user._id, req.body);
+      console.log('after creating, student: '+student);
       res.status(201).json(student);
     } catch (error) {
       res.status(400).json({ message: error.message });

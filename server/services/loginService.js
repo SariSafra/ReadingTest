@@ -5,17 +5,17 @@ import Teacher from '../models/Teacher.model.js';
 import Password from '../models/Password.js';
 
 export default class LoginService {
-  login = async (emailOrId, password, role) => {
-    console.log("in login service",emailOrName, password, role);
+  login = async (username, password, role) => {
+    console.log("in login service",username, password, role);
 
     let user;
     if (role === 'teacher') {
       console.log("is a teacher")
-      const email=emailOrName.toLowerCase();
-      user = await Teacher.findOne({ email: emailOrId });
+      const email=username.toLowerCase();
+      user = await Teacher.findOne({ email: username });
     } else {
       console.log("is not a teacher")
-      user = await Student.findOne({ studentId: emailOrId });
+      user = await Student.findOne({ studentId: username });
     }
 
     console.log("user details: " + user);

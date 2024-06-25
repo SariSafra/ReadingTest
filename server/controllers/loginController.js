@@ -5,8 +5,8 @@ const loginService = new LoginService();
 export default class LoginController {
   login = async (req, res) => {
     try {
-      const { emailOrName, password, role } = req.body;
-      const token = await loginService.login(emailOrName, password, role);
+      const { username, password, role } = req.body;
+      const token = await loginService.login(username, password, role);
       if (!token) {
         return res.status(401).json({ message: 'Invalid email/name or password' });
       }

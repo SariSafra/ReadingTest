@@ -10,7 +10,7 @@ import AuthContext from '../AuthContext';
 
 // Define validation schema with Joi
 const validationSchema = Joi.object({
-  emailOrName: Joi.string().required().label('Email or Name'),
+  username: Joi.string().required().label('username'),
   password: Joi.string().min(6).required().label('Password'),
   role: Joi.string().valid('student', 'teacher').required().label('Role')
 });
@@ -33,7 +33,7 @@ function Login() {
 
   const formik = useFormik({
     initialValues: {
-      emailOrName: '',
+      username: '',
       password: '',
       role: 'student'
     },
@@ -68,10 +68,10 @@ function Login() {
 
         <input
           type={formik.values.role === 'teacher' ? 'email' : 'text'}
-          name="emailOrName"
-          value={formik.values.emailOrName}
+          name="username"
+          value={formik.values.username}
           onChange={formik.handleChange}
-          placeholder={formik.values.role === 'teacher' ? 'Email' : 'Name'}
+          placeholder={formik.values.role === 'teacher' ? 'Email' : 'ID'}
           required
         />
         {formik.errors.emailOrName && <div>{formik.errors.emailOrName}</div>}

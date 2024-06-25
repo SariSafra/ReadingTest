@@ -5,11 +5,13 @@ import authMiddleware from '../middlewares/authMiddleware.js';
 const router = express.Router();
 const teacherController = new TeacherController();
 
-router.get('/', authMiddleware, teacherController.getAllTeachers);
-router.get('/:id', authMiddleware, teacherController.getTeacherById);
+
 router.post('/', teacherController.createTeacher);
-router.put('/:id', authMiddleware, teacherController.updateTeacher);
-router.delete('/:id', authMiddleware, teacherController.deleteTeacher);
-router.post('/students', authMiddleware, teacherController.createStudent);
+router.use(authMiddleware);
+router.get('/', teacherController.getAllTeachers);
+router.get('/:id', teacherController.getTeacherById);
+router.put('/:id', teacherController.updateTeacher);
+router.delete('/:id', teacherController.deleteTeacher);
+router.post('/students',  teacherController.createStudent);
 
 export default router;

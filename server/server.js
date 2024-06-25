@@ -27,6 +27,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 // Routes
+app.use((req, res, next)=>{
+  console.log('in server');
+  next();
+})
 app.use('/password', passwordResetRoute);
 app.use('/signup', checkEmailExists, signupRoute);
 app.use('/login', loginRoute);

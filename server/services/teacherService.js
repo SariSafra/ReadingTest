@@ -93,17 +93,20 @@ export default class TeacherService {
             session.endSession();
         }
     };
-    
+
     createStudent = async (teacherId, studentData) => {
-        const { name, password } = studentData;
+        const { name,id, password } = studentData;
+        console.log(studentData);
         const hashedPassword = await bcrypt.hash(password, 10);
     
         const session = await mongoose.startSession();
         session.startTransaction();
         try {
-          const student = new Student({ name, password: hashedPassword });
-          const savedStudent = await student.save({ session });
-    
+          const student = new Student({ name,id});
+          const savedStudent = await Student.save({ student }).session(session);
+          await Password.save({userId: savedStudent._id, type: 'Student', password: hashedPassword}).session(session);
+            console.log("student: "+savedStudent);
+            await password.save()
           // Update teacher's record to include this student
           const teacher = await Teacher.findById(teacherId).session(session);
           if (!teacher) {
