@@ -1,4 +1,5 @@
 import Diagnosis from "../models/Diagnosis.js";
+import Student from "../models/Student.model.js"
 
 export default class DiagnosisService{
     getAllDiagnosis = async () => {
@@ -7,6 +8,11 @@ export default class DiagnosisService{
 
       getDiagnosisById = async (id) => {
         return await Diagnosis.findById(id);
+      }
+      getDiagnosisByStudentId = async (studentId) =>{
+
+        const diagnosisId=await Student.findById(studentId);
+        return await Diagnosis.findById(diagnosisId);
       }
 
       createDiagnosis = async (diagnosisData) => {

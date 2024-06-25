@@ -31,3 +31,4 @@ export const requestPasswordReset = (data) => API.post('/password/requestPasswor
 export const resetPassword = (data) => API.post('/password/resetPassword', data);
 export const createStudent = (data) => API.post('/teachers/students', data);
 export const sendEmail = (data) => API.post('/email/send-email', data);
+export const getStudentDiagnoses = (studentId) => API.get('/diagnosis/studentId',studentId)

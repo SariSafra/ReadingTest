@@ -24,6 +24,19 @@ getDiagnosisById = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   }
+  getDiagnosisByStudentId = async (req,res) => {
+    try{
+        const diagnosis= await diagnosisService.getDiagnosisByStudentId(req.params.studentId);
+        if (!diagnosis) {
+          return res.status(404).json({ message: 'Diagnosis not found' });
+        }
+        res.status(200).json(diagnosis);
+    }
+    catch(error)
+    {
+      res.status(500).json({ message: error.message });
+    }
+  }
 
   createDiagnosis = async (req, res) => {
     try {
