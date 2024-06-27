@@ -12,7 +12,8 @@ export default class LoginService {
     if (role === 'teacher') {
       console.log("is a teacher")
       const email=username.toLowerCase();
-      user = await Teacher.findOne({ email: username });
+      user = await Teacher.findOne({ email: email });
+      console.log(user);
     } else {
       console.log("is not a teacher")
       user = await Student.findOne({ studentId: username });

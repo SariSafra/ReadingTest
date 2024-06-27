@@ -6,7 +6,7 @@ import studentRoute from './routes/studentRoute.js';
 import teacherRoute from './routes/teacherRoute.js';
 import signupRoute from './routes/signupRoute.js';
 import passwordResetRoute from './routes/passwordReset.route.js'
-import emailRoute from './routes/emailRoute.js';
+import emailRoute from './routes/emailRoute.route.js';
 import 'dotenv/config';
 import authMiddleware from './middlewares/authMiddleware.js';
 import checkEmailExists from './middlewares/checkEmailExists.js'
