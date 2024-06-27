@@ -25,7 +25,7 @@ const AddStudent = () => {
             setModalIsOpen(true);
             toast.success("Student added successfully!");
         } catch (error) {
-            if (error.response.status === 400) {
+            if (error.response?.status === 400) {
                 toast.error("ID already in use");
             } else {
                 toast.error("An error occurred. Please try again.");
@@ -44,7 +44,7 @@ const AddStudent = () => {
                 to: email,
                 subject: 'Student Login Details',
                 payload: payload,
-                templatePath: './template/loginDetails.hbs'
+                templatePath: 'loginDetails.hbs'
             });
 
             toast.success("Email sent successfully!");
