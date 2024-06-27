@@ -4,8 +4,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-modal';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { MdContentCopy } from "react-icons/md";
 
-const AddStudent = () => {
+
+const AddStudent = ({studentsArr, setStudentsArr}) => {
     const [inputsValue, setInputsValue] = useState({ name: '', password: '', id: '' });
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [email, setEmail] = useState('');
@@ -20,10 +22,11 @@ const AddStudent = () => {
             type: 'Student'
         };
         try {
-            await createStudent(newStudent);
+            const savedStudent = await createStudent(newStudent);
             setStudentDetails(newStudent);
             setModalIsOpen(true);
             toast.success("Student added successfully!");
+            setStudentsArr([...studentsArr, savedStudent]);
         } catch (error) {
             if (error.response?.status === 400) {
                 toast.error("ID already in use");
@@ -91,7 +94,7 @@ const AddStudent = () => {
                 <p>ID: {studentDetails?.id}</p>
                 <p>Password: ******** (Hidden for security)</p>
                 <CopyToClipboard text={`Name: ${studentDetails?.name}\nID: ${studentDetails?.id}\nPassword: ${studentDetails?.password}`}>
-                    <button onClick={() => toast.success("Copied to clipboard!")}>Copy Details</button>
+                    <button onClick={() => toast.success("Copied to clipboard!")}><MdContentCopy /></button>
                 </CopyToClipboard>
                 <input
                     type="email"
