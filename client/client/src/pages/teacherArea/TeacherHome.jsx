@@ -30,7 +30,7 @@ function TeacherHome() {
                     <li key={student.id}>
                         {student.name}
                         <button onClick={() => {
-    console.log(`Selected student ID: ${student.id}`);
+    console.log(`Selected student ID: ${student._id}`);
     setSelectedStudentId(student._id);
 }}>Show Diagnosis</button>
                     </li>
