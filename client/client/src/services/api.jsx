@@ -34,3 +34,4 @@ export const sendEmail = (data) => API.post('/email/send-email', data);
 export const getStudentDiagnoses = (studentId) => API.get(`/diagnosis/student/${studentId}`,studentId);
 export const getStudents = () => API.get('/students');
 export const delStudent = (studentId)=> API.delete(`/students/${studentId}`);
+export const deleteDiagnosis = (diagnosisId) => API.delete(`/diagnosis/${diagnosisId}`);

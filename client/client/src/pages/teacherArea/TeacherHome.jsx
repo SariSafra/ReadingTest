@@ -44,7 +44,7 @@ return (
                 <li key={student.id}>
                     {student.name}
                     <button onClick={() => {
-                        console.log(`Selected student ID: ${student.id}`);
+                        console.log(`Selected student ID: ${student._id}`);
                         setSelectedStudentId(student._id);
                     }}>Show Diagnosis</button>
                     <button onClick={() => handleStudentDelete(student.studentId)}><AiTwotoneDelete /></button>
