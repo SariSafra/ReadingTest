@@ -8,7 +8,6 @@ function App() {
       <h1>Welcome to Reading Diagnosis</h1>
       <nav>
         <ul>
-          <AddStudent/>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/signup">Sign Up</Link></li>
         </ul>
