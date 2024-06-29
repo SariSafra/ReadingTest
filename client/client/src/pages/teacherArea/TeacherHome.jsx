@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getStudents } from '../../services/api';
 import AddStudent from './AddStudent';
-import ShowStudentDiagnosis from './ShowStudentDiagnosis';
 import 'react-toastify/dist/ReactToastify.css';
 import StudentShow from './StudentShow';
 
 function TeacherHome() {
     const [students, setStudents] = useState([]);
-    const [selectedStudentId, setSelectedStudentId] = useState(null);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -36,7 +34,6 @@ return (
                 </li>
             ))}
         </ul>
-        {/* {selectedStudentId && <ShowStudentDiagnosis studentId={selectedStudentId} />} */}
     </div>
 );
 }
