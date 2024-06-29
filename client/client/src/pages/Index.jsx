@@ -23,9 +23,8 @@ function Index() {
           <Route path="/password-reset-request" element={<PasswordResetRequest />} />
           <Route path="/password-reset" element={<PasswordReset />} />
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>
-            <Route path="/studentHome" element={<StudentHome />} >
-            <Route path="/test" element={<TestManager/>}></Route>
-            </Route>
+            <Route path="/studentHome" element={<StudentHome />}/>
+            <Route path="/test" element={<TestManager/>}/>
           </Route>
           <Route element={<ProtectedRoute allowedRoles={['teacher']} />}>
             <Route path="/teacherHome" element={<TeacherHome />} />
