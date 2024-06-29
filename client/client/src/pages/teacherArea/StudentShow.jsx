@@ -8,8 +8,8 @@ const StudentShow = ({ student, studentsArr, setStudentsArr }) => {
     const [toShowDiagnosis, setToShowDiagnosis] = useState(false);
 
     const handleStudentDelete = async (studentId) => {
-        const name = prompt("For deletion enter the student name", "");
-        if (name != null && name != "") {
+        const id = prompt("For deletion enter the student ID", "");
+        if (id == studentId) {
             try {
                 await delStudent(studentId);
                 setStudentsArr(studentsArr.filter(student => student.studentId !== studentId));
