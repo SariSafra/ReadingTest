@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Cookies from 'js-cookie';
-import { generateVerificationCode, completeSignup } from '../services/api';
+import { generateVerificationCode, completeSignup } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthContext from '../AuthContext';
+import AuthContext from './AuthContext';
 
 const Signup = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);

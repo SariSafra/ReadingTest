@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { requestPasswordReset } from '../services/api'
+import { requestPasswordReset } from '../../services/api.jsx'
 
 function PasswordResetRequest() {
   const [email, setEmail] = useState('');

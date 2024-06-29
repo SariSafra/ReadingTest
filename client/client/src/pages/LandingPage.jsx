@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function App() {
+function LandingPage() {
   return (
     <div className="App">
       <h1>Welcome to Reading Diagnosis</h1>
@@ -15,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default LandingPage;

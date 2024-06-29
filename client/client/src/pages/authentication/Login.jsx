@@ -3,10 +3,10 @@ import { useFormik } from 'formik';
 import * as Joi from 'joi';
 import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
+import { login } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthContext from '../AuthContext';
+import AuthContext from './AuthContext';
 
 // Define validation schema with Joi
 const validationSchema = Joi.object({
