@@ -1,0 +1,29 @@
+{"easyLetters":[
+    { "toSpeak": "שַל", "toWrite": "ל" },
+    { "toSpeak": "לַג", "toWrite": "ג" },
+    { "toSpeak": "גַמ", "toWrite": "מ" },
+    { "toSpeak": "מַד", "toWrite": "ד" },
+    { "toSpeak": "דַב", "toWrite": "ב" },
+    { "toSpeak": "בַת", "toWrite": "ת" }
+  ],
+      "letters": [
+        {
+          "toSpeak": "אָלֶף",
+          "toWrite": "א",
+          "vocalization": null
+        },
+        {
+          "toSpeak": "בֵּית",
+          "toWrite": "ב",
+          "vocalization": null
+        },
+        {
+          "toSpeak": "גִּימֶל",
+          "toWrite": "ג",
+          "vocalization": null
+        }    ]
+      }
+  
+        
+  
+    

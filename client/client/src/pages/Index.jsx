@@ -8,8 +8,9 @@ import PasswordReset from './authentication/PasswordReset.jsx';
 import PasswordResetRequest from './authentication/PasswordResetRequest.jsx';
 import StudentHome from './studentArea/StudentHome.jsx';  // Your student home component
 import TeacherHome from './teacherArea/TeacherHome.jsx';  // Your teacher home component
-import ProtectedRoute from './ProtectedRoute .jsx';  // New ProtectedRoute component
+import ProtectedRoute from './ProtectedRoute.jsx';  // New ProtectedRoute component
 import '../index.css';
+import TestManager from './studentArea/readingTest/TestManager.jsx';
 
 function Index() {
   return (
@@ -22,7 +23,9 @@ function Index() {
           <Route path="/password-reset-request" element={<PasswordResetRequest />} />
           <Route path="/password-reset" element={<PasswordReset />} />
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>
-            <Route path="/studentHome" element={<StudentHome />} />
+            <Route path="/studentHome" element={<StudentHome />} >
+            <Route path="/test" element={<TestManager/>}></Route>
+            </Route>
           </Route>
           <Route element={<ProtectedRoute allowedRoles={['teacher']} />}>
             <Route path="/teacherHome" element={<TeacherHome />} />
