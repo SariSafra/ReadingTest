@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AddStudent from './pages/teacherArea/AddStudent.jsx';
 
 function App() {
   return (
