@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Joi from 'joi';
 import Cookies from 'js-cookie';
@@ -10,7 +10,7 @@ import AuthContext from '../AuthContext';
 
 // Define validation schema with Joi
 const validationSchema = Joi.object({
-  username: Joi.string().required().label('username'),
+  username: Joi.string().required().label('Username'),
   password: Joi.string().min(6).required().label('Password'),
   role: Joi.string().valid('student', 'teacher').required().label('Role')
 });
@@ -29,7 +29,13 @@ const validate = (values) => {
 
 function Login() {
   const navigate = useNavigate();
-  const { setAuth } = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (auth.token) {
+      navigate(auth.role === 'student' ? '/studentHome' : '/teacherHome');
+    }
+  }, [auth, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -42,7 +48,9 @@ function Login() {
       try {
         const response = await login(values);
         Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
-        setAuth({ role: values.role, token: response.data.token });
+        const authData = { role: values.role, token: response.data.token };
+        setAuth(authData);
+        localStorage.setItem('auth', JSON.stringify(authData)); // Save to localStorage
         navigate(values.role === 'student' ? '/studentHome' : '/teacherHome'); // Redirect based on role
       } catch (error) {
         toast.error('Error logging in: ' + error.message);
@@ -74,7 +82,7 @@ function Login() {
           placeholder={formik.values.role === 'teacher' ? 'Email' : 'ID'}
           required
         />
-        {formik.errors.emailOrName && <div>{formik.errors.emailOrName}</div>}
+        {formik.errors.username && <div>{formik.errors.username}</div>}
 
         <input
           type="password"
