@@ -4,28 +4,30 @@ import ShowStudentDiagnosis from "./ShowStudentDiagnosis";
 import { delStudent } from "../../services/api";
 import { ToastContainer, toast } from 'react-toastify';
 
-const StudentShow = ({student, studentsArr, setStudentsArr}) => {
+const StudentShow = ({ student, studentsArr, setStudentsArr }) => {
     const [toShowDiagnosis, setToShowDiagnosis] = useState(false);
 
     const handleStudentDelete = async (studentId) => {
-        try {
-            await delStudent(studentId);
-            setStudentsArr(studentsArr.filter(student => student.studentId !== studentId));
-            toast.success("Student deleted successfully");
-        } catch (error) {
-            toast.error("Failed to delete student");
+        const name = prompt("For deletion enter the student name", "");
+        if (name != null && name != "") {
+            try {
+                await delStudent(studentId);
+                setStudentsArr(studentsArr.filter(student => student.studentId !== studentId));
+                toast.success("Student deleted successfully");
+            } catch (error) {
+                toast.error("Failed to delete student");
+            }
         }
     };
-    console.log(student.name);
 
     return (
         <><div>
             <p>{student.name} {student.studentId}</p>
             <button onClick={() => setToShowDiagnosis(true)}>Show Diagnosis</button>
             <button onClick={() => handleStudentDelete(student.studentId)}><AiTwotoneDelete /></button>
-            {toShowDiagnosis &&<ShowStudentDiagnosis  studentId= {student._id}/>}
-            </div>
-            
+            {toShowDiagnosis && <ShowStudentDiagnosis studentId={student._id} />}
+        </div>
+
         </>
     )
 };
