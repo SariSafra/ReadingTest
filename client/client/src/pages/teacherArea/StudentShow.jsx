@@ -20,7 +20,7 @@ const StudentShow = ({student, studentsArr, setStudentsArr}) => {
 
     return (
         <><div>
-            <p>{student.name}</p>
+            <p>{student.name} {student.studentId}</p>
             <button onClick={() => setToShowDiagnosis(true)}>Show Diagnosis</button>
             <button onClick={() => handleStudentDelete(student.studentId)}><AiTwotoneDelete /></button>
             {toShowDiagnosis &&<ShowStudentDiagnosis  studentId= {student._id}/>}

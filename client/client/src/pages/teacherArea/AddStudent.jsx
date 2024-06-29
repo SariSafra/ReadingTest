@@ -23,10 +23,11 @@ const AddStudent = ({studentsArr, setStudentsArr}) => {
         };
         try {
             const savedStudent = await createStudent(newStudent);
+            console.log(savedStudent.data);
             setStudentDetails(newStudent);
             setModalIsOpen(true);
             toast.success("Student added successfully!");
-            setStudentsArr([...studentsArr, savedStudent]);
+            setStudentsArr([...studentsArr, savedStudent.data]);
         } catch (error) {
             if (error.response?.status === 400) {
                 toast.error("ID already in use");
@@ -39,7 +40,7 @@ const AddStudent = ({studentsArr, setStudentsArr}) => {
     const handleSendEmail = async () => {
         const payload = {
             name: studentDetails.name,
-            id: studentDetails.id,
+            id: studentDetails.studentId,
             password: studentDetails.password, // Handle the password securely
         };
         try {

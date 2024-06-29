@@ -73,11 +73,7 @@ export default class StudentService {
       const session = await mongoose.startSession();
       session.startTransaction();
       try {
-        const student = await Student.find({studentId: id}).session(session);
-        if (!student) {
-          throw new Error('Student not found');
-        }
-          await Student.findByIdAndDelete(student._id, { session });
+          const student = await Student.findOneAndDelete({studentId: id}, {session});
           await Password.findOneAndDelete({ userId: student._id }, { session });
           if (student.diagnosis) {
             await Diagnosis.findByIdAndDelete(student.diagnosis, {session});

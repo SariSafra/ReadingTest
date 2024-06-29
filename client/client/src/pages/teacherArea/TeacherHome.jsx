@@ -31,7 +31,7 @@ return (
         <h2>Student List</h2>
         <ul>
             {students.map((student) => (
-                <li key={student.id}>
+                <li key={student.studentId}>
                     <StudentShow student = {student} studentsArr={students} setStudentsArr={setStudents}/>
                 </li>
             ))}
