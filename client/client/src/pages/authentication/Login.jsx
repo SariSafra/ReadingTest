@@ -1,5 +1,3 @@
-// Login.jsx
-
 import React, { useContext, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Joi from 'joi';
@@ -9,7 +7,7 @@ import { login } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './AuthContext';
-import {UserContext} from './UserContext'; // Import UserContext
+import { UserContext } from './UserContext'; // Import UserContext
 
 // Define validation schema with Joi
 const validationSchema = Joi.object({

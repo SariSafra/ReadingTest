@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -7,7 +7,7 @@ import { generateVerificationCode, completeSignup } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './AuthContext';
-import {UserContext} from './UserContext'; 
+import { UserContext } from './UserContext'; 
 
 const Signup = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
@@ -60,6 +60,7 @@ const Signup = () => {
       console.log("user from signup",user)
       Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
       //setAuth({ role: 'teacher', token: response.data.token });
+      localStorage.setItem('user', JSON.stringify(values.email)); // Save user data to localStorage
       navigate('/home/teacher'); // Redirect to teacher home page
     } catch (error) {
       console.error('Error completing signup:', error);
