@@ -11,6 +11,8 @@ import TeacherHome from './teacherArea/TeacherHome.jsx';  // Your teacher home c
 import ProtectedRoute from './ProtectedRoute.jsx';  // New ProtectedRoute component
 import '../index.css';
 import TestManager from './studentArea/readingTest/TestManager.jsx';
+import UserAccount from './UserAccount.jsx';
+import UserArea from './UserArea.jsx';
 
 function Index() {
   return (
@@ -22,12 +24,15 @@ function Index() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/password-reset-request" element={<PasswordResetRequest />} />
           <Route path="/password-reset" element={<PasswordReset />} />
+          <Route path='my-account' element={<UserAccount/>}></Route>
+          <Route path='/home' element = {<UserArea/>}>
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>
-            <Route path="/studentHome" element={<StudentHome />}/>
-            <Route path="/test" element={<TestManager/>}/>
+            <Route path="student" element={<StudentHome />}/>
+            <Route path="test" element={<TestManager/>}/>
           </Route>
           <Route element={<ProtectedRoute allowedRoles={['teacher']} />}>
-            <Route path="/teacherHome" element={<TeacherHome />} />
+            <Route path="teacher" element={<TeacherHome />} />
+          </Route>
           </Route>
         </Routes>
       </BrowserRouter>

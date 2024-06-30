@@ -28,11 +28,6 @@ const PasswordReset = () => {
     try {
       const response = await resetPassword({ userId, token, newPassword, userType });
       console.log('Password reset successful:', response.data);
-
-      if(response.status!=201){
-        throw new Error('The operation failed');
-      }
-
       setSuccessMessage('Password reset successful');
       setErrorMessage('');
       navigate('/login'); // Redirect to login page after successful reset

@@ -9,17 +9,17 @@ function TeacherHome() {
   const { user } = useContext(UserContext); // Access user data from UserContext
   const [students, setStudents] = useState([]);
 
-  useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        console.log("teacher email: ", user);
-        const response = await getStudents(user); // Pass user data to getStudents
-        setStudents(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching students", error);
-      }
-    };
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                console.log("teacher email: ",user.username);
+                const response = await getStudents(user.username); // Pass user data to getStudents
+                setStudents(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error fetching students", error);
+            }
+        };
 
     fetchStudents();
   }, [user]);
