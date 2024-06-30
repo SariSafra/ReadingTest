@@ -10,6 +10,7 @@ router.post('/', teacherController.createTeacher);
 router.use(authMiddleware);
 router.get('/', teacherController.getAllTeachers);
 router.get('/:id', teacherController.getTeacherById);
+router.get('/:teacherEmail/students', teacherController.getStudentsByTeacherEmail);
 router.put('/:id', teacherController.updateTeacher);
 router.delete('/:id', teacherController.deleteTeacher);
 router.post('/students',  teacherController.createStudent);

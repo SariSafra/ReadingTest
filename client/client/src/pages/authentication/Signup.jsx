@@ -7,11 +7,13 @@ import { generateVerificationCode, completeSignup } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './AuthContext';
+import {UserContext} from './UserContext'; 
 
 const Signup = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [token, setToken] = useState('');
   const { setAuth } = useContext(AuthContext);
+  const { user,setUser } = useContext(UserContext); // Use setUser from UserContext
   const navigate = useNavigate();
 
   const emailValidationSchema = Yup.object().shape({
@@ -53,6 +55,9 @@ const Signup = () => {
         },
         verificationCode: values.verificationCode,
       });
+      console.log("user email from signup",values.email)
+      setUser(values.email); // Set user details from response
+      console.log("user from signup",user)
       Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
       setAuth({ role: 'teacher', token: response.data.token });
       navigate('/teacherHome'); // Redirect to teacher home page

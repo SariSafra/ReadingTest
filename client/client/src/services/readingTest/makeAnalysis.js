@@ -1,7 +1,9 @@
+import analyzeSwaps from './analyzeSwaps.js'
+import averageTimeCalculat from './averageTimeCalculat.js'
 const makeAnalysis = (result) => {
   const frequencyMap = analyzeSwaps(result);
   const successRate = calculateSuccessRate(result);
-  const time = calculateAverageTime(result);
+  const time = averageTimeCalculat(result);
   return { frequencyMap, successRate, time };
 };
 

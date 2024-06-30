@@ -1,5 +1,5 @@
 
-export default analyzeSwaps = (dataArray) => {
+const analyzeSwaps = (dataArray) => {
     const frequencyMap = {};
   
     dataArray.forEach(element => {
@@ -26,3 +26,4 @@ export default analyzeSwaps = (dataArray) => {
   
     return frequencyMap;
   };
+  export default analyzeSwaps;

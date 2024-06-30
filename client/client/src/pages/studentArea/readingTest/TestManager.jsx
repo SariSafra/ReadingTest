@@ -1,11 +1,12 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, createContext,useContext } from 'react';
 import AuditoryProcessing from './AuditoryProcessing.jsx';
 import Data from '../../../jsonData/AuditoryProcessingData.json'
 import InitExData from '../../../services/readingTest/initExData.js';
-
-const currentExercise = createContext(null); // Define the context first
-
+import {finalDiagnosis} from '../../../services/readingTest/finalDiagnosis.js'
+import { UserContext } from '../../authentication/UserContext.jsx';
+import {postDiagnosis} from '../../../services/api.js'
 export { currentExercise };
+const currentExercise = createContext(null); // Define the context first
 
 const TestManager=()=> {
   const [currentEx, setCurrentEx] = useState(1);
@@ -14,7 +15,7 @@ const TestManager=()=> {
   const [toEemphasis, setToEmphasis] = useState(false);
   const [diagnosis, setDiagnosis] = useState([]);
 
-
+  const { user } = useContext(UserContext);
   useEffect(() => {
     const initExData = new InitExData(setCurrentData);
     switch (currentEx) {
@@ -61,6 +62,8 @@ const TestManager=()=> {
           break;
         }
       case 12:{
+        const final_diagnosis=finalDiagnosis(diagnosis);
+        postDiagnosis(final_diagnosis,user);
           //complete !!
         }
     }

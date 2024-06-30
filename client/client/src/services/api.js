@@ -32,6 +32,7 @@ export const resetPassword = (data) => API.post('/password/resetPassword', data)
 export const createStudent = (data) => API.post('/teachers/students', data);
 export const sendEmail = (data) => API.post('/email/send-email', data);
 export const getStudentDiagnoses = (studentId) => API.get(`/diagnosis/student/${studentId}`,studentId);
-export const getStudents = () => API.get('/students');
+export const getStudents = (teacherEmail) => API.get(`/teachers/${teacherEmail}/students`,teacherEmail);
 export const delStudent = (studentId)=> API.delete(`/students/${studentId}`);
 export const deleteDiagnosis = (diagnosisId) => API.delete(`/diagnosis/${diagnosisId}`);
+export const postDiagnosis = (diagnosis,studentId) => API.post(`/students/${studentId}/diagnosis`,studentId,diagnosis)

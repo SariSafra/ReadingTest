@@ -155,4 +155,15 @@ export default class TeacherService {
             throw error;
         }
     };
+    getStudentsByTeacherEmail = async (teacherEmail) => {
+        try {
+            const teacher = await Teacher.findOne({ email: teacherEmail }).populate('students');
+            if (!teacher) {
+                throw new Error('Teacher not found');
+            }
+            return teacher.students;
+        } catch (error) {
+            throw error;
+        }
+    };
 }

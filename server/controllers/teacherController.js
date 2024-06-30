@@ -67,6 +67,14 @@ export default class TeacherController {
     }
   };
 
-
+  getStudentsByTeacherEmail = async (req, res) => {
+    const { teacherEmail } = req.params;
+    try {
+        const students = await teacherService.getStudentsByTeacherEmail(teacherEmail);
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 }
