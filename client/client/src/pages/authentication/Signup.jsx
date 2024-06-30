@@ -11,8 +11,8 @@ import {UserContext} from './UserContext';
 
 const Signup = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
-  const [token, setToken] = useState('');
-  const { setAuth } = useContext(AuthContext);
+  //const [token, setToken] = useState('');
+  //const { setAuth } = useContext(AuthContext);
   const { user,setUser } = useContext(UserContext); // Use setUser from UserContext
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const Signup = () => {
     try {
       const response = await generateVerificationCode({ email: values.email });
       setIsCodeSent(true);
-      setToken(response.data.token);
+      //setToken(response.data.token);
       toast.success('Verification code sent to your email');
       console.log('Verification code sent:', response.data.message);
     } catch (error) {
@@ -56,11 +56,11 @@ const Signup = () => {
         verificationCode: values.verificationCode,
       });
       console.log("user email from signup",values.email)
-      setUser(values.email); // Set user details from response
+      setUser({username: values.email, role: 'teacher'}); // Set user details from response
       console.log("user from signup",user)
       Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
-      setAuth({ role: 'teacher', token: response.data.token });
-      navigate('/teacherHome'); // Redirect to teacher home page
+      //setAuth({ role: 'teacher', token: response.data.token });
+      navigate('/home/teacher'); // Redirect to teacher home page
     } catch (error) {
       console.error('Error completing signup:', error);
       toast.error('Error completing signup, try later');

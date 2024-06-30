@@ -32,14 +32,15 @@ const validate = (values) => {
 
 function Login() {
   const navigate = useNavigate();
-  const { auth, setAuth } = useContext(AuthContext);
+  //const { auth, setAuth } = useContext(AuthContext);
   const { user,setUser } = useContext(UserContext); // Use setUser from UserContext
 
   useEffect(() => {
-    if (auth.token) {
-      navigate(auth.role === 'student' ? '/studentHome' : '/teacherHome');
+    console.log('user: '+user);
+    if (user) {
+      navigate(user.role === 'student' ? 'home/student' : 'home/teacher');
     }
-  }, [auth, navigate,user]);
+  }, [user]);
 
   const formik = useFormik({
     initialValues: {
@@ -51,14 +52,14 @@ function Login() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await login(values);
-        setUser(values.username); // Set user details from response
+        setUser({username: values.username, role: values.role }); // Set user details from response
         Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
-        const authData = { role: values.role, token: response.data.token };
-        setAuth(authData);
+        // const authData = { role: values.role, token: response.data.token };
+        // setAuth(authData);
         console.log("in login values.username",values.username)
-        console.log("user", user);
-        localStorage.setItem('auth', JSON.stringify(authData)); // Save to localStorage
-        navigate(values.role === 'student' ? '/studentHome' : '/teacherHome'); // Redirect based on role
+        //console.log("user", user);
+        // localStorage.setItem('auth', JSON.stringify(authData)); // Save to localStorage
+        navigate(values.role === 'student' ? '/home/student' : '/home/teacher'); // Redirect based on role
       } catch (error) {
         toast.error('Error logging in: ' + error.message);
       } finally {

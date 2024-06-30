@@ -64,7 +64,7 @@ const TestManager = () => {
         }
       case 12:{
         const final_diagnosis=finalDiagnosis(diagnosis);
-        postDiagnosis(final_diagnosis,user);
+        postDiagnosis(final_diagnosis,user.username);
           //complete !!
         }
     }
