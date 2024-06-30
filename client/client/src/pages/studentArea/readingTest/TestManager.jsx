@@ -8,14 +8,15 @@ import {postDiagnosis} from '../../../services/api.js'
 export { currentExercise };
 const currentExercise = createContext(null); // Define the context first
 
-const TestManager=()=> {
-  const [currentEx, setCurrentEx] = useState(1);
-  const [currentData, setCurrentData] = useState(Data.letters);
-  const [toRepeat, setToRepet] = useState(false);
-  const [toEemphasis, setToEmphasis] = useState(false);
-  const [diagnosis, setDiagnosis] = useState([]);
+const TestManager = () => {
+    const [currentEx, setCurrentEx] = useState(1);
+    const [currentData, setCurrentData] = useState(Data.letters);
+    const [toRepeat, setToRepet] = useState(false);
+    const [toEemphasis, setToEmphasis] = useState(false);
+    const [diagnosis, setDiagnosis] = useState([]);
 
-  const { user } = useContext(UserContext);
+    const { user } = useContext(UserContext);
+
   useEffect(() => {
     const initExData = new InitExData(setCurrentData);
     switch (currentEx) {
@@ -69,19 +70,19 @@ const TestManager=()=> {
     }
 
 
-  }, [currentEx])
-  return (
-    <>
+    }, [currentEx])
+    return (
+        <>
 
-      <h1>current exercise: {currentEx}</h1>
-      <div> <currentExercise.Provider value={{ currentEx, setCurrentEx }}>
-        {console.log("diagnosis from app: " + diagnosis)}
+            <h1>current exercise: {currentEx}</h1>
+            <div> <currentExercise.Provider value={{ currentEx, setCurrentEx }}>
+                {console.log("diagnosis from app: " + diagnosis)}
 
-        <AuditoryProcessing data={currentData} setToRepeat={setToRepet} setToEemphasis={setToEmphasis} toRepeat={toRepeat} toEemphasis={toEemphasis} setDiagnosis={setDiagnosis} />
-      </currentExercise.Provider>
-      </div>
-    </>
-  )
+                <AuditoryProcessing data={currentData} setToRepeat={setToRepet} setToEemphasis={setToEmphasis} toRepeat={toRepeat} toEemphasis={toEemphasis} setDiagnosis={setDiagnosis} />
+            </currentExercise.Provider>
+            </div>
+        </>
+    )
 }
 
 export default TestManager
