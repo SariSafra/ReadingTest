@@ -115,7 +115,7 @@ export default class StudentController {
       student[0].diagnosis = response._id;
       await studentService.updateStudent(student[0]._id, student[0], session);
       console.log
-      session.commitTransaction();
+      await session.commitTransaction();
       res.status(200).json(student[0]);
     } catch (error) {
       session.abortTransaction();

@@ -52,11 +52,13 @@ const TestManager = () => {
     //   case 11:
     //       initExData.ex11();
     //       break;
-      default:
+      default:{
         const final_diagnosis=finalDiagnosis(diagnosis);
+        console.log(final_diagnosis);
         postDiagnosis(final_diagnosis,user.username);
           //complete !!
           break;
+      }
         
     }
 
