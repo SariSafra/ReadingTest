@@ -9,7 +9,7 @@ export default class StudentService {
     };
 
     getAllStudents = async (queries = {}) => {
-        return await Student.find(queries).populate('diagnosiss');
+        return await Student.find(queries).populate('diagnosis');
     };
 
     getStudentById = async (id) => {
