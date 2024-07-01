@@ -28,9 +28,15 @@ const TestManager = () => {
       case 3:
           initExData.ex3();
           break;
+<<<<<<< HEAD
     //   case 4:
     //       initExData.ex4();
     //       break;
+=======
+      case 4:
+          initExData.ex4();
+          break;
+>>>>>>> bf1e6b8b956fe0e104a789d92792037d161db0b6
     //   case 5:
     //       initExData.ex5();
     //       break;
