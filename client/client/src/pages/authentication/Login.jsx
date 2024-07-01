@@ -36,7 +36,7 @@ function Login() {
   useEffect(() => {
     console.log('user: '+user);
     if (user) {
-      navigate(user.role === 'student' ? 'home/student' : 'home/teacher');
+      navigate(user.role === 'student' ? '/home/student' : '/home/teacher');
     }
   }, [user]);
 

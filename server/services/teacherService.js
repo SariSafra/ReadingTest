@@ -18,143 +18,89 @@ export default class TeacherService {
         return await Teacher.findById(id).populate('students');
     };
 
-    createTeacher = async (teacherData) => {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        try {
-            const teacher = new Teacher(teacherData);
-            await teacher.save({ session });
-
-            const password = new Password({
-                userId: teacher._id,
-                userType: 'Teacher',
-                password: teacherData.password
-            });
-            await password.save({ session });
-
-            await session.commitTransaction();
-            return teacher;
-        } catch (error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            session.endSession();
-        }
+    createTeacher = async (teacherData, session) => {
+        const teacher = new Teacher(teacherData);
+        let savedTeacher;
+        if (session)
+            savedTeacher = await teacher.save({ session });
+        else
+            savedTeacher = await teacher.save();
+        return savedTeacher;
     };
 
-    updateTeacher = async (id, teacherData) => {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        try {
-            const teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true, session });
-
-            if (teacherData.password) {
-                await Password.findOneAndUpdate({ userId: teacher._id }, { password: teacherData.password }, { session });
-            }
-
-            await session.commitTransaction();
-            return teacher;
-        } catch (error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            session.endSession();
-        }
+    updateTeacher = async (id, teacherData, session) => {
+        let teacher;
+        if (session)
+            teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true, session });
+        else
+            teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true })
+        return teacher;
     };
 
-    deleteTeacher = async (id) => {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        try {
-            const teacher = await Teacher.findById(id).populate('students');
-
-            if (!teacher) {
-                throw new Error('Teacher not found');
-            }
-
-            // Delete all associated students and their passwords
-            const studentDeletionPromises = teacher.students.map(async studentId => {
-                await Student.findByIdAndDelete(studentId, { session });
-                await Password.findOneAndDelete({ userId: studentId }, { session });
-            });
-
-            await Promise.all(studentDeletionPromises);
-
-            // Delete teacher and their password
-            await Teacher.findByIdAndDelete(id, { session });
-            await Password.findOneAndDelete({ userId: id }, { session });
-
-            await session.commitTransaction();
-            return teacher;
-        } catch (error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            session.endSession();
-        }
-    };
-
-    createStudent = async (teacherId, studentData) => {
-        const { name, id: studentId , password } = studentData;
-        console.log(studentData);
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        try {
-            const student = new Student({studentId, name});
-            console.log('student: '+ student);
-            const savedStudent = await student.save({ session});
-            console.log("saved student: " + savedStudent);
-            const pswObj = new Password({userId: savedStudent._id, userType: 'Student', password: hashedPassword })
-            const savedPsw = await pswObj.save({session});
-            console.log('saved password: '+savedPsw);
-            // Update teacher's record to include this student
-            const teacher = await Teacher.findById(teacherId).session(session);
-            if (!teacher) {
-                throw new Error('Teacher not found');
-            }
-            if (!teacher.students) {
-                teacher.students = [];
-            }
-            teacher.students.push(savedStudent._id);
-            await teacher.save({ session });
-
-            await session.commitTransaction();
-            session.endSession();
-
-            return savedStudent;
-        } catch (error) {
-            await session.abortTransaction();
-            session.endSession();
-            throw error;
-        }
-    };
-
-    updateTeacherPassword = async (teacherId, newPassword) => {
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        try {
-            const teacher = await Teacher.findById(teacherId).session(session);
-            if (!teacher) {
-                throw new Error('Teacher not found');
-            }
-
-            teacher.password = hashedPassword;
-            await teacher.save({ session });
-
-            await session.commitTransaction();
-            session.endSession();
+    deleteTeacher = async (id, session) => {
+            let teacher;
+            if (session)
+                teacher = await Teacher.findByIdAndDelete(id).session({ session });
+            else
+                teacher = await Teacher.findByIdAndDelete(id);
 
             return teacher;
-        } catch (error) {
-            await session.abortTransaction();
-            session.endSession();
-            throw error;
-        }
-    };
+    }
+    
+
+    // createStudent = async (teacherId, studentData) => {
+    //     const { name, id: studentId , password } = studentData;
+    //     console.log(studentData);
+    //     const hashedPassword = await bcrypt.hash(password, 10);
+
+    //     const session = await mongoose.startSession();
+    //     session.startTransaction();
+    //     try {
+    //         const student = new Student({studentId, name});
+    //         console.log('student: '+ student);
+    //         const savedStudent = await student.save({ session});
+    //         console.log("saved student: " + savedStudent);
+    //         const pswObj = new Password({userId: savedStudent._id, userType: 'Student', password: hashedPassword })
+    //         const savedPsw = await pswObj.save({session});
+    //         console.log('saved password: '+savedPsw);
+    //         // Update teacher's record to include this student
+    //         const teacher = await Teacher.findById(teacherId).session(session);
+    //         if (!teacher) {
+    //             throw new Error('Teacher not found');
+    //         }
+    //         if (!teacher.students) {
+    //             teacher.students = [];
+    //         }
+    //         teacher.students.push(savedStudent._id);
+    //         await teacher.save({ session });
+
+    //         await session.commitTransaction();
+    //         session.endSession();
+
+    //         return savedStudent;
+    //     } catch (error) {
+    //         await session.abortTransaction();
+    //         session.endSession();
+    //         throw error;
+    //     }
+    // };
+
+    // updateTeacherPassword = async (teacherId, newPassword) => {
+
+    //     const session = await mongoose.startSession();
+    //     session.startTransaction();
+    //     try {
+    //         const teacher = await Password.findByIdAndUpdate(teacherId, {password: newPassword}).session(session);
+    //         if (!teacher) {
+    //             throw new Error('Teacher not found');
+    //         }
+    //         return teacher;
+    //     } catch (error) {
+    //         await session.abortTransaction();
+    //         session.endSession();
+    //         throw error;
+    //     }
+    // };
     getStudentsByTeacherEmail = async (teacherEmail) => {
         try {
             const teacher = await Teacher.findOne({ email: teacherEmail }).populate('students');
@@ -165,5 +111,5 @@ export default class TeacherService {
         } catch (error) {
             throw error;
         }
-    };
+    }
 }

@@ -51,9 +51,9 @@ export default class SignupService {
   console.log("hashed code:",hashedPassword)
   const emailLower=email.toLowerCase();
   console.log("email lower: ",emailLower,verificationCode);
-  const verificationDoc = await Verification.findOne({ email:emailLower, code: verificationCode });
-  console.log("verificationDoc: ",verificationDoc)
-  if (!verificationDoc) {
+  const verificationCod = await Verification.findOne({ email:emailLower, code: verificationCode });
+  console.log("verificationDoc: ",verificationCod)
+  if (!verificationCod) {
     console.log('Invalid verification code')
     throw new Error('Invalid verification code');
   }

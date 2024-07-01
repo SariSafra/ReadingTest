@@ -9,7 +9,7 @@ export default class StudentService {
     };
 
     getAllStudents = async () => {
-        return await Student.find();
+        return await Student.find().populate('diagnosiss');
     };
 
     getStudentById = async (id) => {
@@ -17,76 +17,34 @@ export default class StudentService {
     }
 
 
-    createStudent = async (studentData) => {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        try {
-            const student = new Student(studentData);
-            await student.save({ session });
+    createStudent = async (studentData, session) => {
+        const student = new Student({ name: studentData.name, studentId: studentData.id });
+        console.log('student service, student: '+student);
+        if (session)
+            return await student.save({ session });
+        else
+            return await student.save();
+    }
 
-            const password = new Password({
-                userId: student._id,
-                userType: 'Student',
-                password: studentData.password
-            });
-            await password.save({ session });
+    updateStudent = async (id, studentData, session) => {
 
-            await session.commitTransaction();
-            return student;
-        } catch (error) {
-            await session.abortTransaction();
-            throw error;
-        } finally {
-            session.endSession();
-        }
-    };
+        let student;
+        if (session)
+            student = await Student.findByIdAndUpdate(id, studentData, { new: true, runValidators: true, session });
+        else
+            student = await Student.findByIdAndUpdate(id, studentData, { new: true, runValidators: true });
 
-    updateStudent = async (id, studentData) => {
-        const session = await mongoose.startSession();
-        session.startTransaction();
-        console.log("start update student session")
+        return student;
+    }
 
-        try {
-            console.log("d");
-            const student = await Student.findByIdAndUpdate(id, studentData, { new: true, runValidators: true, session });
-            console.log("c");
-            if (studentData.password) {
-                await Password.findOneAndUpdate({ userId: id }, { password: studentData.password }, { session });
-                console.log("a")
-            }
-
-            await session.commitTransaction();
-            console.log("b")
-            return student;
-        } catch (error) {
-            await session.abortTransaction();
-            console.log("catch in session student update")
-
-            throw error;
-        } finally {
-            console.log("finish update student session")
-            session.endSession();
-        }
-    };
-
-    deleteStudent = async (id) => {     
-      const session = await mongoose.startSession();
-      session.startTransaction();
-      try {
-          const student = await Student.findOneAndDelete({studentId: id}, {session});
-          await Password.findOneAndDelete({ userId: student._id }, { session });
-          if (student.diagnosis) {
-            await Diagnosis.findByIdAndDelete(student.diagnosis, {session});
-          }
-          await session.commitTransaction();
-          return student;
-      } catch (error) {
-          await session.abortTransaction();
-          throw error;
-      } finally {
-          session.endSession();
-      }
-  };
+    deleteStudent = async (id, session) => {
+        let student;
+        if (session)
+            student = await Student.findOneAndDelete({ studentId: id }, { session });
+        else
+            student = await Student.findOneAndDelete({ studentId: id });
+        return student;
+    }
 
 }
 

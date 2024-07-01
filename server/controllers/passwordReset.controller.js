@@ -12,6 +12,7 @@ export const handleRequestPasswordReset = async (req, res) => {
 };
 
 export const handleResetPassword = async (req, res) => {
+  console.log('reset password controller');
   try {
     const { userId, token, newPassword, userType } = req.body;
     await resetPassword(userId, token, newPassword, userType);

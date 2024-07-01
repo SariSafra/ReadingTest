@@ -4,6 +4,7 @@ import Password from '../models/Password.js';
 import Token from '../models/Token.model.js';
 import sendEmail from '../utils/email/sendEmail.js';
 import bcrypt from 'bcrypt';
+import { updatePassword } from './passwordService.js';
 
 
 const getUserModel = (userType) => {
@@ -38,13 +39,17 @@ export const requestPasswordReset = async (email, userType) => {
 };
 
 export const resetPassword = async (userId, token, newPassword, userType) => {
+  console.log('reset password service');
   const passwordResetToken = await Token.findOne({ userId, userType });
   if (!passwordResetToken) throw new Error('Invalid or expired password reset token');
 
   const isValid = await bcrypt.compare(token, passwordResetToken.token);
   if (!isValid) throw new Error('Invalid or expired password reset token');
 
-  const hash = await bcrypt.hash(newPassword, 10);
-  await Password.updateOne({ userId: userId }, {$set: {password: hash} });
+  const updatedRecord =  await updatePassword(userId,newPassword)
+  if(!updatedRecord)
+    throw new Error('Not updated')
+  // const hash = await bcrypt.hash(newPassword, 10);
+  // await Password.updateOne({ userId: userId }, {$set: {password: hash} });
   await passwordResetToken.deleteOne();
 };
