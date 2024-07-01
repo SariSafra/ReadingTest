@@ -8,7 +8,7 @@ function StudentHome() {
     <div>
       <h1>Welcome to the Student Home Page</h1>
       {/* Add more content here */}
-      <button onClick={() => navigate('/test')}>Start Test</button>
+      <button onClick={() => navigate('/home/test')}>Start Test</button>
     </div>
   );
 }

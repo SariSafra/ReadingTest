@@ -12,16 +12,12 @@ const frequencyMapSchema = new mongoose.Schema({
 });
 
 const diagnosisSchema = new mongoose.Schema({
-  ExeNum: { type: Number, required: true },
-  Diagnosis: {
     frequencyMap: frequencyMapSchema,
+    Emphasis: { type: String, required: true },
+    Repeat: { type: String, required: true }, 
     successRate: { type: Number, required: true },
     time: { type: String, required: true }
-  },
-  Mediation: {
-    Emphasis: { type: String, required: true },
-    Repeat: { type: String, required: true }
-  }
+  
 });
 
 const Diagnosis = mongoose.model('Diagnosis', diagnosisSchema);

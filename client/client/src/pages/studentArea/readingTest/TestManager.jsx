@@ -2,7 +2,7 @@ import { useState, useEffect, createContext,useContext } from 'react';
 import AuditoryProcessing from './AuditoryProcessing.jsx';
 import Data from '../../../jsonData/AuditoryProcessingData.json'
 import InitExData from '../../../services/readingTest/initExData.js';
-import {finalDiagnosis} from '../../../services/readingTest/finalDiagnosis.js'
+import finalDiagnosis from '../../../services/readingTest/finalDiagnosis.js'
 import { UserContext } from '../../authentication/UserContext.jsx';
 import {postDiagnosis} from '../../../services/api.js'
 export { currentExercise };
@@ -14,7 +14,6 @@ const TestManager = () => {
     const [toRepeat, setToRepet] = useState(false);
     const [toEemphasis, setToEmphasis] = useState(false);
     const [diagnosis, setDiagnosis] = useState([]);
-
     const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -53,10 +52,11 @@ const TestManager = () => {
       case 11:
           initExData.ex11();
           break;
-      case 12:
+      default:
         const final_diagnosis=finalDiagnosis(diagnosis);
         postDiagnosis(final_diagnosis,user.username);
           //complete !!
+          break;
         
     }
 

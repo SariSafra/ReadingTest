@@ -1,62 +1,135 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Pie } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement,
 } from 'chart.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Register the required components
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement
+);
 
 const DiagnosisChart = ({ diagnosisData }) => {
-    const frequencyMapData = {
-        labels: ['Correct', 'Incorrect'],
+    if (!diagnosisData) {
+        return <p>No data available.</p>;
+    }
+
+    const { frequencyMap, toEmphasis, toRepeat, successRate, time, consistentSwappingPercentage } = diagnosisData;
+
+    if (!frequencyMap || Object.keys(frequencyMap).length === 0) {
+        return <p>No frequency map data available.</p>;
+    }
+
+    // Prepare data for the input-specific chart
+    const labels = Object.keys(frequencyMap);
+    const correctData = labels.map(key => frequencyMap[key].correct);
+    const incorrectData = labels.map(key => frequencyMap[key].incorrect);
+    const consistentData = labels.map(key => consistentSwappingPercentage[key]);
+
+    const inputChartData = {
+        labels: labels,
         datasets: [
             {
-                label: 'Frequency Map',
-                data: [
-                    diagnosisData.Diagnosis.frequencyMap.correct,
-                    diagnosisData.Diagnosis.frequencyMap.incorrect
-                ],
-                backgroundColor: ['green', 'red'],
+                label: 'Correct',
+                backgroundColor: 'rgba(75,192,192,0.4)',
+                borderColor: 'rgba(75,192,192,1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(75,192,192,0.6)',
+                hoverBorderColor: 'rgba(75,192,192,1)',
+                data: correctData
             },
-        ],
+            {
+                label: 'Incorrect',
+                backgroundColor: 'rgba(255,99,132,0.4)',
+                borderColor: 'rgba(255,99,132,1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(255,99,132,0.6)',
+                hoverBorderColor: 'rgba(255,99,132,1)',
+                data: incorrectData
+            },
+            {
+                label: 'Consistent Swapping Percentage',
+                backgroundColor: 'rgba(153,102,255,0.4)',
+                borderColor: 'rgba(153,102,255,1)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(153,102,255,0.6)',
+                hoverBorderColor: 'rgba(153,102,255,1)',
+                data: consistentData
+            }
+        ]
     };
 
-    const swapsData = {
-        labels: diagnosisData.Diagnosis.frequencyMap.swaps.map(swap => swap.output),
+    // Prepare data for the consistent swapping percentage pie chart
+    const consistentSwappingSum = labels.reduce((sum, key) => sum + parseFloat(consistentSwappingPercentage[key]), 0);
+    const inconsistentSwappingSum = 100 - consistentSwappingSum;
+
+    const pieChartData = {
+        labels: ['Consistent Swapping', 'Inconsistent Swapping'],
         datasets: [
             {
-                label: 'Swaps',
-                data: diagnosisData.Diagnosis.frequencyMap.swaps.map(swap => swap.times),
-                backgroundColor: 'blue',
-            },
-        ],
+                data: [consistentSwappingSum, inconsistentSwappingSum],
+                backgroundColor: ['rgba(75,192,192,0.4)', 'rgba(255,99,132,0.4)'],
+                hoverBackgroundColor: ['rgba(75,192,192,0.6)', 'rgba(255,99,132,0.6)'],
+            }
+        ]
     };
 
-    const successRateAndTimeData = {
-        labels: ['Success Rate', 'Time'],
+    // Prepare data for the success rate pie chart
+    const successRateValue = parseFloat(successRate);
+    const successRateChartData = {
+        labels: ['Success Rate', 'Failure Rate'],
         datasets: [
             {
-                label: 'Success Rate and Time',
-                data: [diagnosisData.Diagnosis.successRate, parseFloat(diagnosisData.Diagnosis.time)],
-                backgroundColor: ['purple', 'orange'],
-            },
-        ],
+                data: [successRateValue, 100 - successRateValue],
+                backgroundColor: ['rgba(75,192,192,0.4)', 'rgba(255,99,132,0.4)'],
+                hoverBackgroundColor: ['rgba(75,192,192,0.6)', 'rgba(255,99,132,0.6)'],
+            }
+        ]
     };
 
     return (
         <div>
-            <h3>Frequency Map</h3>
-            <Bar data={frequencyMapData} />
-            <h3>Swaps</h3>
-            <Bar data={swapsData} />
-            <h3>Success Rate and Time</h3>
-            <Bar data={successRateAndTimeData} />
+            <h4>Diagnosis Chart</h4>
+            <Bar data={inputChartData} />
+            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '20px' }}>
+                <div style={{ textAlign: 'center' }}>
+                    <p>Emphasis</p>
+                    <FontAwesomeIcon icon={toEmphasis ? faCheck : faTimes} size="2x" color={toEmphasis ? 'green' : 'red'} />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <p>Repeat</p>
+                    <FontAwesomeIcon icon={toRepeat ? faCheck : faTimes} size="2x" color={toRepeat ? 'green' : 'red'} />
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <p>Average Time</p>
+                    <p style={{ fontSize: '20px', fontWeight: 'bold' }}>{time}</p>
+                </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '20px' }}>
+                <div style={{ width: '200px', height: '200px' }}>
+                    <h5>Consistent Swapping Percentage</h5>
+                    <Pie data={pieChartData} />
+                </div>
+                <div style={{ width: '200px', height: '200px' }}>
+                    <h5>Success Rate</h5>
+                    <Pie data={successRateChartData} />
+                </div>
+            </div>
         </div>
     );
 };
