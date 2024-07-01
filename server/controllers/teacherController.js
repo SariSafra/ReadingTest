@@ -95,6 +95,7 @@ export default class TeacherController {
         throw new Error("Teacher doesn't exist");
       console.log("after teacher");
       const student = await studentService.createStudent(req.body, session);
+      await createPassword(student._id, req.body.password, 'Student');
       console.log("student: " + student);
       teacher.students.push(student._id);
       await teacherService.updateTeacher(req.user.id, teacher, session);
