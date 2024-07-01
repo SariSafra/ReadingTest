@@ -102,17 +102,24 @@ export default class StudentController {
   };
 
   addDiagnosisToStudent = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
       console.log("student id: " + req.params.id);
-      const student = await studentService.getStudentById(req.params.id);
+      const student = await studentService.getStudent({studentId: req.params.id});
       if (!student) return res.status(404).json({ error: 'Student not found' });
       const diagnosisService = new DiagnosisService();
-      const response = await diagnosisService.createDiagnosis(req.body);
+      const response = await diagnosisService.createDiagnosis(req.body, session);
       student.diagnosis = response._id;
-      await studentService.updateStudent(student._id, student);
+      await studentService.updateStudent(student._id, student, session);
+      session.commitTransaction();
       res.status(200).json(student);
     } catch (error) {
+      session.abortTransaction();
       res.status(400).json({ error: error.message });
+    }
+    finally{
+      session.endSession();
     }
   };
 }

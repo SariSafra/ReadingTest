@@ -4,12 +4,12 @@ import mongoose from 'mongoose';
 import Diagnosis from '../models/Diagnosis.js';
 
 export default class StudentService {
-    getAllDiagnosis = async () => {
-        return await Student.find();
+    getAllDiagnosis = async (queries = {}) => {
+        return await Student.find(queries);
     };
 
-    getAllStudents = async () => {
-        return await Student.find().populate('diagnosiss');
+    getAllStudents = async (queries = {}) => {
+        return await Student.find(queries).populate('diagnosiss');
     };
 
     getStudentById = async (id) => {
