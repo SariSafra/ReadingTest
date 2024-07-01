@@ -2,7 +2,7 @@ import { useState, useEffect, createContext,useContext } from 'react';
 import AuditoryProcessing from './AuditoryProcessing.jsx';
 import Data from '../../../jsonData/AuditoryProcessingData.json'
 import InitExData from '../../../services/readingTest/initExData.js';
-import {finalDiagnosis} from '../../../services/readingTest/finalDiagnosis.js'
+import finalDiagnosis from '../../../services/readingTest/finalDiagnosis.js'
 import { UserContext } from '../../authentication/UserContext.jsx';
 import {postDiagnosis} from '../../../services/api.js'
 export { currentExercise };
@@ -14,7 +14,6 @@ const TestManager = () => {
     const [toRepeat, setToRepet] = useState(false);
     const [toEemphasis, setToEmphasis] = useState(false);
     const [diagnosis, setDiagnosis] = useState([]);
-
     const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -23,50 +22,42 @@ const TestManager = () => {
       case 1:
         initExData.ex1();
         break;
-      case 2:{
+      case 2:
           initExData.ex2();
-          break;}
-      case 3:{
+          break;
+      case 3:
           initExData.ex3();
           break;
-        }
-      case 4:{
+      case 4:
           initExData.ex4();
           break;
-        }
-      case 5:{
+      case 5:
           initExData.ex5();
           break;
-        }
-      case 6:{
+      case 6:
           initExData.ex6();
           break;
-        }
-      case 7:{
+      case 7:
           initExData.ex7();
           break;
-        }
-      case 8:{
+      case 8:
           initExData.ex8();
           break;
-        }
-      case 9:{
+      case 9:
           initExData.ex9();
           break;
-        }
-      case 10:{
+      case 10:
           initExData.ex10();
           break;
-        }
-      case 11:{
+      case 11:
           initExData.ex11();
           break;
-        }
-      case 12:{
+      default:
         const final_diagnosis=finalDiagnosis(diagnosis);
         postDiagnosis(final_diagnosis,user.username);
           //complete !!
-        }
+          break;
+        
     }
 
 

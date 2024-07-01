@@ -34,19 +34,20 @@ const analyzeSwaps = (dataArray) => {
       element.elementAnalysis.forEach(analysis => {
         const { output, input, correctness } = analysis;
   
-        if (!frequencyMap[input]) {
-          frequencyMap[input] = { correct: 0, incorrect: 0, swaps: [] };
+        if (!frequencyMap[output]) {
+          frequencyMap[output] = { correct: 0, incorrect: 0, swaps: [] };
         }
   
         if (correctness) {
-          frequencyMap[input].correct++;
+          frequencyMap[output].correct++;
         } else {
-          frequencyMap[input].incorrect++;
-          const swap = frequencyMap[input].swaps.find(s => s.output === output);
+          frequencyMap[output].incorrect++;
+          //check how to add it to freqencyMap
+          const swap = frequencyMap[output].swaps.find(s => s.input === input);
           if (swap) {
-            swap.times++;
+            frequencyMap[output].swaps[frequencyMap[output].swaps.findIndex(t=>t===swap)].times++;
           } else {
-            frequencyMap[input].swaps.push({ output, times: 1 });
+            frequencyMap[output].swaps.push({ input:input, times: 1 });
           }
         }
       });

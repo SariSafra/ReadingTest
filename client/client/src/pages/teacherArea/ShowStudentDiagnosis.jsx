@@ -3,45 +3,53 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DeleteDiagnosis from './DeleteDiagnosis';
 import DiagnosisChart from './DiagnosisChart';
+import {getStudentDiagnoses} from '../../services/api.js'
 
 const ShowStudentDiagnosis = ({ studentId }) => {
-      
-    const [diagnosis, setDiagnosis] = useState( {
-        ExeNum: 1,
-        Diagnosis: {
-          frequencyMap: {
-            correct: 10,
-            incorrect: 2,
-            swaps: [
-              {
-                output: "a",
-                times: 3
-              },
-              {
-                output: "c",
-                times: 1
-              }
-            ]
-          },
-          successRate: 83.33,
-          time: "15:30"
-        },
-        Mediation: {
-          Emphasis: true,
-          Repeat: false
-        }
-      });
+    const [diagnosis, setDiagnosis] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const fetchDiagnosis = async () => {
         try {
-            // const response = await getStudentDiagnoses(studentId);
-            // if (response.data) {
-            //     setDiagnosis(response.data);
-            // } else {
-            //     toast.info('No diagnosis found for this student.');
-            // }
-            console.log("change this part")
+            // Fetch the diagnosis data here
+             const response = await getStudentDiagnoses(studentId);
+            if (response.data) {
+                setDiagnosis(response.data);
+            } else {
+                toast.info('No diagnosis found for this student.');
+            }
+
+            // // For demonstration purposes, using a mock diagnosis
+            // const mockDiagnosis = {
+            //     frequencyMap: {
+            //         "input1": {
+            //             correct: 10,
+            //             incorrect: 2,
+            //             swaps: [
+            //                 { output: "a", times: 3 },
+            //                 { output: "c", times: 1 }
+            //             ]
+            //         },
+            //         "input2": {
+            //             correct: 8,
+            //             incorrect: 3,
+            //             swaps: [
+            //                 { output: "b", times: 2 },
+            //                 { output: "d", times: 1 }
+            //             ]
+            //         }
+            //     },
+            //     toEmphasis: true,
+            //     toRepeat: false,
+            //     successRate: "83.33",
+            //     time: "15:30",
+            //     consistentSwappingPercentage: {
+            //         "input1": "50.00",
+            //         "input2": "33.33"
+            //     }
+            // };
+            
+            //setDiagnosis(mockDiagnosis);
         } catch (error) {
             if (error.response && error.response.status === 404) {
                 toast.error('No diagnosis found for this student.');
