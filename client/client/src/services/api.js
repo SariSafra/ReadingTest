@@ -35,4 +35,4 @@ export const getStudentDiagnoses = (studentId) => API.get(`/diagnosis/student/${
 export const getStudents = (teacherEmail) => API.get(`/teachers/${teacherEmail}/students`,teacherEmail);
 export const delStudent = (studentId)=> API.delete(`/students/${studentId}`);
 export const deleteDiagnosis = (diagnosisId) => API.delete(`/diagnosis/${diagnosisId}`);
-export const postDiagnosis = (diagnosis,studentId) => API.post(`/students/${studentId}/diagnosis`,studentId,diagnosis)
+export const postDiagnosis = (diagnosis,studentId) => {console.log(diagnosis);API.post(`/students/${studentId}/diagnosis`,diagnosis)};

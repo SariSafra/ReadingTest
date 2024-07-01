@@ -31,27 +31,27 @@ const TestManager = () => {
       case 4:
           initExData.ex4();
           break;
-      case 5:
-          initExData.ex5();
-          break;
-      case 6:
-          initExData.ex6();
-          break;
-      case 7:
-          initExData.ex7();
-          break;
-      case 8:
-          initExData.ex8();
-          break;
-      case 9:
-          initExData.ex9();
-          break;
-      case 10:
-          initExData.ex10();
-          break;
-      case 11:
-          initExData.ex11();
-          break;
+    //   case 5:
+    //       initExData.ex5();
+    //       break;
+    //   case 6:
+    //       initExData.ex6();
+    //       break;
+    //   case 7:
+    //       initExData.ex7();
+    //       break;
+    //   case 8:
+    //       initExData.ex8();
+    //       break;
+    //   case 9:
+    //       initExData.ex9();
+    //       break;
+    //   case 10:
+    //       initExData.ex10();
+    //       break;
+    //   case 11:
+    //       initExData.ex11();
+    //       break;
       default:
         const final_diagnosis=finalDiagnosis(diagnosis);
         postDiagnosis(final_diagnosis,user.username);

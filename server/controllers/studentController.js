@@ -106,14 +106,17 @@ export default class StudentController {
     session.startTransaction();
     try {
       console.log("student id: " + req.params.id);
-      const student = await studentService.getStudent({studentId: req.params.id});
+      const student = await studentService.getAllStudents({studentId: req.params.id});
+      console.log("student:",student[0])
       if (!student) return res.status(404).json({ error: 'Student not found' });
       const diagnosisService = new DiagnosisService();
       const response = await diagnosisService.createDiagnosis(req.body, session);
-      student.diagnosis = response._id;
-      await studentService.updateStudent(student._id, student, session);
+      console.log("response: ",response);
+      student[0].diagnosis = response._id;
+      await studentService.updateStudent(student[0]._id, student[0], session);
+      console.log
       session.commitTransaction();
-      res.status(200).json(student);
+      res.status(200).json(student[0]);
     } catch (error) {
       session.abortTransaction();
       res.status(400).json({ error: error.message });
