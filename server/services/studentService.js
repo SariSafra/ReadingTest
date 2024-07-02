@@ -40,9 +40,14 @@ export default class StudentService {
     deleteStudent = async (id, session) => {
         let student;
         if (session)
+            {
+                console.log('hi');
             student = await Student.findOneAndDelete({ studentId: id }, { session });
-        else
+            console.log('student: '+student);
+            }
+        else{
             student = await Student.findOneAndDelete({ studentId: id });
+        }
         return student;
     }
 

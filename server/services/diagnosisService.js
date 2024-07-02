@@ -28,8 +28,8 @@ export default class DiagnosisService {
         correct: 5,
         incorrect: 1,
         swaps: [
-          { output: 'X', times: 2 },
-          { output: 'Y', times: 1 }
+          { input: 'X', times: 2 },
+          { input: 'Y', times: 1 }
         ]
       },
       'ב': {
@@ -57,7 +57,7 @@ export default class DiagnosisService {
     if (session)
       return await diagnosis.save({ session });
     else
-      return new Diagnosis(diagnosisData);
+      return await diagnosis.save();
   }
 
   updateDiagnosis = async (id, diagnosisData, session) => {
