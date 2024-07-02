@@ -28,7 +28,7 @@ export const updatePassword = async (userId, newPlainPassword, session) => {
 export const deletePassword = async (userId, session) => {
     let password;
     if (session)
-        password = await Password.findOneAndDelete({ userId }).session({session})
+        password = await Password.findOneAndDelete({ userId }, {session: session});
     else
         password = await Password.findOneAndDelete({ userId });
     return password;

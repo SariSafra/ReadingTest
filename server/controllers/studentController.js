@@ -1,7 +1,7 @@
 import StudentService from '../services/studentService.js';
 import Diagnosis from '../models/Diagnosis.js';
 import DiagnosisService from '../services/diagnosisService.js';
-import { createPassword } from '../services/passwordService.js';
+import { createPassword , deletePassword} from '../services/passwordService.js';
 import mongoose from 'mongoose'
 import Student from '../models/Student.model.js';
 import Password from '../models/Password.js';
@@ -86,10 +86,13 @@ export default class StudentController {
         session.abortTransaction();
         return res.status(404).json({ message: 'Student not found' });
       }
-      await passwordService.deletePassword(student._id, session);
+      console.log('befor delete password')
+      await deletePassword(student._id, session);
+      console.log('after delete password')
       if (student.diagnosis)
         await diagnosisService.deleteDiagnosis(student.diagnosis, session);
       session.commitTransaction();
+      console.log('after commit transection')
       res.status(200).json(student);
     } catch (error) {
       session.abortTransaction();
