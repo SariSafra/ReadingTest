@@ -29,15 +29,17 @@ getDiagnosisById = async (req, res) => {
       console.log("in get diagnosis by student id")
       const id=req.params.studentId;
       console.log("id", id);
-        const diagnosis= await diagnosisService.getDiagnosisByStudentId(id);
-        console.log(diagnosis);
-        if (!diagnosis) {
+        const diagnoses= await diagnosisService.getDiagnosesByStudentId(id);
+        console.log("diagnosis[0] from diagnosis controller",diagnoses[0]);
+        if (!diagnoses) {
           return res.status(404).json({ message: 'Diagnosis not found' });
         }
-        res.status(200).json(diagnosis);
+        console.log("before return diagnosis controller")
+       return res.status(200).json(diagnoses);
     }
     catch(error)
     {
+      console.log("error accourd in diagnosis service")
       res.status(500).json({ message: error.message });
     }
   }

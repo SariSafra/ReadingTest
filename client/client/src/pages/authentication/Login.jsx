@@ -8,7 +8,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './AuthContext';
 import { UserContext } from './UserContext'; // Import UserContext
-import '../style/Login.css'; // Ensure this import points to your CSS file
 
 // Define validation schema with Joi
 const validationSchema = Joi.object({
@@ -31,9 +30,11 @@ const validate = (values) => {
 
 function Login() {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext); // Use setUser from UserContext
+  //const { auth, setAuth } = useContext(AuthContext);
+  const { user,setUser } = useContext(UserContext); // Use setUser from UserContext
 
   useEffect(() => {
+    console.log('user: '+user);
     if (user) {
       navigate(user.role === 'student' ? '/home/student' : '/home/teacher');
     }
@@ -49,8 +50,13 @@ function Login() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await login(values);
-        setUser({ username: values.username, role: values.role }); // Set user details from response
+        setUser({username: values.username, role: values.role }); // Set user details from response
         Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
+        // const authData = { role: values.role, token: response.data.token };
+        // setAuth(authData);
+        console.log("in login values.username",values.username)
+        //console.log("user", user);
+        // localStorage.setItem('auth', JSON.stringify(authData)); // Save to localStorage
         navigate(values.role === 'student' ? '/home/student' : '/home/teacher'); // Redirect based on role
       } catch (error) {
         toast.error('Error logging in: ' + error.message);
@@ -61,62 +67,47 @@ function Login() {
   });
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <h2>Login</h2>
-        </div>
-        <form onSubmit={formik.handleSubmit}>
-          <div className="p-field">
-            <select
-              name="role"
-              value={formik.values.role}
-              onChange={formik.handleChange}
-              className="p-inputtext-lg"
-            >
-              <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
-            </select>
-            {formik.errors.role && <div className="p-error">{formik.errors.role}</div>}
-          </div>
-          
-          <div className="p-field">
-            <input
-              type={formik.values.role === 'teacher' ? 'email' : 'text'}
-              name="username"
-              value={formik.values.username}
-              onChange={formik.handleChange}
-              placeholder={formik.values.role === 'teacher' ? 'Email' : 'ID'}
-              className="p-inputtext-lg"
-              required
-            />
-            {formik.errors.username && <div className="p-error">{formik.errors.username}</div>}
-          </div>
+    <div>
+      <form onSubmit={formik.handleSubmit}>
+        <h2>Login</h2>
+        <select
+          name="role"
+          value={formik.values.role}
+          onChange={formik.handleChange}
+        >
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+        </select>
+        {formik.errors.role && <div>{formik.errors.role}</div>}
 
-          <div className="p-field">
-            <input
-              type="password"
-              name="password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              placeholder="Password"
-              className="p-inputtext-lg"
-              required
-            />
-            {formik.errors.password && <div className="p-error">{formik.errors.password}</div>}
-          </div>
+        <input
+          type={formik.values.role === 'teacher' ? 'email' : 'text'}
+          name="username"
+          value={formik.values.username}
+          onChange={formik.handleChange}
+          placeholder={formik.values.role === 'teacher' ? 'Email' : 'ID'}
+          required
+        />
+        {formik.errors.username && <div>{formik.errors.username}</div>}
 
-          <button type="submit" className="login-button" disabled={formik.isSubmitting}>
-            Login
-          </button>
-          <p className="login-prompt">OR</p>
-          <button type="button" className="login-button" onClick={() => navigate('/signup')}>Sign Up</button>
-        </form>
-        <div className="login-prompt">
-          <Link to="../password-reset-request">Forget password? Click to reset</Link>
-        </div>
-        <ToastContainer />
-      </div>
+        <input
+          type="password"
+          name="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          placeholder="Password"
+          required
+        />
+        {formik.errors.password && <div>{formik.errors.password}</div>}
+
+        <button type="submit" disabled={formik.isSubmitting}>
+          Login
+        </button>
+        <button type="button" onClick={() => navigate('/signup')}>Sign Up</button>
+        <button type="button" onClick={() => navigate('/password-reset')}>Forgot Password?</button>
+      </form>
+      <Link to="../password-reset-request">Forget password? Click to reset</Link>
+      <ToastContainer />
     </div>
   );
 }

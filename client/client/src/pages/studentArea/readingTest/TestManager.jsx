@@ -44,15 +44,15 @@ const TestManager = () => {
             case 2:
                 initExData.ex2();
                 break;
-             case 3:
-          initExData.ex3();
-          break;
-             case 4:
-          initExData.ex4();
-          break;
-             case 5:
-          initExData.ex5();
-          break;
+        //      case 3:
+        //   initExData.ex3();
+        //   break;
+        //      case 4:
+        //   initExData.ex4();
+        //   break;
+        //      case 5:
+        //   initExData.ex5();
+        //   break;
     //   case 6:
     //       initExData.ex6();
     //       break;
