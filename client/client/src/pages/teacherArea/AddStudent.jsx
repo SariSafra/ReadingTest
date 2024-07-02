@@ -27,6 +27,7 @@ const AddStudent = ({studentsArr, setStudentsArr}) => {
             setStudentDetails(newStudent);
             setModalIsOpen(true);
             toast.success("Student added successfully!");
+            console.log(savedStudent);
             setStudentsArr([...studentsArr, savedStudent.data]);
         } catch (error) {
             if (error.response?.status === 400) {

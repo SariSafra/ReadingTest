@@ -1,0 +1,76 @@
+.signup-container {
+  display: flex;
+  justify-content: center;  /* Centers horizontally */
+  align-items: center;  /* Centers vertically */
+  min-height: 100vh;  /* Ensures full viewport height */
+  background-color: #f9f9f9;
+}
+
+.signup-card {
+  width: 40rem;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signup-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup-header h2 {
+  font-size: 2rem;
+  color: #ff4081;
+}
+
+.signup-header p {
+  color: #757575;
+}
+
+.signup-img {
+  height: 40rem;
+}
+
+.p-field {
+  margin-bottom: 1.5rem;
+}
+
+.p-inputtext-lg, .p-password-lg {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+.signup-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: #ff4081;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+
+.signup-button:hover {
+  background-color: #e73370;
+}
+
+.p-error {
+  color: #f44336;
+}
+
+.login-prompt {
+  text-align: center;
+  margin-top: 1rem;
+  color: #757575;
+}
+
+.login-prompt a {
+  color: #ff4081;
+  text-decoration: none;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
+}
