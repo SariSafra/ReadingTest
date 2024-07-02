@@ -11,7 +11,7 @@ import {
     ArcElement,
 } from 'chart.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faClock } from '@fortawesome/free-solid-svg-icons';
 
 // Register the required components
 ChartJS.register(
@@ -37,9 +37,9 @@ const DiagnosisChart = ({ diagnosisData }) => {
 
     // Prepare data for the input-specific chart
     const labels = Object.keys(frequencyMap);
-    const correctData = labels.map(key => frequencyMap[key].correct);
-    const incorrectData = labels.map(key => frequencyMap[key].incorrect);
-    const consistentData = labels.map(key => consistentSwappingPercentage[key]);
+    const correctData = labels.map(key => frequencyMap[key]?.correct || 0);
+    const incorrectData = labels.map(key => frequencyMap[key]?.incorrect || 0);
+    const consistentData = labels.map(key => consistentSwappingPercentage?.[key] || 0);
 
     const inputChartData = {
         labels: labels,
@@ -75,7 +75,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
     };
 
     // Prepare data for the consistent swapping percentage pie chart
-    const consistentSwappingSum = labels.reduce((sum, key) => sum + parseFloat(consistentSwappingPercentage[key]), 0);
+    const consistentSwappingSum = labels.reduce((sum, key) => sum + parseFloat(consistentSwappingPercentage?.[key] || 0), 0);
     const inconsistentSwappingSum = 100 - consistentSwappingSum;
 
     const pieChartData = {
@@ -90,7 +90,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
     };
 
     // Prepare data for the success rate pie chart
-    const successRateValue = parseFloat(successRate);
+    const successRateValue = parseFloat(successRate || 0);
     const successRateChartData = {
         labels: ['Success Rate', 'Failure Rate'],
         datasets: [
@@ -117,7 +117,10 @@ const DiagnosisChart = ({ diagnosisData }) => {
                 </div>
                 <div style={{ textAlign: 'center' }}>
                     <p>Average Time</p>
-                    <p style={{ fontSize: '20px', fontWeight: 'bold' }}>{time}</p>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <FontAwesomeIcon icon={faClock} size="2x" color="blue" style={{ marginRight: '10px' }} />
+                        <p style={{ fontSize: '20px', fontWeight: 'bold', margin: 0 }}>{time}</p>
+                    </div>
                 </div>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '20px' }}>
