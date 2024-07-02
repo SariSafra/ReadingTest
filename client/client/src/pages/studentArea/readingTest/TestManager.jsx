@@ -81,6 +81,7 @@ const TestManager = () => {
                         toast.error("Failed to post diagnosis.");
                         console.error(error);
                     });
+                    currentEx(1);
                 break;
         }
     }, [currentEx]);

@@ -52,11 +52,12 @@ const ShowStudentDiagnosis = ({ studentId }) => {
         <div>
             <h3>Diagnoses for Student {studentId}</h3>
             {diagnoses.length > 0 ? (
+               <> <br/>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
                     {diagnoses.map(diagnosis => (
-                        <div key={diagnosis._id} style={{ marginBottom: '20px', textAlign: 'center' }}>
-                            <DiagnosisChart diagnosisData={diagnosis} />
-                            <button 
+                        <div key={diagnosis._id} style={{ marginBottom: '70px', textAlign: 'center' }}>
+                                                 <button 
                                 onClick={() => openModal(diagnosis._id)} 
                                 style={{ 
                                     display: 'flex', 
@@ -71,12 +72,15 @@ const ShowStudentDiagnosis = ({ studentId }) => {
                                     marginTop: '10px' 
                                 }}
                             >
+                                <br/>
                                 <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />
                                 Delete Diagnosis
                             </button>
+                            <DiagnosisChart diagnosisData={diagnosis} />
+                           <br/>
                         </div>
                     ))}
-                </div>
+                </div></>
             ) : (
                 <p>No diagnoses available.</p>
             )}
