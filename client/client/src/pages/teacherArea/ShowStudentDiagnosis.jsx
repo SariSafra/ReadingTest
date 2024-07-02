@@ -49,9 +49,9 @@ const ShowStudentDiagnosis = ({ studentId }) => {
         <div>
             <h3>Diagnosis for Student {studentId}</h3>
             {diagnosis ? (
+                
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <DiagnosisChart diagnosisData={diagnosis} />
-                    <button 
+                                        <button 
                         onClick={openModal} 
                         style={{ 
                             display: 'flex', 
@@ -66,9 +66,12 @@ const ShowStudentDiagnosis = ({ studentId }) => {
                             marginTop: '20px' 
                         }}
                     >
+                       
                         <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />
                         Delete Diagnosis
                     </button>
+                    <DiagnosisChart diagnosisData={diagnosis} />
+
                 </div>
             ) : (
                 <p>No diagnosis available.</p>
