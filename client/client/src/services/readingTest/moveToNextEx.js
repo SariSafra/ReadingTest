@@ -1,4 +1,4 @@
-const moveToNextEx = (Diagnosis, setNextEx, toRepeat, setToRepeat, toEmphasis, setToEmphasis, setDiagnosis, currentEx, setIsExerciseReady) => {
+const moveToNextEx = (Diagnosis, setNextEx, toRepeat, setToRepeat, toEmphasis, setToEmphasis, setDiagnosis, currentEx) => {
   console.log("Finish");
   console.log(`Diagnosis frequencyMap: ${Diagnosis.frequencyMap}, Diagnosis successRate: ${Diagnosis.successRate}, Diagnosis time: ${Diagnosis.time}`);
   setDiagnosis((prev) => [...prev, { ExeNum: currentEx, Diagnosis, Mediation: { Emphasis: toEmphasis, Repeat: toRepeat } }]);
@@ -10,11 +10,10 @@ const moveToNextEx = (Diagnosis, setNextEx, toRepeat, setToRepeat, toEmphasis, s
       setToRepeat(true);
     }
   } else {
-    setNextEx((prev) => prev + 1);
+    setNextEx(currentEx + 1);
     setToEmphasis(false);
     setToRepeat(false);
   }
-  setIsExerciseReady(true); // Ensure the button appears for the new exercise
 };
 
 export default moveToNextEx;
