@@ -16,7 +16,14 @@ export default class StudentService {
         return await Student.findById(id).populate('diagnosis');
     }
 
-
+    async try1async (studentData, session) {
+        const student = new Student({ name: studentData.name, studentId: studentData.id });
+        console.log('student service, student: '+student);
+        if (session)
+            return await student.save({ session });
+        else
+        return await student.save();
+    }
     createStudent = async (studentData, session) => {
         const student = new Student({ name: studentData.name, studentId: studentData.id });
         console.log('student service, student: '+student);
@@ -38,17 +45,11 @@ export default class StudentService {
     }
 
     deleteStudent = async (id, session) => {
-        let student;
+        console.log('hi');
         if (session)
-            {
-                console.log('hi');
-            student = await Student.findOneAndDelete({ studentId: id }, { session });
-            console.log('student: '+student);
-            }
-        else{
-            student = await Student.findOneAndDelete({ studentId: id });
-        }
-        return student;
+            return Student.findOneAndDelete({ studentId: id }, { session });
+        else
+            return Student.findOneAndDelete({ studentId: id });
     }
 
 }

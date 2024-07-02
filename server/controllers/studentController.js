@@ -42,14 +42,14 @@ export default class StudentController {
       }
       const student = await studentService.createStudent(studentData, session);
       await createPassword(new Password(student._id, 'Student', req.body.password), session);
-      session.commitTransaction();
+      await session.commitTransaction();
       res.status(201).json(student);
     } catch (error) {
-      session.abortTransaction();
+      await session.abortTransaction();
       res.status(400).json({ message: error.message });
     }
     finally{
-      session.endSession();
+      await session.endSession();
     }
   }
 
@@ -61,45 +61,47 @@ export default class StudentController {
       student = await studentService.updateStudent(req.params.id, { name: req.body.name }, session);
 
       if (!student) {
-        session.abortTransaction();
+        await session.abortTransaction();
         return res.status(404).json({ message: 'Student not found' });
       }
       if (student.diagnosis)
         await diagnosisService.updateDiagnosis(student.diagnosis, req.body.diagnosis, session);
-      session.commitTransaction();
+      await session.commitTransaction();
       res.status(200).json(student);
     } catch (error) {
-      session.abortTransaction();
+      await session.abortTransaction();
       res.status(400).json({ message: error.message });
     }
     finally {
-      session.endSession();
+      await session.endSession();
     }
   }
 
   deleteStudent = async (req, res) => {
+    console.log('delete student controller');
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
       const student = await studentService.deleteStudent(req.params.id, session);
+      console.log('student: '+ student)
       if (!student) {
         session.abortTransaction();
         return res.status(404).json({ message: 'Student not found' });
       }
       console.log('befor delete password')
-      await deletePassword(student._id, session);
-      console.log('after delete password')
+      const deletedPassword = await deletePassword(student._id, session);
+      console.log('after delete password: '+deletedPassword)
       if (student.diagnosis)
         await diagnosisService.deleteDiagnosis(student.diagnosis, session);
-      session.commitTransaction();
+      await session.commitTransaction();
       console.log('after commit transection')
       res.status(200).json(student);
     } catch (error) {
-      session.abortTransaction();
+      await session.abortTransaction();
       res.status(500).json({ message: error.message });
     }
     finally {
-      session.endSession();
+      await session.endSession();
     }
 
   };
@@ -112,7 +114,6 @@ export default class StudentController {
       const student = await studentService.getAllStudents({studentId: req.params.id});
       console.log("student:",student[0])
       if (!student) return res.status(404).json({ error: 'Student not found' });
-      const diagnosisService = new DiagnosisService();
       const response = await diagnosisService.createDiagnosis(req.body, session);
       console.log("response: ",response);
       student[0].diagnosis = response._id;

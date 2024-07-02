@@ -69,7 +69,7 @@ export default class DiagnosisService {
 
   deleteDiagnosis = async (id, session) => {
     if (session)
-      return await Diagnosis.findByIdAndDelete(id).session({ session });
+      return await Diagnosis.findByIdAndDelete(id, {session});
     else
       return await Diagnosis.findByIdAndDelete(id);
   }

@@ -2,16 +2,16 @@
 
 import Password from '../models/Password.js';
 import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
 const saltRounds = 10;
 
 export const createPassword = async (userId, plainPassword, userType, session) => {
-    let password = new Password({ userId, password: plainPassword, userType: userType });
+    let password = new Password({ userId, password: plainPassword, userType });
     if (session)
-        password = await password.save({ session })
+        return await password.save({ session })
     else
-        password = await password.save();
-    return password;
+       return await password.save();
 };
 
 export const updatePassword = async (userId, newPlainPassword, session) => {
@@ -26,12 +26,10 @@ export const updatePassword = async (userId, newPlainPassword, session) => {
 };
 
 export const deletePassword = async (userId, session) => {
-    let password;
     if (session)
-        password = await Password.findOneAndDelete({ userId }, {session: session});
+        return await Password.findOneAndDelete({ userId});
     else
-        password = await Password.findOneAndDelete({ userId });
-    return password;
+        return await Password.findOneAndDelete({ userId });
 };
 
 export const verifyPassword = async (userId, plainPassword) => {

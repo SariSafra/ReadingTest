@@ -3,6 +3,7 @@ import TeacherService from '../services/teacherService.js';
 import { createPassword, deletePassword } from '../services/passwordService.js';
 import Password from '../models/Password.js';
 import StudentService from '../services/studentService.js';
+import Student from '../models/Student.model.js';
 
 const teacherService = new TeacherService();
 const studentService = new StudentService();
@@ -36,13 +37,13 @@ export default class TeacherController {
     try {
       teacher = await teacherService.createTeacher(req.body, session);
       await createPassword(teacher._id, req.body.password, 'Teacher', session);
-      session.commitTransaction();
+      await session.commitTransaction();
     } catch (error) {
-      session.abortTransaction();
+      await session.abortTransaction();
       res.status(400).json({ message: error.message });
     }
     finally {
-      session.endSession();
+      await session.endSession();
     }
     res.status(201).json(teacher);
   };
@@ -64,22 +65,23 @@ export default class TeacherController {
     session.startTransaction();
     let teacher
     try {
-       teacher = await teacherService.deleteTeacher(req.params.id, session);
+      teacher = await teacherService.deleteTeacher(req.params.id, session);
       if (!teacher) {
+        await session.abortTransaction();
         return res.status(404).json({ message: 'Teacher not found' });
       }
       await deletePassword(teacher._id, session);
       for (const studentId of teacher.students) {
         await studentService.deleteStudent(studentId, session);
       }
-      session.commitTransaction();
-      
+      await session.commitTransaction();
+
     } catch (error) {
-      session.abortTransaction();
+      await session.abortTransaction();
       res.status(500).json({ message: error.message });
     }
     finally {
-      session.endSession();
+      await session.endSession();
     }
     res.status(200).json(teacher);
   };
@@ -89,30 +91,31 @@ export default class TeacherController {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-      const teacher = await teacherService.getTeacherById(req.user.id, session);
+      const teacher = await teacherService.getTeacherById(req.user.id);
       //console.log("teacher: "+teacher);
-      if(!teacher)
+      if (!teacher)
         throw new Error("Teacher doesn't exist");
       console.log("after teacher");
       const student = await studentService.createStudent(req.body, session);
-      await createPassword(student._id, req.body.password, 'Student');
+      await createPassword(student._id, req.body.password, 'Student', session);
       console.log("student: " + student);
       teacher.students.push(student._id);
       await teacherService.updateTeacher(req.user.id, teacher, session);
       console.log('after creating, student: ' + student);
 
-      session.commitTransaction();
+      await session.commitTransaction();
       res.status(201).json(student);
 
     } catch (error) {
-      session.abortTransaction();
-      console.log(error.message);
+      await session.abortTransaction();
+      console.error("Transaction aborted due to an error: ", error.message);
       res.status(400).json({ message: error.message });
     }
-    finally{
-      session.endSession();
+    finally {
+      await session.endSession();
     }
   };
+   
 
   getStudentsByTeacherEmail = async (req, res) => {
     const { teacherEmail } = req.params;
