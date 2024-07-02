@@ -39,8 +39,6 @@ const DiagnosisChart = ({ diagnosisData }) => {
     const labels = Object.keys(frequencyMap);
     const correctData = labels.map(key => frequencyMap[key]?.correct || 0);
     const incorrectData = labels.map(key => frequencyMap[key]?.incorrect || 0);
-    const consistentData = labels.map(key => consistentSwappingPercentage?.[key] || 0);
-
     const inputChartData = {
         labels: labels,
         datasets: [
@@ -61,15 +59,6 @@ const DiagnosisChart = ({ diagnosisData }) => {
                 hoverBackgroundColor: 'rgba(255,99,132,0.6)',
                 hoverBorderColor: 'rgba(255,99,132,1)',
                 data: incorrectData
-            },
-            {
-                label: 'Consistent Swapping Percentage',
-                backgroundColor: 'rgba(153,102,255,0.4)',
-                borderColor: 'rgba(153,102,255,1)',
-                borderWidth: 1,
-                hoverBackgroundColor: 'rgba(153,102,255,0.6)',
-                hoverBorderColor: 'rgba(153,102,255,1)',
-                data: consistentData
             }
         ]
     };
