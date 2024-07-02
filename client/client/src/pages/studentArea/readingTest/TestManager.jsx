@@ -1,39 +1,58 @@
-import { useState, useEffect, createContext,useContext } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import AuditoryProcessing from './AuditoryProcessing.jsx';
 import Data from '../../../jsonData/AuditoryProcessingData.json'
 import InitExData from '../../../services/readingTest/initExData.js';
-import finalDiagnosis from '../../../services/readingTest/finalDiagnosis.js'
+import finalDiagnosis from '../../../services/readingTest/finalDiagnosis.js';
 import { UserContext } from '../../authentication/UserContext.jsx';
-import {postDiagnosis} from '../../../services/api.js'
+import { postDiagnosis } from '../../../services/api.js';
+import AudioPlayer from './AudioPlayer.jsx';
+
 export { currentExercise };
-const currentExercise = createContext(null); // Define the context first
+const currentExercise = createContext(null);
+
+const audioFiles = {
+    1: '/src/assets/audio/12.m4a',
+    2: '/src/assets/audio/12.m4a',
+    3: '/src/assets/audio/345678.m4a',
+    4: '/src/assets/audio/345678.m4a',
+    5: '/src/assets/audio/345678.m4a',
+    6: '/src/assets/audio/345678.m4a',
+    7: '/src/assets/audio/345678.m4a',
+    8: '/src/assets/audio/345678.m4a',
+    9: '/src/assets/audio/9.m4a',
+    10: '/src/assets/audio/10.m4a',
+    11: '/src/assets/audio/11.m4a',
+};
 
 const TestManager = () => {
     const [currentEx, setCurrentEx] = useState(1);
     const [currentData, setCurrentData] = useState(Data.letters);
-    const [toRepeat, setToRepet] = useState(false);
-    const [toEemphasis, setToEmphasis] = useState(false);
+    const [toRepeat, setToRepeat] = useState(false);
+    const [toEmphasis, setToEmphasis] = useState(false);
     const [diagnosis, setDiagnosis] = useState([]);
+    const [showAudioPlayer, setShowAudioPlayer] = useState(true);
     const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    const initExData = new InitExData(setCurrentData);
-    switch (currentEx) {
-      case 1:
-        initExData.ex1();
-        break;
-      case 2:
-          initExData.ex2();
+    useEffect(() => {
+        const initExData = new InitExData(setCurrentData);
+        switch (currentEx) {
+            case 1:
+                initExData.ex1();
+                break;
+            case 2:
+                initExData.ex2();
+                break;
+             case 3:
+          initExData.ex3();
           break;
-    //   case 3:
-    //       initExData.ex3();
-    //       break;
-    //   case 4:
-    //       initExData.ex4();
-    //       break;
-    //   case 5:
-    //       initExData.ex5();
-    //       break;
+             case 4:
+          initExData.ex4();
+          break;
+             case 5:
+          initExData.ex5();
+          break;
     //   case 6:
     //       initExData.ex6();
     //       break;
@@ -51,31 +70,53 @@ const TestManager = () => {
     //       break;
     //   case 11:
     //       initExData.ex11();
-    //       break;
-      default:{
-        const final_diagnosis=finalDiagnosis(diagnosis);
-        console.log(final_diagnosis);
-        postDiagnosis(final_diagnosis,user.username);
-          //complete !!
-          break;
-      }
-        
-    }
+    //       break;    
+            default:
+                const final_diagnosis = finalDiagnosis(diagnosis);
+                postDiagnosis(final_diagnosis, user.username)
+                    .then(() => {
+                        toast.success("Diagnosis posted successfully!");
+                    })
+                    .catch((error) => {
+                        toast.error("Failed to post diagnosis.");
+                        console.error(error);
+                    });
+                break;
+        }
+    }, [currentEx]);
 
+    const handleAudioEnded = () => {
+        setShowAudioPlayer(false);
+    };
 
-    }, [currentEx])
+    const handleExerciseComplete = () => {
+        setShowAudioPlayer(true);
+        //setCurrentEx((prev) => prev + 1);
+    };
+
     return (
         <>
-
-            <h1>current exercise: {currentEx}</h1>
-            <div> <currentExercise.Provider value={{ currentEx, setCurrentEx }}>
-                {console.log("diagnosis from app: " + diagnosis)}
-
-                <AuditoryProcessing data={currentData} setToRepeat={setToRepet} setToEemphasis={setToEmphasis} toRepeat={toRepeat} toEemphasis={toEemphasis} setDiagnosis={setDiagnosis} />
-            </currentExercise.Provider>
+            <h1>Current Exercise: {currentEx}</h1>
+            <ToastContainer />
+            <div>
+                <currentExercise.Provider value={{ currentEx, setCurrentEx }}>
+                    {showAudioPlayer ? (
+                        <AudioPlayer src={audioFiles[currentEx]} onEnded={handleAudioEnded} playOnClick={true} />
+                    ) : (
+                        <AuditoryProcessing
+                            data={currentData}
+                            setToRepeat={setToRepeat}
+                            setToEmphasis={setToEmphasis}
+                            toRepeat={toRepeat}
+                            toEmphasis={toEmphasis}
+                            setDiagnosis={setDiagnosis}
+                            onExerciseComplete={handleExerciseComplete}
+                        />
+                    )}
+                </currentExercise.Provider>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default TestManager
+export default TestManager;

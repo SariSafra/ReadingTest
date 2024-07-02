@@ -5,7 +5,7 @@ import moveToNextEx from '../../../services/readingTest/moveToNextEx.js';
 import correctnessChecking from '../../../services/readingTest/correctnessChecking.js';
 import { currentExercise } from './TestManager.jsx';
 
-const AuditoryProcessing = ({ data, setToRepeat, setToEemphasis, toRepeat, toEemphasis,setDiagnosis }) => {
+const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmphasis,setDiagnosis,onExerciseComplete }) => {
 
   const [buttonClickTime, setButtonClickTime] = useState(null);
   const [inputStartTime, setInputStartTime] = useState(null);
@@ -30,7 +30,7 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEemphasis, toRepeat, toEem
   }, []);
 
   const handleStart = ()=>{
-    utterance.rate = toEemphasis?0.3:1;
+    utterance.rate = toEmphasis?0.3:1;
     utterance.text = data[index].toSpeak.repeat(toRepeat ? 2 : 1)
     play();
   }
@@ -58,13 +58,14 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEemphasis, toRepeat, toEem
         setIndex(index + 1);
         play();
       } else {
+        onExerciseComplete(true);
         setIndex(0);
         setInputValue("");
         setResult([...result, newResult]);
         const diagnosis = makeAnalysis([...result, newResult]);
         setResult([]);
         setIndex(0);
-        moveToNextEx(diagnosis, setCurrentEx, toRepeat, setToRepeat, toEemphasis, setToEemphasis,setDiagnosis,currentEx); // Indicate that the process is finished
+        moveToNextEx(diagnosis, setCurrentEx, toRepeat, setToRepeat, toEmphasis, setToEmphasis,setDiagnosis,currentEx); // Indicate that the process is finished
       }
       inputRef.current.focus();
     }
