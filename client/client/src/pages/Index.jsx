@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './authentication/AuthContext.jsx';
-import LandingPage from './LandingPage.jsx';
 import Login from './authentication/Login.jsx';
 import Signup from './authentication/Signup.jsx';
 import PasswordReset from './authentication/PasswordReset.jsx';
@@ -13,13 +12,14 @@ import '../index.css';
 import TestManager from './studentArea/readingTest/TestManager.jsx';
 import UserAccount from './UserAccount.jsx';
 import UserArea from './UserArea.jsx';
+import Header from './Header.jsx';
 
 function Index() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<Header />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/password-reset-request" element={<PasswordResetRequest />} />
