@@ -1,15 +1,17 @@
 import mongoose from 'mongoose';
 
 const swapSchema = new mongoose.Schema({
-  output: { type: String, required: true },
+  input: { type: String, required: true },
   times: { type: Number, default: 1 }
 }, { _id: false });
 
 const frequencyMapSchema = new mongoose.Schema({
   correct: { type: Number, default: 0 },
   incorrect: { type: Number, default: 0 },
-  swaps: [swapSchema]
-});
+  swaps: {type: [swapSchema]}
+}, {_id: false });
+
+
 
 const diagnosisSchema = new mongoose.Schema({
     frequencyMap: frequencyMapSchema,
