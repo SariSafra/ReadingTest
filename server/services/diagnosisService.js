@@ -55,7 +55,7 @@ export default class DiagnosisService {
 
   createDiagnosis = async (diagnosisData, session) => {
     //const diagnosis = new Diagnosis(diagnosisData);
-    const diagnosis = new Diagnosis(this.sampleData);
+    const diagnosis = new Diagnosis(diagnosisData);
 
     if (session)
       return await diagnosis.save({ session });

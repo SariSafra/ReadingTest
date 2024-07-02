@@ -50,7 +50,7 @@ const ShowStudentDiagnosis = ({ studentId }) => {
 
     return (
         <div>
-            <h3>Diagnoses for Student {studentId}</h3>
+            <h3>Diagnoses</h3>
             {diagnoses.length > 0 ? (
                <> <br/>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
