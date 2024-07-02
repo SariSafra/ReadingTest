@@ -22,8 +22,38 @@ export default class DiagnosisService {
     return student.diagnosis;
   }
 
+  sampleData = {
+    frequencyMap: {
+      'א': {
+        correct: 5,
+        incorrect: 1,
+        swaps: [
+          { output: 'X', times: 2 },
+          { output: 'Y', times: 1 }
+        ]
+      },
+      'ב': {
+        correct: 6,
+        incorrect: 0,
+        swaps: []
+      },
+      'ג': {
+        correct: 6,
+        incorrect: 0,
+        swaps: []
+      }
+    },
+    Emphasis: false,
+    Repeat: false,
+    successRate: '94.45',
+    time: 13148,
+    consistentSwappingPercentage: 100
+  };
+
   createDiagnosis = async (diagnosisData, session) => {
-    const diagnosis = new Diagnosis(diagnosisData);
+    //const diagnosis = new Diagnosis(diagnosisData);
+    const diagnosis = new Diagnosis(this.sampleData);
+
     if (session)
       return await diagnosis.save({ session });
     else
