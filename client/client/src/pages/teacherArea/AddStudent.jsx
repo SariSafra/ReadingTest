@@ -3,8 +3,15 @@ import { createStudent, sendEmail } from '../../services/api';
 import Modal from 'react-modal';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MdContentCopy } from "react-icons/md";
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, Avatar } from '@mui/material';
 import styled from 'styled-components';
+import CloseIcon from '@mui/icons-material/Close';
+import Webcam from 'react-webcam';
+import { FilePicker } from 'react-file-picker';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
 
 // Styled component for the modal content
 const ModalContent = styled(Box)`
@@ -46,6 +53,10 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
     const [studentDetails, setStudentDetails] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isCameraOpen, setIsCameraOpen] = useState(false);
+    const [toOpenUpload, setToOpenUpload] = useState(false);
+
+    const webcamRef = React.useRef(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -56,7 +67,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
         if (inputsValue.profile) {
             formData.append('file', inputsValue.profile);
         }
-    
+
         try {
             const savedStudent = await createStudent(formData);
             setStudentDetails(savedStudent.data);
@@ -98,11 +109,29 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
     const handleInputChange = (e) => {
         const { name, value, files } = e.target;
         if (name === "profile" && files) {
-            setInputsValue(prev => ({ ...prev, profile: files[0] }));
+            const file = files[0];
+            if (!file.type.startsWith('image/')) {
+                setErrorMessage("Only image files are allowed.");
+                return;
+            }
+            setInputsValue(prev => ({ ...prev, profile: file }));
+            setErrorMessage(''); // Clear any previous error messages
         } else {
             setInputsValue(prev => ({ ...prev, [name]: value }));
         }
     }
+
+    const handleCapture = () => {
+        const imageSrc = webcamRef.current.getScreenshot();
+        fetch(imageSrc)
+            .then(res => res.blob())
+            .then(blob => {
+                const file = new File([blob], 'profile.jpg', { type: 'image/jpeg' });
+                setInputsValue(prev => ({ ...prev, profile: file }));
+                setIsCameraOpen(false);
+                setErrorMessage(''); // Clear any previous error messages
+            });
+    };
 
     return (
         <>
@@ -138,14 +167,34 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                             style={{ marginBottom: 16 }}
                             required
                         />
-                        <input
-                            type="file"
-                            name="profile"
-                            onChange={handleInputChange}
-                            style={{ marginBottom: 16 }}
-                        />
+                        <Button onClick={()=>setToOpenUpload(prev=>!prev)}>הוספת תמונה</Button>
+                        {toOpenUpload &&<>
+                         <div style = {{display: 'flex'}}>
+                            <FilePicker
+                                extensions={['jpg', 'jpeg', 'png']}
+                                dims={{ minWidth: 100, maxWidth: 2500, minHeight: 100, maxHeight: 2500 }}
+                                onChange={file => setInputsValue(prev => ({ ...prev, profile: file }))}
+                                onError={errMsg => setErrorMessage(errMsg)}
+                            >
+                                <FileUploadIcon style={{margin: 10}}/>
+                            </FilePicker>
+                                <AddAPhotoIcon onClick={() => setIsCameraOpen(true)}  style={{ margin: 10 }}/>
+                        </div>
+                                {isCameraOpen && (
+                        <div style={{margin: 16}}>
+                            <Webcam
+                                audio={false}
+                                ref={webcamRef}
+                                screenshotFormat="image/jpeg"
+                                width={350}
+                            />
+                            <CheckCircleOutlineIcon onClick={handleCapture} />
+                        </div>
+                    )}
+                       </>}
                         <Button type="submit" variant="contained" color="primary">Add</Button>
                     </form>
+                    
                     {successMessage && (
                         <Message variant="body1" style={{ color: 'green' }}>
                             {successMessage}
