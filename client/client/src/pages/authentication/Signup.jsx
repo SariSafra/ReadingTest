@@ -8,30 +8,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './AuthContext';
 import { UserContext } from './UserContext'; 
+import { Card } from '@mui/material';
+import { InputText } from 'primereact/inputtext'; // Import InputText from primereact
+import { Password } from 'primereact/password'; // Import Password from primereact
+import { Button } from 'primereact/button'; // Import Button from primereact
+import { emailValidationSchema,completeSignupValidationSchema } from '../../schemas/signup';
 
 const Signup = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
-  //const [token, setToken] = useState('');
-  //const { setAuth } = useContext(AuthContext);
-  const { user,setUser } = useContext(UserContext); // Use setUser from UserContext
+  const { user, setUser } = useContext(UserContext); // Use setUser from UserContext
   const navigate = useNavigate();
-
-  const emailValidationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is required').lowercase(),
-  });
-
-  const completeSignupValidationSchema = Yup.object().shape({
-    name: Yup.string().min(3, 'Name is too short!').max(30, 'Name is too long!').required('Name is required'),
-    email: Yup.string().email('Invalid email').required('Email is required').lowercase(),
-    password: Yup.string().min(6, 'Password is too short!').required('Password is required'),
-    verificationCode: Yup.string().required('Verification code is required'),
-  });
 
   const handleGenerateCode = async (values, { setSubmitting }) => {
     try {
       const response = await generateVerificationCode({ email: values.email });
       setIsCodeSent(true);
-      //setToken(response.data.token);
       toast.success('Verification code sent to your email');
       console.log('Verification code sent:', response.data.message);
     } catch (error) {
@@ -55,11 +46,10 @@ const Signup = () => {
         },
         verificationCode: values.verificationCode,
       });
-      console.log("user email from signup",values.email)
-      setUser({username: values.email, role: 'teacher'}); // Set user details from response
-      console.log("user from signup",user)
+      console.log("user email from signup", values.email);
+      setUser({ username: values.email, role: 'teacher' }); // Set user details from response
+      console.log("user from signup", user);
       Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
-      //setAuth({ role: 'teacher', token: response.data.token });
       localStorage.setItem('user', JSON.stringify(values.email)); // Save user data to localStorage
       navigate('/home/teacher'); // Redirect to teacher home page
     } catch (error) {
@@ -94,7 +84,7 @@ const Signup = () => {
                   <ErrorMessage name="name" component="div" className="p-error" />
                 </div>
                 <div className="p-field">
-                  <Field name="email" placeholder="E-mail" type="email" as={InputText} className="p-inputtext-lg" disabled={isCodeSent}/>
+                  <Field name="email" placeholder="E-mail" type="email" as={InputText} className="p-inputtext-lg" disabled={isCodeSent} />
                   <ErrorMessage name="email" component="div" className="p-error" />
                 </div>
                 <div className="p-field">
@@ -126,7 +116,6 @@ const Signup = () => {
           Already have an account? <a href="#" onClick={() => navigate('/login')}>Login</a>
         </p>
       </Card>
-      <Toast ref={toast} />
     </div>
   );
 };
