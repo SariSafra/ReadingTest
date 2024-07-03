@@ -3,7 +3,7 @@ import { getStudents, delStudent } from '../../services/api';
 import AddStudent from './AddStudent';
 import StudentShow from './StudentShow';
 import { UserContext } from '../authentication/UserContext';
-import { Container, Typography, List, Stack, ListItem, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Avatar,Container, Typography, List, Stack, ListItem, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import Login from '../authentication/Login';
@@ -23,6 +23,7 @@ function TeacherHome() {
       try {
         const response = await getStudents(user.username);
         setStudents(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error("Error fetching students", error);
       }
@@ -64,7 +65,7 @@ function TeacherHome() {
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', padding: 0 }}>
         {students.map((student) => (
           <ListItem style={{ display: 'flex', flexDirection: 'column', width: 'auto', padding: '30px' }} onClick={() => handleDisplayStudent(student)} key={student.studentId}>
-            <FolderSharedIcon style={{ width: '80%', height: 'auto' }} />
+            <Avatar src={student.profileImageUrl} alt={student.name} sx={{ width: 150, height: 150 }}/>
             <Typography>{student.name}</Typography>
           </ListItem>
         ))}

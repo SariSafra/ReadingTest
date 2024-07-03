@@ -5,6 +5,8 @@ import Password from '../models/Password.js';
 import StudentService from '../services/studentService.js';
 import Student from '../models/Student.model.js';
 
+
+
 const teacherService = new TeacherService();
 const studentService = new StudentService();
 
@@ -87,20 +89,32 @@ export default class TeacherController {
   };
 
   createStudent = async (req, res) => {
-    console.log('create student controller ' + req.user._id)
+    console.log('create student controller ' + req.user._id);
     const session = await mongoose.startSession();
     session.startTransaction();
+
     try {
-      const teacher = await teacherService.getTeacherById(req.user.id);
-      //console.log("teacher: "+teacher);
-      if (!teacher)
+      const teacher = await teacherService.getTeacherById(req.user._id);
+      console.log("teacher: ", teacher);
+
+      if (!teacher) {
         throw new Error("Teacher doesn't exist");
+      }
+
       console.log("after teacher");
-      const student = await studentService.createStudent(req.body, session);
+
+      const studentData = {
+        studentId: req.body.id,
+        name: req.body.name,
+        studentId: req.body.id,
+        filePath: req.file ? req.file.path : null // Handle optional file
+      };
+
+      const student = await studentService.createStudent(studentData, session);
       await createPassword(student._id, req.body.password, 'Student', session);
       console.log("student: " + student);
       teacher.students.push(student._id);
-      await teacherService.updateTeacher(req.user.id, teacher, session);
+      await teacherService.updateTeacher(req.user._id, teacher, session);
       console.log('after creating, student: ' + student);
 
       await session.commitTransaction();
@@ -110,12 +124,11 @@ export default class TeacherController {
       await session.abortTransaction();
       console.error("Transaction aborted due to an error: ", error.message);
       res.status(400).json({ message: error.message });
-    }
-    finally {
+    } finally {
       await session.endSession();
     }
-  };
-   
+  }
+
 
   getStudentsByTeacherEmail = async (req, res) => {
     const { teacherEmail } = req.params;

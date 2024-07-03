@@ -1,7 +1,10 @@
+// services/studentService.js
 import Student from '../models/Student.model.js';
 import Password from '../models/Password.js';
 import mongoose from 'mongoose';
 import Diagnosis from '../models/Diagnosis.js';
+import path from 'path';
+
 
 export default class StudentService {
     getAllDiagnosis = async (queries = {}) => {
@@ -9,32 +12,43 @@ export default class StudentService {
     };
 
     getAllStudents = async (queries = {}) => {
-        return await Student.find(queries).populate('diagnoses');
+        const students = await Student.find(queries).populate('diagnosis');
+
+        return students.map(student => {
+            const profileImageUrl = student.filePath
+                ? `http://localhost:3000/uploads/${path.basename(student.filePath)}`
+                : `http://localhost:3000/uploads/profile.png`;
+
+            return {
+                ...student.toObject(),
+                profileImageUrl
+            };
+        });
     };
 
     getStudentById = async (id) => {
-        return await Student.findById(id).populate('diagnoses');
+        const student = await Student.findById(id).populate('diagnosis');
+        if (!student) {
+            throw new Error('Student not found');
+        }
+
+        const profileImageUrl = student.filePath
+            ? `http://localhost:3000/uploads/${student.filePath.replace(/\\/g, '/')}`
+            : `http://localhost:3000/uploads/profile.png`;
+
+        return {
+            ...student.toObject(),
+            profileImageUrl
+        };
     }
 
-    async try1async (studentData, session) {
-        const student = new Student({ name: studentData.name, studentId: studentData.id });
-        console.log('student service, student: '+student);
-        if (session)
-            return await student.save({ session });
-        else
-        return await student.save();
-    }
     createStudent = async (studentData, session) => {
-        const student = new Student({ name: studentData.name, studentId: studentData.id });
-        console.log('student service, student: '+student);
-        if (session)
-            return await student.save({ session });
-        else
-            return await student.save();
+        const student = new Student(studentData);
+        console.log('student service, student: ', student);
+        return await student.save({ session });
     }
 
     updateStudent = async (id, studentData, session) => {
-
         let student;
         if (session)
             student = await Student.findByIdAndUpdate(id, studentData, { new: true, runValidators: true, session });
@@ -51,6 +65,4 @@ export default class StudentService {
         else
             return Student.findOneAndDelete({ studentId: id });
     }
-
 }
-

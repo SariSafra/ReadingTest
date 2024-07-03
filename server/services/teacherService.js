@@ -3,6 +3,7 @@ import Student from '../models/Student.model.js';
 import Password from '../models/Password.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import path from 'path';
 
 export default class TeacherService {
 
@@ -107,7 +108,16 @@ export default class TeacherService {
             if (!teacher) {
                 throw new Error('Teacher not found');
             }
-            return teacher.students;
+            return teacher.students.map(student=>{
+                const profileImageUrl = student.filePath
+                ? `http://localhost:3000/uploads/${path.basename(student.filePath)}`
+                : `http://localhost:3000/uploads/profile.png`;
+
+            return {
+                ...student.toObject(),
+                profileImageUrl
+            };
+            });
         } catch (error) {
             throw error;
         }

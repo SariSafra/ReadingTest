@@ -13,7 +13,8 @@ API.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    if (!config.headers['Content-Type']) {
+    // Only set Content-Type for JSON requests, let FormData set it automatically
+    if (!config.headers['Content-Type'] && !(config.data instanceof FormData)) {
       config.headers['Content-Type'] = 'application/json';
     }
     return config;
@@ -29,10 +30,14 @@ export const generateVerificationCode = (data) => API.post('/signup/generate-cod
 export const completeSignup = (data) => API.post('/signup/complete-signup', data);
 export const requestPasswordReset = (data) => API.post('/password/requestPasswordReset', data);
 export const resetPassword = (data) => API.post('/password/resetPassword', data);
-export const createStudent = (data) => API.post('/teachers/students', data);
+export const createStudent = (data) => API.post('/teachers/students', data, {
+  headers: {
+    'Content-Type': 'multipart/form-data' // Only needed for file uploads
+  }
+});
 export const sendEmail = (data) => API.post('/email/send-email', data);
-export const getStudentDiagnoses = (studentId) => API.get(`/diagnosis/student/${studentId}`,studentId);
-export const getStudents = (teacherEmail) => API.get(`/teachers/${teacherEmail}/students`,teacherEmail);
-export const delStudent = (studentId)=> API.delete(`/students/${studentId}`);
+export const getStudentDiagnoses = (studentId) => API.get(`/diagnosis/student/${studentId}`);
+export const getStudents = (teacherEmail) => API.get(`/teachers/${teacherEmail}/students`);
+export const delStudent = (studentId) => API.delete(`/students/${studentId}`);
 export const deleteDiagnosis = (diagnosisId) => API.delete(`/diagnosis/${diagnosisId}`);
-export const postDiagnosis = (diagnosis,studentId) => API.post(`/students/${studentId}/diagnosis`,diagnosis)
+export const postDiagnosis = (diagnosis, studentId) => API.post(`/students/${studentId}/diagnosis`, diagnosis);

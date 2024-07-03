@@ -3,9 +3,8 @@ import { createStudent, sendEmail } from '../../services/api';
 import Modal from 'react-modal';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { MdContentCopy } from "react-icons/md";
-import { Box, Button, TextField, Typography, IconButton } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import styled from 'styled-components';
-import CloseIcon from '@mui/icons-material/Close';
 
 // Styled component for the modal content
 const ModalContent = styled(Box)`
@@ -50,15 +49,16 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const newStudent = {
-            name: inputsValue.name,
-            id: inputsValue.id,
-            password: inputsValue.password,
-            type: 'Student',
-            profile: inputsValue.profile
-        };
+        const formData = new FormData();
+        formData.append('name', inputsValue.name);
+        formData.append('id', inputsValue.id);
+        formData.append('password', inputsValue.password);
+        if (inputsValue.profile) {
+            formData.append('file', inputsValue.profile);
+        }
+    
         try {
-            const savedStudent = await createStudent(newStudent);
+            const savedStudent = await createStudent(formData);
             setStudentDetails(savedStudent.data);
             setSuccessMessage("Student added successfully!");
             setErrorMessage('');
@@ -97,7 +97,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
 
     const handleInputChange = (e) => {
         const { name, value, files } = e.target;
-        if (name === "profile") {
+        if (name === "profile" && files) {
             setInputsValue(prev => ({ ...prev, profile: files[0] }));
         } else {
             setInputsValue(prev => ({ ...prev, [name]: value }));
@@ -108,7 +108,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
         <>
             {!modalIsOpen ?
                 <Box mb={4} display="flex" flexDirection="column" alignItems="center">
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <form onSubmit={handleSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Typography variant="h5" gutterBottom>Add New Student</Typography>
                         <TextField
                             label="Name"
@@ -143,7 +143,6 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                             name="profile"
                             onChange={handleInputChange}
                             style={{ marginBottom: 16 }}
-                            required
                         />
                         <Button type="submit" variant="contained" color="primary">Add</Button>
                     </form>
@@ -178,7 +177,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                         style={{ marginTop: 16 }}
                         required
                     />
-                     {successMessage && (
+                    {successMessage && (
                         <Message variant="body1" style={{ color: 'green' }}>
                             {successMessage}
                         </Message>
@@ -189,7 +188,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                         </Message>
                     )}
                     <Button onClick={handleSendEmail} variant="contained" color="primary" style={{ marginTop: 16 }}>Send Email</Button>
-                    </Box>
+                </Box>
             }
         </>
     );

@@ -29,9 +29,8 @@ const corsOptions = {
 };
 
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-// const upload = multer({ dest: 'uploads/' })
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(cors(corsOptions));
@@ -49,6 +48,7 @@ app.use((req, res, next) => {
   }
   next();
 });
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/password', passwordResetRoute);
 app.use('/signup', checkEmailExists, signupRoute);
 app.use('/login', loginRoute);
