@@ -117,6 +117,7 @@ function Login() {
       <Link to="../password-reset-request">Forget password? Click to reset</Link>
       <ToastContainer />
     </div>
+    </div>
   );
 }
 
