@@ -9,25 +9,20 @@ import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './AuthContext';
 import { UserContext } from './UserContext'; // Import UserContext
 import '../style/Login.css'; // Ensure this import points to your CSS file
+import { Select , MenuItem, Input} from '@mui/material';
+import { validationSchema } from '../../schemas/login';
 
-// Define validation schema with Joi
-const validationSchema = Joi.object({
-  username: Joi.string().required().label('Username'),
-  password: Joi.string().min(6).required().label('Password'),
-  role: Joi.string().valid('student', 'teacher').required().label('Role')
-});
-
-// Helper function to convert Joi validation to Formik validation
-const validate = (values) => {
-  const { error } = validationSchema.validate(values, { abortEarly: false });
-  if (!error) return {};
-
-  const errors = {};
-  error.details.forEach(detail => {
-    errors[detail.path[0]] = detail.message;
-  });
-  return errors;
-};
+  // Helper function to convert Joi validation to Formik validation
+  const validate = (values) => {
+    const { error } = validationSchema.validate(values, { abortEarly: false });
+    if (!error) return {};
+  
+    const errors = {};
+    error.details.forEach(detail => {
+      errors[detail.path[0]] = detail.message;
+    });
+    return errors;
+  };
 
 function Login() {
   const navigate = useNavigate();
@@ -68,20 +63,20 @@ function Login() {
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="p-field">
-            <select
+            <Select
               name="role"
               value={formik.values.role}
               onChange={formik.handleChange}
               className="p-inputtext-lg"
             >
-              <option value="student">Student</option>
-              <option value="teacher">Teacher</option>
-            </select>
+              <MenuItem value="student">Student</MenuItem>
+              <MenuItem value="teacher">Teacher</MenuItem>
+            </Select>
             {formik.errors.role && <div className="p-error">{formik.errors.role}</div>}
           </div>
           
           <div className="p-field">
-            <input
+            <Input
               type={formik.values.role === 'teacher' ? 'email' : 'text'}
               name="username"
               value={formik.values.username}
@@ -94,7 +89,7 @@ function Login() {
           </div>
 
           <div className="p-field">
-            <input
+            <Input
               type="password"
               name="password"
               value={formik.values.password}

@@ -16,8 +16,6 @@ const ShowStudentDiagnosis = ({ studentId }) => {
             const response = await getStudentDiagnoses(studentId);
             if (response.data) {
                 setDiagnosis(response.data);
-            } else {
-                toast.info('No diagnosis found for this student.');
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -77,7 +75,6 @@ const ShowStudentDiagnosis = ({ studentId }) => {
                 <p>No diagnosis available.</p>
             )}
 
-            <ToastContainer />
 
             <DeleteDiagnosis
                 isOpen={modalIsOpen}

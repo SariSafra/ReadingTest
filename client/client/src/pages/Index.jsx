@@ -13,6 +13,7 @@ import TestManager from './studentArea/readingTest/TestManager.jsx';
 import UserAccount from './UserAccount.jsx';
 import UserArea from './UserArea.jsx';
 import Header from './Header.jsx';
+import StudentShow from './teacherArea/StudentShow.jsx'
 
 function Index() {
   return (
@@ -31,7 +32,7 @@ function Index() {
             <Route path="test" element={<TestManager/>}/>
           </Route>
           <Route element={<ProtectedRoute allowedRoles={['teacher']} />}>
-            <Route path="teacher" element={<TeacherHome />} />
+            <Route path="teacher" element={<TeacherHome />}/>
           </Route>
           </Route>
         </Routes>

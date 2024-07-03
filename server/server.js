@@ -12,6 +12,11 @@ import authMiddleware from './middlewares/authMiddleware.js';
 import checkEmailExists from './middlewares/checkEmailExists.js'
 import morgan from 'morgan';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import multer from 'multer';
+
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -22,15 +27,25 @@ const corsOptions = {
   credentials: true, // Allow credentials (cookies, authorization headers, TLS client certificates)
   optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 };
+
+
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// const upload = multer({ dest: 'uploads/' })
+
 // Middleware
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 // Routes
 app.use((req, res, next) => {
   console.log(`Received request: ${req.method} ${req.url}`);
   if (req.body) {
     console.log('Request Body:', req.body);
+  }
+  if (req.file) {
+    console.log('Request file:', req.file);
   }
   next();
 });

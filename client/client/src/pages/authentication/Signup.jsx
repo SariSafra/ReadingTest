@@ -60,7 +60,6 @@ const Signup = () => {
 
   return (
     <div className="signup-container">
-      <img src={logo} className = "signup-img"/>
       <Card className="signup-card">
         <ToastContainer />
         <div className="signup-header">
