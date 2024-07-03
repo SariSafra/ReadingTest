@@ -11,7 +11,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function TeacherHome() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext); // Access user data from UserContext
   const [students, setStudents] = useState([]);
   const [open, setOpen] = useState(false);
   const [curStudent, setCurStudent] = useState();

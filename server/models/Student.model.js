@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 const studentSchema = new Schema({
   studentId: { type: String, required: true, unique: true }, // Unique student identifier
   name: { type: String, required: true },
-  diagnosis: { type: mongoose.Schema.Types.ObjectId, ref: 'Diagnosis', default: null }, // Reference to Diagnosis
+  diagnoses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Diagnosis' }], // Array of Diagnosis references
 }, { timestamps: true });
 
 studentSchema.index({ studentId: 1 }, { unique: true });

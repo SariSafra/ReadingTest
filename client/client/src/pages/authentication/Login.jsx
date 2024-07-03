@@ -26,9 +26,11 @@ import { validationSchema } from '../../schemas/login';
 
 function Login() {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext); // Use setUser from UserContext
+  //const { auth, setAuth } = useContext(AuthContext);
+  const { user,setUser } = useContext(UserContext); // Use setUser from UserContext
 
   useEffect(() => {
+    console.log('user: '+user);
     if (user) {
       navigate(user.role === 'student' ? '/home/student' : '/home/teacher');
     }
@@ -44,8 +46,13 @@ function Login() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await login(values);
-        setUser({ username: values.username, role: values.role }); // Set user details from response
+        setUser({username: values.username, role: values.role }); // Set user details from response
         Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
+        // const authData = { role: values.role, token: response.data.token };
+        // setAuth(authData);
+        console.log("in login values.username",values.username)
+        //console.log("user", user);
+        // localStorage.setItem('auth', JSON.stringify(authData)); // Save to localStorage
         navigate(values.role === 'student' ? '/home/student' : '/home/teacher'); // Redirect based on role
       } catch (error) {
         toast.error('Error logging in: ' + error.message);
@@ -101,17 +108,14 @@ function Login() {
             {formik.errors.password && <div className="p-error">{formik.errors.password}</div>}
           </div>
 
-          <button type="submit" className="login-button" disabled={formik.isSubmitting}>
-            Login
-          </button>
-          <p className="login-prompt">OR</p>
-          <button type="button" className="login-button" onClick={() => navigate('/signup')}>Sign Up</button>
-        </form>
-        <div className="login-prompt">
-          <Link to="../password-reset-request">Forget password? Click to reset</Link>
-        </div>
-        <ToastContainer />
-      </div>
+        <button type="submit" disabled={formik.isSubmitting}>
+          Login
+        </button>
+        <button type="button" onClick={() => navigate('/signup')}>Sign Up</button>
+        <button type="button" onClick={() => navigate('/password-reset')}>Forgot Password?</button>
+      </form>
+      <Link to="../password-reset-request">Forget password? Click to reset</Link>
+      <ToastContainer />
     </div>
   );
 }

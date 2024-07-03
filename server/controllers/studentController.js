@@ -116,7 +116,7 @@ export default class StudentController {
       if (!student) return res.status(404).json({ error: 'Student not found' });
       const response = await diagnosisService.createDiagnosis(req.body, session);
       console.log("response: ",response);
-      student[0].diagnosis = response._id;
+      student[0].diagnoses.push(response._id);
       await studentService.updateStudent(student[0]._id, student[0], session);
       console.log
       await session.commitTransaction();

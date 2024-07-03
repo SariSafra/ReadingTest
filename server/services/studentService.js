@@ -9,11 +9,11 @@ export default class StudentService {
     };
 
     getAllStudents = async (queries = {}) => {
-        return await Student.find(queries).populate('diagnosis');
+        return await Student.find(queries).populate('diagnoses');
     };
 
     getStudentById = async (id) => {
-        return await Student.findById(id).populate('diagnosis');
+        return await Student.findById(id).populate('diagnoses');
     }
 
     async try1async (studentData, session) {

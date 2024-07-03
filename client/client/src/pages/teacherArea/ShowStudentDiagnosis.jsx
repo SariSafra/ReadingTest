@@ -8,78 +8,88 @@ import DiagnosisChart from './DiagnosisChart';
 import { getStudentDiagnoses } from '../../services/api.js';
 
 const ShowStudentDiagnosis = ({ studentId }) => {
-    const [diagnosis, setDiagnosis] = useState(null);
+    const [diagnoses, setDiagnoses] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedDiagnosisId, setSelectedDiagnosisId] = useState(null);
 
-    const fetchDiagnosis = async () => {
+    const fetchDiagnoses = async () => {
         try {
             const response = await getStudentDiagnoses(studentId);
-            if (response.data) {
-                setDiagnosis(response.data);
+            if (response.data[0]) {
+                setDiagnoses(response.data);
+            } else {
+                toast.info('No diagnoses found for this student.');
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                toast.error('No diagnosis found for this student.');
+                toast.error('No diagnoses found for this student.');
             } else {
-                toast.error('Error fetching diagnosis.');
+                toast.error('Error fetching diagnoses.');
             }
         }
     };
 
     useEffect(() => {
-        fetchDiagnosis();
+        fetchDiagnoses();
     }, [studentId]);
 
-    const openModal = () => {
+    const openModal = (diagnosisId) => {
+        setSelectedDiagnosisId(diagnosisId);
         setModalIsOpen(true);
     };
 
     const closeModal = () => {
         setModalIsOpen(false);
+        setSelectedDiagnosisId(null);
     };
 
-    const handleDeleteSuccess = () => {
-        setDiagnosis(null);
+    const handleDeleteSuccess = (deletedDiagnosisId) => {
+        setDiagnoses(diagnoses.filter(diagnosis => diagnosis._id !== deletedDiagnosisId));
         toast.success('Diagnosis deleted successfully.');
     };
 
     return (
         <div>
-            <h3>Diagnosis for Student {studentId}</h3>
-            {diagnosis ? (
-                
+            <h3>Diagnoses</h3>
+            {diagnoses.length > 0 ? (
+               <> <br/>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <button 
-                        onClick={openModal} 
-                        style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center', 
-                            padding: '10px 20px', 
-                            backgroundColor: '#ff4d4f', 
-                            color: '#fff', 
-                            border: 'none', 
-                            borderRadius: '5px', 
-                            cursor: 'pointer', 
-                            marginTop: '20px' 
-                        }}
-                    >
-                       
-                        <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />
-                        Delete Diagnosis
-                    </button>
-                    <DiagnosisChart diagnosisData={diagnosis} />
 
-                </div>
+                    {diagnoses.map(diagnosis => (
+                        <div key={diagnosis._id} style={{ marginBottom: '70px', textAlign: 'center' }}>
+                                                 <button 
+                                onClick={() => openModal(diagnosis._id)} 
+                                style={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center', 
+                                    padding: '10px 20px', 
+                                    backgroundColor: '#ff4d4f', 
+                                    color: '#fff', 
+                                    border: 'none', 
+                                    borderRadius: '5px', 
+                                    cursor: 'pointer', 
+                                    marginTop: '10px' 
+                                }}
+                            >
+                                <br/>
+                                <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />
+                                Delete Diagnosis
+                            </button>
+                            <DiagnosisChart diagnosisData={diagnosis} />
+                           <br/>
+                        </div>
+                    ))}
+                </div></>
             ) : (
-                <p>No diagnosis available.</p>
+                <p>No diagnoses available.</p>
             )}
 
 
             <DeleteDiagnosis
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
-                diagnosisId={diagnosis ? diagnosis._id : null}
+                diagnosisId={selectedDiagnosisId}
                 onDeleteSuccess={handleDeleteSuccess}
             />
         </div>
