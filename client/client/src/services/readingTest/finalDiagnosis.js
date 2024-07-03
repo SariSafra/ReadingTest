@@ -77,8 +77,8 @@ const createCombinedFrequencyMap = (diagnosisesArray) => {
     const combinedFrequencyMap = createCombinedFrequencyMap(diagnosisesArray);
     const finalSettings = determineFinalSettings(diagnosisesArray);
     const consistentSwappingPercentageObj = calculateSwapConsistency(combinedFrequencyMap);
-    const consistentSwappingPercentage=Object.values(consistentSwappingPercentageObj).reduce((sum, value) => sum + parseFloat(value), 0)/Object.keys(consistentSwappingPercentageObj).length;
-    const successRate = calculateTotalSuccessRate(diagnosisesArray);
+    const consistentSwappingPercentage = Object.keys(consistentSwappingPercentageObj).length === 0 ? 100 :
+    Object.values(consistentSwappingPercentageObj).reduce((sum, value) => sum + parseFloat(value), 0) / Object.keys(consistentSwappingPercentageObj).length;    const successRate = calculateTotalSuccessRate(diagnosisesArray);
     const time = calculateTotalTime(diagnosisesArray);
   
     return {

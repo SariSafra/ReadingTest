@@ -55,12 +55,15 @@ export default class DiagnosisService {
 
   createDiagnosis = async (diagnosisData, session) => {
     //const diagnosis = new Diagnosis(diagnosisData);
+    console.log(" from create diagnosis, diagnosisData:",diagnosisData)
     const diagnosis = new Diagnosis(diagnosisData);
 
     if (session)
-      return await diagnosis.save({ session });
+     { console.log("sss")
+      return await diagnosis.save({ session });}
     else
-      return await diagnosis.save();
+      {console.log("aaa")
+        return await diagnosis.save();}
   }
 
   updateDiagnosis = async (id, diagnosisData, session) => {

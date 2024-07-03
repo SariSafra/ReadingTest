@@ -2,12 +2,13 @@ import { useState, useEffect, createContext, useContext } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuditoryProcessing from './AuditoryProcessing.jsx';
-import Data from '../../../jsonData/AuditoryProcessingData.json'
+import Data from '../../../jsonData/AuditoryProcessingData.json';
 import InitExData from '../../../services/readingTest/initExData.js';
 import finalDiagnosis from '../../../services/readingTest/finalDiagnosis.js';
 import { UserContext } from '../../authentication/UserContext.jsx';
 import { postDiagnosis } from '../../../services/api.js';
 import AudioPlayer from './AudioPlayer.jsx';
+import '../../style/TestManager.css';  // Importing the CSS file
 
 export { currentExercise };
 const currentExercise = createContext(null);
@@ -97,24 +98,31 @@ const TestManager = () => {
 
     return (
         <>
-            <h1>Current Exercise: {currentEx}</h1>
-            <ToastContainer />
-            <div>
-                <currentExercise.Provider value={{ currentEx, setCurrentEx }}>
-                    {showAudioPlayer ? (
-                        <AudioPlayer src={audioFiles[currentEx]} onEnded={handleAudioEnded} playOnClick={true} />
-                    ) : (
-                        <AuditoryProcessing
-                            data={currentData}
-                            setToRepeat={setToRepeat}
-                            setToEmphasis={setToEmphasis}
-                            toRepeat={toRepeat}
-                            toEmphasis={toEmphasis}
-                            setDiagnosis={setDiagnosis}
-                            onExerciseComplete={handleExerciseComplete}
-                        />
-                    )}
-                </currentExercise.Provider>
+            <div className="test-manager-container">
+                <h1 className="exercise-title">תרגיל נוכחי: {currentEx}</h1>
+                <ToastContainer className="toast-container" />
+                <div className="test-manager-buttons">
+                    <currentExercise.Provider value={{ currentEx, setCurrentEx }}>
+                        {showAudioPlayer ? (
+                            <AudioPlayer 
+                                src={audioFiles[currentEx]} 
+                                onEnded={handleAudioEnded} 
+                                playOnClick={true} 
+                                className="test-manager-audio-player"
+                            />
+                        ) : (
+                            <AuditoryProcessing
+                                data={currentData}
+                                setToRepeat={setToRepeat}
+                                setToEmphasis={setToEmphasis}
+                                toRepeat={toRepeat}
+                                toEmphasis={toEmphasis}
+                                setDiagnosis={setDiagnosis}
+                                onExerciseComplete={handleExerciseComplete}
+                            />
+                        )}
+                    </currentExercise.Provider>
+                </div>
             </div>
         </>
     );
