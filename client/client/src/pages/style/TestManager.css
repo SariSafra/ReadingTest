@@ -1,0 +1,65 @@
+/* General Styles */
+body {
+    background-color:#f9f9f9; /* Replace with your site's background color */
+    color:#004ca2; /* Replace with your site's text color */
+  }
+  
+  /* Styles for TestManager component */
+  .test-manager-container {
+    background-color: #dae8f9; /* Replace with your site's light background color */
+    padding: 20px;
+    border: 2px solid #327fd6; /* Replace with your site's border color */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
+  }
+
+  .exercise-title {
+    font-family: 'Secular One', sans-serif;
+    color: #004ca2; /* Replace with your site's accent color */
+    font-size: 2.5em;
+  }
+  
+  /* Styles for AuditoryProcessing component */
+  .auditory-processing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center; /* Center align buttons */
+    margin-bottom: 20px;
+  }
+  
+  button {
+    background-color: #5989c1; /* Replace with your site's button background color */
+    color: #fafbfc; /* Replace with your site's button text color */
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1.5em;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+  }
+  
+  button:hover {
+    background-color: rgb(146, 175, 207); /* Replace with your site's button hover color */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+  }
+  
+  .input-field {
+    padding: 10px;
+    font-size: 1.5em;
+    border: 2px solid #004ca2; /* Replace with your site's border color */
+    border-radius: 10px;
+    width: 80%;
+    margin-bottom: 20px;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+  }
+  

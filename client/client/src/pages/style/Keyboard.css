@@ -1,0 +1,29 @@
+.keyboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.letters-row,
+.vocalization-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.keyboard-button {
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4374ac;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.keyboard-button:hover {
+    background-color: #0056b3;
+}

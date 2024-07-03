@@ -112,7 +112,7 @@ export default class StudentController {
     try {
       console.log("student id: " + req.params.id);
       const student = await studentService.getAllStudents({studentId: req.params.id});
-      console.log("student:",student[0])
+      console.log("student:",student[0]);
       if (!student) return res.status(404).json({ error: 'Student not found' });
       const response = await diagnosisService.createDiagnosis(req.body, session);
       console.log("response: ",response);

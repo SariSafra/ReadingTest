@@ -5,8 +5,7 @@ import moveToNextEx from '../../../services/readingTest/moveToNextEx.js';
 import correctnessChecking from '../../../services/readingTest/correctnessChecking.js';
 import { currentExercise } from './TestManager.jsx';
 
-const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmphasis,setDiagnosis,onExerciseComplete }) => {
-
+const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmphasis, setDiagnosis, onExerciseComplete }) => {
   const [buttonClickTime, setButtonClickTime] = useState(null);
   const [inputStartTime, setInputStartTime] = useState(null);
   const [index, setIndex] = useState(0);
@@ -16,7 +15,7 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmph
   const inputRef = useRef(null);
   const { currentEx, setCurrentEx } = useContext(currentExercise);
 
-  console.log("AuditoryProcessing render"+JSON.stringify(data)+"\nindex: "+index);
+  console.log("AuditoryProcessing render" + JSON.stringify(data) + "\nindex: " + index);
 
   useEffect(() => {
     console.log("data: " + data + "\n");
@@ -26,14 +25,13 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmph
     u.voice = voices[0];
     setUtterance(u);
     inputRef.current.focus();
-
   }, []);
 
-  const handleStart = ()=>{
-    utterance.rate = toEmphasis?0.3:1;
-    utterance.text = data[index].toSpeak.repeat(toRepeat ? 2 : 1)
+  const handleStart = () => {
+    utterance.rate = toEmphasis ? 0.3 : 1;
+    utterance.text = data[index].toSpeak.repeat(toRepeat ? 2 : 1);
     play();
-  }
+  };
 
   const play = () => {
     const synth = window.speechSynthesis;
@@ -49,7 +47,7 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmph
       const inputTime = Date.now();
       setInputStartTime(inputTime);
       const difference = inputTime - buttonClickTime;
-      console.log("towrite: "+data[index].toWrite+" the input: "+inputValue)
+      console.log("towrite: " + data[index].toWrite + " the input: " + inputValue);
       const newResult = { time: difference, elementAnalysis: correctnessChecking(data[index], inputValue) };
       if (index < data.length - 1) {
         setInputValue("");
@@ -65,12 +63,11 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmph
         const diagnosis = makeAnalysis([...result, newResult]);
         setResult([]);
         setIndex(0);
-        moveToNextEx(diagnosis, setCurrentEx, toRepeat, setToRepeat, toEmphasis, setToEmphasis,setDiagnosis,currentEx); // Indicate that the process is finished
+        moveToNextEx(diagnosis, setCurrentEx, toRepeat, setToRepeat, toEmphasis, setToEmphasis, setDiagnosis, currentEx); // Indicate that the process is finished
       }
       inputRef.current.focus();
     }
   };
-
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
@@ -79,17 +76,20 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmph
   };
 
   return (
-    <div>
-      <button onClick={handleStart}>Click me</button>
+    <div className="auditory-processing-container">
+      <div className="button-container">
+        <button onClick={handleStart} className="start-button">התחלה</button>
+        <button onClick={handleSend} className="next-button">הבא</button>
+      </div>
       <br />
       <input
         type="text"
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
-        onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
-        ref={inputRef} // Attach the ref to the input element
+        onKeyDown={handleKeyDown}
+        ref={inputRef}
+        className="input-field"
       />
-      <button onClick={handleSend}>שלח</button>
       <Keyboard inputRef={inputRef} setInput={setInputValue} />
     </div>
   );
