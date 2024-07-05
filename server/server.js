@@ -14,7 +14,6 @@ import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import multer from 'multer';
 
 
 const app = express();
@@ -48,15 +47,17 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.use('/password', passwordResetRoute);
 app.use('/signup', checkEmailExists, signupRoute);
 app.use('/login', loginRoute);
+app.use('/profile-image', express.static(path.join(__dirname, 'uploads')));
 app.use(authMiddleware);
 app.use('/diagnosis', diagnosisRoute);
 app.use('/students', studentRoute);
 app.use('/teachers', teacherRoute);
 app.use('/email', emailRoute);
+
 
 app.get('/', (req, res) => {
   res.send('Reading Diagnosis Server');

@@ -111,9 +111,8 @@ export default class TeacherService {
                 throw new Error('Teacher not found');
             }
             return teacher.students.map(student=>{
-                const profileImageUrl = student.filePath
-                ? `http://localhost:3000/uploads/${path.basename(student.filePath)}`
-                : `http://localhost:3000/uploads/profile.png`;
+                const profileImageUrl =  `http://localhost:3000/profile-image/${student.filePath? path.basename(student.filePath):'profile.png'}`
+
 
             return {
                 ...student.toObject(),
