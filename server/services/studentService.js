@@ -59,16 +59,16 @@ export default class StudentService {
     updateStudent = async (id, studentData, session) => {
         let student;
         console.log("student",studentData)
-        if (req.body.profile) {
-            student=await this.getStudentByStudentId(id);
-            if (student.filePath) {
-                const oldImagePath = path.join(__dirname, '..', 'uploads', student.filePath+".png");
-                fs.unlink(oldImagePath, (err) => {
-                    if (err) {
-                        console.error('Failed to delete old profile image:', err);
-                    }
-                });
-            }
+        if (req.body.filePath) {
+        //     student=await this.getStudentByStudentId(id);
+        //     if (student.filePath) {
+        //         const oldImagePath = path.join(__dirname, '..', 'uploads', student.filePath+".png");
+        //         fs.unlink(oldImagePath, (err) => {
+        //             if (err) {
+        //                 console.error('Failed to delete old profile image:', err);
+        //             }
+        //         });
+        //     }
             studentData.filePath=id;
             }
         console.log("student data in service:",studentData)
