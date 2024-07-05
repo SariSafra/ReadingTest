@@ -1,23 +1,20 @@
-// services/studentService.js
 import Student from '../models/Student.model.js';
-import Password from '../models/Password.js';
 import mongoose from 'mongoose';
 import Diagnosis from '../models/Diagnosis.js';
 import path from 'path';
 
-
 export default class StudentService {
     getAllDiagnosis = async (queries = {}) => {
-        return await Student.find(queries);
+        return await Student.find(queries).populate('diagnosis');
     };
 
     getAllStudents = async (queries = {}) => {
-        const students = await Student.find(queries).populate('diagnosis');
+        console.log('student service query: '+queries.studentId);
+        const students = await Student.find(queries);
+        console.log('student service: '+students);
 
         return students.map(student => {
-            const profileImageUrl = student.filePath
-                ? `http://localhost:3000/uploads/${path.basename(student.filePath)}`
-                : `http://localhost:3000/uploads/profile.png`;
+            const profileImageUrl =  `http://localhost:3000/profile-image/${student.filePath? path.basename(student.filePath):'profile.png'}`
 
             return {
                 ...student.toObject(),
@@ -32,9 +29,7 @@ export default class StudentService {
             throw new Error('Student not found');
         }
 
-        const profileImageUrl = student.filePath
-            ? `http://localhost:3000/uploads/${student.filePath.replace(/\\/g, '/')}`
-            : `http://localhost:3000/uploads/profile.png`;
+        const profileImageUrl =  `http://localhost:3000/profile-image/${student.filePath? path.basename(student.filePath):'profile.png'}`
 
         return {
             ...student.toObject(),

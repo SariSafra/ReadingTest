@@ -61,7 +61,7 @@ export default class SignupService {
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
-    const teacher = new Teacher({ name, email, password: hashedPassword });
+    const teacher = new Teacher({ name, email});
     const savedTeacher = await teacher.save({ session });
     console.log("after aseing the teacher "+ savedTeacher)
     // Delete the verification document as it's no longer needed
@@ -74,7 +74,7 @@ export default class SignupService {
     await session.commitTransaction();
     session.endSession();
 
-    const token = generateToken(savedTeacher);
+    const token = generateToken({...savedTeacher, role: 'teacher'});
 
     return { user: savedTeacher, token };
   } catch (error) {

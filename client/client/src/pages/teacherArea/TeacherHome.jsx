@@ -1,22 +1,21 @@
+// TeacherHome.jsx
 import React, { useEffect, useState, useContext } from 'react';
-import { getStudents, delStudent } from '../../services/api';
+import { getStudents } from '../../services/api';
 import AddStudent from './AddStudent';
 import StudentShow from './StudentShow';
 import { UserContext } from '../authentication/UserContext';
-import { Avatar,Container, Typography, List, Stack, ListItem, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Avatar, Container, Typography, ListItem, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import FolderSharedIcon from '@mui/icons-material/FolderShared';
-import Login from '../authentication/Login';
-import { Link, Outlet } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import useStyles from '../style/TeacherHome';
 
 function TeacherHome() {
-  const { user } = useContext(UserContext); // Access user data from UserContext
+  const classes = useStyles();
+  const { user } = useContext(UserContext);
   const [students, setStudents] = useState([]);
   const [open, setOpen] = useState(false);
   const [curStudent, setCurStudent] = useState();
   const [toShowStudent, setToShowStudent] = useState(false);
-
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -26,6 +25,7 @@ function TeacherHome() {
         console.log(response.data);
       } catch (error) {
         console.error("Error fetching students", error);
+        toast.error("Error fetching students");
       }
     };
 
@@ -39,11 +39,11 @@ function TeacherHome() {
   const handleDisplayStudent = (student) => {
     setCurStudent(student);
     setToShowStudent(true);
-  }
+  };
 
   return (
-    <Container maxWidth={false} sx={{ width: '100%', mt: 4 }}>
-      <Box display="flex" justifyContent="left" alignItems="center" mb={2}>
+    <Container maxWidth={false} className={classes.container}>
+      <Box className={classes.headerBox}>
         <Typography variant="h5" component="h2">
           Students
         </Typography>
@@ -62,10 +62,10 @@ function TeacherHome() {
           </Button>
         </DialogActions>
       </Dialog>
-      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', flexWrap: 'wrap', padding: 0 }}>
+      <div className={classes.studentList}>
         {students.map((student) => (
-          <ListItem style={{ display: 'flex', flexDirection: 'column', width: 'auto', padding: '30px' }} onClick={() => handleDisplayStudent(student)} key={student.studentId}>
-            <Avatar src={student.profileImageUrl} alt={student.name} sx={{ width: 150, height: 150 }}/>
+          <ListItem className={classes.listItem} onClick={() => handleDisplayStudent(student)} key={student.studentId}>
+            <Avatar src={student.profileImageUrl} alt={student.name} className={classes.avatar} />
             <Typography>{student.name}</Typography>
           </ListItem>
         ))}

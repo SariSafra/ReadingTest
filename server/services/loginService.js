@@ -38,7 +38,7 @@ export default class LoginService {
     }
 
     const token = jwt.sign(
-      { id: user._id, role },
+      { id: user._id, role, username },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
