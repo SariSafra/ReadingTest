@@ -30,6 +30,19 @@ export default class StudentController {
       res.status(500).json({ message: error.message });
     }
   }
+  getStudentByStudentId = async (req, res) => {
+    try {
+      console.log("in getStudent by student i controller")
+      const student = await studentService.getStudentByStudentId(req.params.id);
+      console.log("student",student)
+      if (!student) {
+        return res.status(404).json({ message: 'Student not found' });
+      }
+      res.status(200).json(student);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 
   createStudent = async (req, res) => {
     const session = await mongoose.startSession();
@@ -53,29 +66,74 @@ export default class StudentController {
     }
   }
 
-  updateStudent = async (req, res) => {
+   updateStudent = async (req, res) => {
+    console.log("in update student controller")
     const session = await mongoose.startSession();
     session.startTransaction();
     let student;
+
     try {
-      student = await studentService.updateStudent(req.params.id, { name: req.body.name }, session);
+      let updateData;
+      // = { name: req.body.name,profileImageUrl:req.body.profile};
+
+      // Check if a new image is uploaded
+      //console.log("in update studet try formdata:",req.body.profile)
+      if (req.body.profile&&req.body.name) {
+        //  Remove old profile image if it exists
+          student=await studentService.getStudentByStudentId(req.params.id,session);
+          if (student.filePath) {
+              const oldImagePath = path.join(__dirname, '..', 'uploads', student.filePath);
+              fs.unlink(oldImagePath, (err) => {
+                  if (err) {
+                      console.error('Failed to delete old profile image:', err);
+                  }
+              });
+          }
+
+          // Update the profile image
+          updateData =  { name: req.body.name,filePath:req.params.id};
+
+          // updateData.filePath = req.body.profile;
+          // updateData.name=req.body.name;
+      }
+      else if(req.body.name)
+        {
+          updateData={name:req.params.id};
+        }
+        else if(req.body.profile)
+          {
+            student=await studentService.getStudentByStudentId(req.params.id,session);
+            if (student.filePath) {
+                const oldImagePath = path.join(__dirname, '..', 'uploads', student.filePath);
+                fs.unlink(oldImagePath, (err) => {
+                    if (err) {
+                        console.error('Failed to delete old profile image:', err);
+                    }
+                });
+            }
+            updateData={filePath:req.params.id};
+
+          }
+
+      // Fetch and update the student
+      console.log("updated data",updateData)
+      student = await studentService.updateStudent(req.params.id, updateData, session);
+      console.log("in update student controller student:", student);
 
       if (!student) {
-        await session.abortTransaction();
-        return res.status(404).json({ message: 'Student not found' });
+          await session.abortTransaction();
+          return res.status(404).json({ message: 'Student not found' });
       }
-      if (student.diagnosis)
-        await diagnosisService.updateDiagnosis(student.diagnosis, req.body.diagnosis, session);
+
       await session.commitTransaction();
       res.status(200).json(student);
-    } catch (error) {
+  } catch (error) {
       await session.abortTransaction();
       res.status(400).json({ message: error.message });
-    }
-    finally {
+  } finally {
       await session.endSession();
-    }
   }
+};
 
   deleteStudent = async (req, res) => {
     console.log('delete student controller');
@@ -91,8 +149,8 @@ export default class StudentController {
       console.log('befor delete password')
       const deletedPassword = await deletePassword(student._id, session);
       console.log('after delete password: '+deletedPassword)
-      if (student.diagnosis)
-        await diagnosisService.deleteDiagnosis(student.diagnosis, session);
+      if (student.diagnoses)
+        await diagnosisService.deleteDiagnosis(student.diagnoses, session);
       await session.commitTransaction();
       console.log('after commit transection')
       res.status(200).json(student);

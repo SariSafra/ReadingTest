@@ -18,7 +18,9 @@ export default class TeacherService {
     getTeacherById = async (id) => {
         return await Teacher.findById(id).populate('students');
     };
-
+    getTeacherByEmail = async (teacherEmail) => {
+        return await Teacher.findOne({ email: teacherEmail }).populate('students');
+    };
     createTeacher = async (teacherData, session) => {
         const teacher = new Teacher(teacherData);
         let savedTeacher;
@@ -29,12 +31,12 @@ export default class TeacherService {
         return savedTeacher;
     };
 
-    updateTeacher = async (id, teacherData, session) => {
+    updateTeacher = async (email, teacherData, session) => {
         let teacher;
         if (session)
-            teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true, session });
+            teacher = await Teacher.findOneAndUpdate({email:email}, teacherData, { new: true, runValidators: true, session });
         else
-            teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true })
+            teacher = await Teacher.findOneAndUpdate({email:email}, teacherData, { new: true, runValidators: true })
         return teacher;
     };
 

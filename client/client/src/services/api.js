@@ -41,3 +41,14 @@ export const getStudents = (teacherEmail) => API.get(`/teachers/${teacherEmail}/
 export const delStudent = (studentId) => API.delete(`/students/${studentId}`);
 export const deleteDiagnosis = (diagnosisId) => API.delete(`/diagnosis/${diagnosisId}`);
 export const postDiagnosis = (diagnosis, studentId) => API.post(`/students/${studentId}/diagnosis`, diagnosis);
+export const getStudent = (studentId) => API.get(`/students/${studentId}`);
+export const getTeacher = (teacherId) => API.get(`/teachers/${teacherId}`);
+export const updateTeacher = (teacherId, data) => API.put(`/teachers/${teacherId}`, data,{  headers: {
+  'Content-Type': 'multipart/form-data' // Only needed for file uploads
+}});
+export const updateStudent = (studentId, data) => API.put(`/students/${studentId}`, data,{
+  headers: {
+    'Content-Type': 'multipart/form-data' // Only needed for file uploads
+  }});
+
+

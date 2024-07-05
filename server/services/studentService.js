@@ -12,7 +12,7 @@ export default class StudentService {
     };
 
     getAllStudents = async (queries = {}) => {
-        const students = await Student.find(queries).populate('diagnosis');
+        const students = await Student.find(queries).populate('diagnoses');
 
         return students.map(student => {
             const profileImageUrl = student.filePath
@@ -27,7 +27,7 @@ export default class StudentService {
     };
 
     getStudentById = async (id) => {
-        const student = await Student.findById(id).populate('diagnosis');
+        const student = await Student.findById(id).populate('diagnoses');
         if (!student) {
             throw new Error('Student not found');
         }
@@ -41,7 +41,22 @@ export default class StudentService {
             profileImageUrl
         };
     }
+    getStudentByStudentId = async (id) => {
+        console.log("in gete student by student id service", id)
+        const student = await Student.findOne({ studentId: id }).populate('diagnoses');
+        if (!student) {
+            throw new Error('Student not found');
+        }
+        console.log("student in dervice before img",student)
+        const profileImageUrl = student.filePath
+            ? `http://localhost:3000/uploads/${student.filePath.replace(/\\/g, '/')}`
+            : `http://localhost:3000/uploads/profile.png`;
 
+        return {
+            ...student.toObject(),
+            profileImageUrl
+        };
+    }
     createStudent = async (studentData, session) => {
         const student = new Student(studentData);
         console.log('student service, student: ', student);
@@ -51,10 +66,11 @@ export default class StudentService {
     updateStudent = async (id, studentData, session) => {
         let student;
         if (session)
-            student = await Student.findByIdAndUpdate(id, studentData, { new: true, runValidators: true, session });
+            student = await Student.findOneAndUpdate({studentId:id}, studentData, { new: true, runValidators: true, session });
         else
-            student = await Student.findByIdAndUpdate(id, studentData, { new: true, runValidators: true });
+            student = await Student.findOneAndUpdate({studentId:id}, studentData, { new: true, runValidators: true });
 
+            console.log("in student service, student",student)
         return student;
     }
 

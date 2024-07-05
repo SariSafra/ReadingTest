@@ -67,6 +67,7 @@ export default class DiagnosisService {
   }
 
   updateDiagnosis = async (id, diagnosisData, session) => {
+    console.log("in update diagnosis in dia service id:",id,diagnosisData)
     if (session)
       return await Diagnosis.findByIdAndUpdate(id, diagnosisData, { new: true, runValidators: true, session: { session } });
     else

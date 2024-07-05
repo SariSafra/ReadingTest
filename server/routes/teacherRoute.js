@@ -10,9 +10,9 @@ const teacherController = new TeacherController();
 router.post('/', teacherController.createTeacher);
 router.use(authMiddleware);
 router.get('/', teacherController.getAllTeachers);
-router.get('/:id', teacherController.getTeacherById);
+router.get('/:email', teacherController.getTeacherByEmail);
 router.get('/:teacherEmail/students', teacherController.getStudentsByTeacherEmail);
-router.put('/:id', teacherController.updateTeacher);
+router.put('/:email',upload.single('file'), teacherController.updateTeacher);
 router.delete('/:id', teacherController.deleteTeacher);
 router.post('/students', upload.single('file'), teacherController.createStudent);
 

@@ -9,7 +9,7 @@ const authMiddleware = async (req, res, next) => {
   if (!authHeader) {
     return res.status(401).json({ message: 'No token, authorization denied' });
   }
-
+console.log("in auth middleware authHeader",authHeader)
   const token = authHeader.replace('Bearer ', '');
   if (!token) {
     return res.status(401).json({ message: 'No token, authorization denied' });

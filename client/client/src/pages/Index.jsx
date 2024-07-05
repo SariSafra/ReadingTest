@@ -25,7 +25,6 @@ function Index() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/password-reset-request" element={<PasswordResetRequest />} />
           <Route path="/password-reset" element={<PasswordReset />} />
-          <Route path='my-account' element={<UserAccount/>}></Route>
           <Route path='/home' element = {<UserArea/>}>
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>
             <Route path="student" element={<StudentHome />}/>
@@ -35,6 +34,7 @@ function Index() {
             <Route path="teacher" element={<TeacherHome />}/>
           </Route>
           </Route>
+          <Route path='/my-account' element={<UserAccount/>}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
