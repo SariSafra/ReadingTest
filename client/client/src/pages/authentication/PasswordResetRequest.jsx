@@ -28,7 +28,6 @@ function PasswordResetRequest() {
         <h2>Request Password Reset</h2>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
         <select value={userType} onChange={(e) => setUserType(e.target.value)}>
-          <option value="Student">Student</option>
           <option value="Teacher">Teacher</option>
         </select>
         {errorMessage && <p className="error-message">{errorMessage}</p>}

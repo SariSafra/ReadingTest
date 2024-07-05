@@ -5,9 +5,9 @@ const studentService = new StudentService();
 
 const studentPermission = async (req, res, next) => {
     try {
-        if (req.user.role == 'student' && req.params.id != req.user.studentId)
+        if (req.role == 'student' && req.params.id != req.user.studentId)
             throw new Error('No permission')
-        else {
+        else if(req.role == 'teacher' ){
             const isTeacherStudent = req.user.students.some(s=>s.studentId==req.params.id);
             console.log('is teacher student: '+isTeacherStudent)
             if (!isTeacherStudent)

@@ -36,7 +36,7 @@ const UserAccount = () => {
     }, [user]);
 
     const formik = useFormik({
-        initialValues: { name: userDetails ? userDetails.name : '', profile: null },
+        initialValues: { name: userDetails ? userDetails.name : '', filePath: null },
         validationSchema: Yup.object({
             name: Yup.string().min(2, 'Name is too short!').max(30, 'Name is too long!').required('Name is required'),
         }),
@@ -49,8 +49,8 @@ const UserAccount = () => {
                 } 
                 else if (user.role === 'student') {
                     formData.append('name', values.name);
-                    if (values.profile) {
-                        formData.append('file', values.profile);
+                    if (values.filePath) {
+                        formData.append('file', values.filePath);
                     }
                     response = await updateStudent(user.username, formData);
                 }
@@ -72,7 +72,7 @@ const UserAccount = () => {
         if (userDetails) {
             formik.setValues({
                 name: userDetails.name,
-                profile: null,
+                filePath: null,
             });
         }
     }, [userDetails]);

@@ -19,7 +19,7 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
             .then(res => res.blob())
             .then(blob => {
                 const file = new File([blob], 'profile.jpg', { type: 'image/jpeg' });
-                formik.setFieldValue('profile', file);
+                formik.setFieldValue('filePath', file);
                 setNewImage(file);
                 setIsCameraOpen(false);
             });
@@ -39,7 +39,7 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
                             extensions={['jpg', 'jpeg', 'png']}
                             dims={{ minWidth: 100, maxWidth: 2500, minHeight: 100, maxHeight: 2500 }}
                             onChange={file => {
-                                formik.setFieldValue('profile', file);
+                                formik.setFieldValue('filePath', file);
                                 setNewImage(file);
                             }}
                             onError={errMsg => toast.error(errMsg)}

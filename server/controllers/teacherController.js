@@ -31,6 +31,7 @@ export default class TeacherController {
       res.status(500).json({ message: error.message });
     }
   };
+
   getTeacherByEmail = async (req, res) => {
     try {
       const teacher = await teacherService.getTeacherByEmail(req.params.email);
@@ -64,8 +65,8 @@ export default class TeacherController {
 
   updateTeacher = async (req, res) => {
     try {
-      console.log("in update teacher", req.params.email,req.body)
-      const teacher = await teacherService.updateTeacher(req.params.email, req.body);
+      console.log("in update teacher", req.params.id,req.body)
+      const teacher = await teacherService.updateTeacherById(req.params.id, req.body);
       if (!teacher) {
         return res.status(404).json({ message: 'Teacher not found' });
       }
@@ -74,7 +75,18 @@ export default class TeacherController {
       res.status(400).json({ message: error.message });
     }
   };
-
+  updateTeacherByEmail = async (req, res) => {
+    try {
+      console.log("in update teacher", req.params.email,req.body)
+      const teacher = await teacherService.updateTeacher({email:req.params.email}, req.body);
+      if (!teacher) {
+        return res.status(404).json({ message: 'Teacher not found' });
+      }
+      res.status(200).json(teacher);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
   deleteTeacher = async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -127,7 +139,7 @@ export default class TeacherController {
       await createPassword(student._id, req.body.password, 'Student', session);
       console.log("student: " + student);
       teacher.students.push(student._id);
-      await teacherService.updateTeacher(teacher.email, teacher, session);
+      await teacherService.updateTeacher({email:teacher.email}, teacher, session);
       console.log('after creating, student: ' + student);
 
       await session.commitTransaction();
@@ -144,9 +156,9 @@ export default class TeacherController {
 
 
   getStudentsByTeacherEmail = async (req, res) => {
-    const { teacherEmail } = req.params;
+    const { email } = req.params;
     try {
-      const students = await teacherService.getStudentsByTeacherEmail(teacherEmail);
+      const students = await teacherService.getStudentsByTeacherEmail(email);
       res.status(200).json(students);
     } catch (error) {
       res.status(500).json({ message: error.message });

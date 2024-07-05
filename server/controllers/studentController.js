@@ -73,51 +73,8 @@ export default class StudentController {
     let student;
 
     try {
-      let updateData;
-      // = { name: req.body.name,profileImageUrl:req.body.profile};
-
-      // Check if a new image is uploaded
-      //console.log("in update studet try formdata:",req.body.profile)
-      if (req.body.profile&&req.body.name) {
-        //  Remove old profile image if it exists
-          student=await studentService.getStudentByStudentId(req.params.id,session);
-          if (student.filePath) {
-              const oldImagePath = path.join(__dirname, '..', 'uploads', student.filePath);
-              fs.unlink(oldImagePath, (err) => {
-                  if (err) {
-                      console.error('Failed to delete old profile image:', err);
-                  }
-              });
-          }
-
-          // Update the profile image
-          updateData =  { name: req.body.name,filePath:req.params.id};
-
-          // updateData.filePath = req.body.profile;
-          // updateData.name=req.body.name;
-      }
-      else if(req.body.name)
-        {
-          updateData={name:req.params.id};
-        }
-        else if(req.body.profile)
-          {
-            student=await studentService.getStudentByStudentId(req.params.id,session);
-            if (student.filePath) {
-                const oldImagePath = path.join(__dirname, '..', 'uploads', student.filePath);
-                fs.unlink(oldImagePath, (err) => {
-                    if (err) {
-                        console.error('Failed to delete old profile image:', err);
-                    }
-                });
-            }
-            updateData={filePath:req.params.id};
-
-          }
-
       // Fetch and update the student
-      console.log("updated data",updateData)
-      student = await studentService.updateStudent(req.params.id, updateData, session);
+      student = await studentService.updateStudent(req.params.id,  req.body, session);
       console.log("in update student controller student:", student);
 
       if (!student) {

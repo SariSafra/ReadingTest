@@ -6,8 +6,8 @@ import upload from '../middlewares/upload.js'
 const studentRoute = express.Router();
 const studentController = new StudentController();
 
-studentRoute.get('/:id',studentPermission, studentController.getStudentById);
-studentRoute.put('/:id',studentPermission, upload.single('file'),studentController.updateStudent);
+studentRoute.get('/:id',studentPermission, studentController.getStudentByStudentId);
+studentRoute.put('/:id',studentPermission, upload.single('filePath'),studentController.updateStudent);
 studentRoute.delete('/:id',studentPermission, studentController.deleteStudent);
 studentRoute.post('/:id/diagnosis',studentPermission, studentController.addDiagnosisToStudent);
 

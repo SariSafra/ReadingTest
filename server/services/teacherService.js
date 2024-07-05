@@ -4,6 +4,7 @@ import Password from '../models/Password.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import path from 'path';
+import emailRoute from '../routes/emailRoute.route.js';
 
 export default class TeacherService {
 
@@ -31,12 +32,22 @@ export default class TeacherService {
         return savedTeacher;
     };
 
-    updateTeacher = async (email, teacherData, session) => {
+
+    updateTeacher = async (query, teacherData, session) => {
         let teacher;
         if (session)
-            teacher = await Teacher.findOneAndUpdate({email:email}, teacherData, { new: true, runValidators: true, session });
+            teacher = await Teacher.findOneAndUpdate(query, teacherData, { new: true, runValidators: true, session });
         else
-            teacher = await Teacher.findOneAndUpdate({email:email}, teacherData, { new: true, runValidators: true })
+            teacher = await Teacher.findOneAndUpdate(query, teacherData, { new: true, runValidators: true })
+        return teacher;
+    };
+    
+    updateTeacherById = async (id, teacherData, session) => {
+        let teacher;
+        if (session)
+            teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true, session });
+        else
+            teacher = await Teacher.findByIdAndUpdate(id, teacherData, { new: true, runValidators: true })
         return teacher;
     };
 

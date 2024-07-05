@@ -4,13 +4,12 @@ import { getStudents } from '../../services/api';
 import AddStudent from './AddStudent';
 import StudentShow from './StudentShow';
 import { UserContext } from '../authentication/UserContext';
-import { Avatar, Container, Typography, ListItem, Box, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
+import { Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { toast } from 'react-toastify';
-import useStyles from '../style/TeacherHome';
+import { StyledContainer, HeaderBox, StudentList, StyledListItem, StyledAvatar } from '../style/TeacherHome.js';
 
 function TeacherHome() {
-  const classes = useStyles();
   const { user } = useContext(UserContext);
   const [students, setStudents] = useState([]);
   const [open, setOpen] = useState(false);
@@ -42,15 +41,15 @@ function TeacherHome() {
   };
 
   return (
-    <Container maxWidth={false} className={classes.container}>
-      <Box className={classes.headerBox}>
+    <StyledContainer maxWidth={false}>
+      <HeaderBox>
         <Typography variant="h5" component="h2">
           Students
         </Typography>
         <IconButton color="primary" onClick={() => setOpen(true)}>
           <AddIcon />
         </IconButton>
-      </Box>
+      </HeaderBox>
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>Add Student</DialogTitle>
         <DialogContent>
@@ -62,14 +61,14 @@ function TeacherHome() {
           </Button>
         </DialogActions>
       </Dialog>
-      <div className={classes.studentList}>
+      <StudentList>
         {students.map((student) => (
-          <ListItem className={classes.listItem} onClick={() => handleDisplayStudent(student)} key={student.studentId}>
-            <Avatar src={student.profileImageUrl} alt={student.name} className={classes.avatar} />
+          <StyledListItem onClick={() => handleDisplayStudent(student)} key={student.studentId}>
+            <StyledAvatar src={student.profileImageUrl} alt={student.name} />
             <Typography>{student.name}</Typography>
-          </ListItem>
+          </StyledListItem>
         ))}
-      </div>
+      </StudentList>
       <Dialog open={toShowStudent} onClose={handleCloseStudent} fullWidth maxWidth="md">
         <DialogContent>
           <StudentShow student={curStudent} studentsArr={students} setStudentsArr={setStudents} setToShowStudent={setToShowStudent} />
@@ -78,7 +77,7 @@ function TeacherHome() {
           <Button onClick={handleCloseStudent} color="primary">Close</Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </StyledContainer>
   );
 }
 
