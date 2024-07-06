@@ -92,6 +92,7 @@ const UserAccount = () => {
                             userDetails={userDetails}
                             editableField={editableField}
                             handleEdit={handleEdit}
+                            setEditableField={setEditableField}
                         />
                         {user.role === 'teacher' && (
                             <>
