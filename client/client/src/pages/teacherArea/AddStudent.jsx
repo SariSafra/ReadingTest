@@ -88,8 +88,8 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
     const handleSendEmail = async () => {
         const payload = {
             name: studentDetails.name,
-            id: studentDetails.id,
-            password: studentDetails.password, // Handle the password securely
+            id: studentDetails.studentId,
+            password: inputsValue.password, // Handle the password securely
         };
         try {
             await sendEmail({
@@ -210,9 +210,10 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                 <Box>
                     <Typography variant="h6" gutterBottom>Student Added Successfully</Typography>
                     <Typography>Name: {studentDetails?.name}</Typography>
-                    <Typography>ID: {studentDetails?.id}</Typography>
+                    <Typography>ID: {studentDetails?.studentId}</Typography>
                     <Typography>Password: ******** (Hidden for security)</Typography>
-                    <CopyToClipboard text={`Name: ${studentDetails?.name}\nID: ${studentDetails?.id}\nPassword: ${studentDetails?.password}`}>
+                    {console.log(studentDetails)}
+                    <CopyToClipboard text={`Name: ${studentDetails?.name}\nID: ${studentDetails?.studentId}\nPassword: ${inputsValue?.password}`}>
                         <Button variant="contained" onClick={() => setSuccessMessage("Copied to clipboard!")} style={{ marginTop: 16 }}>
                             <MdContentCopy />
                         </Button>
