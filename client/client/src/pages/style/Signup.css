@@ -20,7 +20,7 @@
 
 .signup-header h2 {
   font-size: 2rem;
-  color: #ff4081;
+  color: #4374ac;
 }
 
 .signup-header p {
@@ -45,7 +45,7 @@
   width: 100%;
   padding: 1rem;
   font-size: 1rem;
-  background-color: #ff4081;
+  background-color: #4374ac;
   border: none;
   color: white;
   cursor: pointer;
@@ -53,7 +53,7 @@
 }
 
 .signup-button:hover {
-  background-color: #e73370;
+  background-color: #4374ac;
 }
 
 .p-error {
@@ -67,7 +67,7 @@
 }
 
 .login-prompt a {
-  color: #ff4081;
+  color: #4374ac;
   text-decoration: none;
 }
 

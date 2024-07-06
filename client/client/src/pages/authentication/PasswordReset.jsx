@@ -39,10 +39,10 @@ const PasswordReset = () => {
 
   return (
     <div className="password-reset-container">
-      <h2>Reset Password</h2>
+      <h2>איפוס סיסמא</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>New Password:</label>
+          <label>סיסמא חדשה:</label>
           <input
             type="password"
             value={newPassword}
@@ -51,7 +51,7 @@ const PasswordReset = () => {
           />
         </div>
         <div>
-          <label>Confirm Password:</label>
+          <label>אימות סיסמא:</label>
           <input
             type="password"
             value={confirmPassword}
@@ -61,7 +61,7 @@ const PasswordReset = () => {
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
-        <button type="submit">Reset Password</button>
+        <button type="submit">אפס סיסמא</button>
       </form>
     </div>
   );

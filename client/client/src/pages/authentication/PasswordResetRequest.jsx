@@ -3,7 +3,7 @@ import { requestPasswordReset } from '../../services/api.js'
 
 function PasswordResetRequest() {
   const [email, setEmail] = useState('');
-  const [userType, setUserType] = useState('Student');
+  const [userType, setUserType] = useState('Teacher');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -25,14 +25,14 @@ function PasswordResetRequest() {
   return (
     <div>
       <form onSubmit={handleRequestReset}>
-        <h2>Request Password Reset</h2>
+        <h2>איפוס סיסמא</h2>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
         <select value={userType} onChange={(e) => setUserType(e.target.value)}>
-          <option value="Teacher">Teacher</option>
+          <option value="Teacher">מורה</option>
         </select>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
-        <button type="submit">Request Password Reset</button>
+        <button type="submit">איפוס סיסמא</button>
       </form>
     </div>
   );

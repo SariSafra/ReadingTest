@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Container, Typography, Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { UserContext } from './authentication/UserContext';
+import { UserContext } from '../authentication/UserContext.jsx';
 import { toast, ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { getTeacher, updateTeacher, getStudent, updateStudent } from '../services/api.js';
-import UpdateProfileImage from './UpdateProfileImage';
-import UpdateUserName from './UpdateUserName';
+import { getTeacher, updateTeacher, getStudent, updateStudent } from '../../services/api.js';
+import UpdateProfileImage from './UpdateProfileImage.jsx';
+import UpdateUserName from './UpdateUserName.jsx';
 
 const UserAccount = () => {
     const { user } = useContext(UserContext);
