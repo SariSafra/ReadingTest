@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Avatar, Button, Box, IconButton,Typography } from '@mui/material';
+import React, { useState, useRef, useEffect } from 'react';
+import { Avatar, Button, Box, IconButton, Typography } from '@mui/material';
 import { FilePicker } from 'react-file-picker';
 import Webcam from 'react-webcam';
 import { toast } from 'react-toastify';
@@ -12,6 +12,17 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
     const [isCameraOpen, setIsCameraOpen] = useState(false);
     const [toOpenUpload, setToOpenUpload] = useState(false);
     const webcamRef = useRef(null);
+    const [imageUrl, setImageUrl] = useState(userDetails.profileImageUrl || '');
+
+    useEffect(() => {
+        if (newImage) {
+            const url = URL.createObjectURL(newImage);
+            setImageUrl(url);
+            return () => URL.revokeObjectURL(url);
+        } else {
+            setImageUrl(userDetails.profileImageUrl || '');
+        }
+    }, [newImage, userDetails.profileImageUrl]);
 
     const handleCapture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
@@ -30,7 +41,7 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
             <Typography variant="h6" gutterBottom>
                 Profile Image
             </Typography>
-            <Avatar src={userDetails.profileImageUrl || URL.createObjectURL(newImage)}  sx={{ width: 150, height: 150 }} />
+            <Avatar src={imageUrl} sx={{ width: 150, height: 150 }} />
             <Button onClick={() => setToOpenUpload(prev => !prev)}>Update Image</Button>
             {toOpenUpload && (
                 <>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, TextField, Typography, Button } from '@mui/material';
 
-const UpdateUserName = ({ formik, userDetails, editableField, handleEdit }) => {
+const UpdateUserName = ({ formik, userDetails, editableField, handleEdit,setEditableField }) => {
     return (
         <Grid container spacing={2} alignItems="center">
             <Grid item xs={8}>
@@ -23,7 +23,7 @@ const UpdateUserName = ({ formik, userDetails, editableField, handleEdit }) => {
             </Grid>
             <Grid item xs={4}>
                 {editableField === 'name' ? (
-                    <Button color="primary" onClick={formik.handleSubmit}>
+                    <Button color="primary" onClick={() => {formik.handleSubmit(); setEditableField(null);}}>
                         Save
                     </Button>
                 ) : (
