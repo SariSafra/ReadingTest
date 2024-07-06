@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, TextField, Typography, Button } from '@mui/material';
-import UpdateProfileImage from '../../iserAccount/UpdateProfileImage';
+import UpdateProfileImage from '../../UserAccount/UpdateProfileImage';
 import { Message } from '../../style/addStudent.js';
 
 const AddStudentForm = ({ 
