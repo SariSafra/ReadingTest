@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
     const [isCameraOpen, setIsCameraOpen] = useState(false);
     const [toOpenUpload, setToOpenUpload] = useState(false);
+    const [showSaveButton, setShowSaveButton] = useState(false);
     const webcamRef = useRef(null);
     const [imageUrl, setImageUrl] = useState(userDetails.profileImageUrl || '');
 
@@ -18,9 +19,11 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
         if (newImage) {
             const url = URL.createObjectURL(newImage);
             setImageUrl(url);
+            setShowSaveButton(true);
             return () => URL.revokeObjectURL(url);
         } else {
             setImageUrl(userDetails.profileImageUrl || '');
+            setShowSaveButton(false);
         }
     }, [newImage, userDetails.profileImageUrl]);
 
@@ -34,6 +37,15 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
                 setNewImage(file);
                 setIsCameraOpen(false);
             });
+    };
+
+    const handleSaveImage = async () => {
+        try {
+            await formik.submitForm();
+            setShowSaveButton(false);
+        } catch (error) {
+            toast.error('Failed to save image');
+        }
     };
 
     return (
@@ -78,11 +90,11 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
                     )}
                 </>
             )}
-            {newImage && (
+            {showSaveButton && (
                 <Button
                     variant="contained"
                     color="primary"
-                    type="submit"
+                    onClick={handleSaveImage}
                     style={{ marginTop: 16 }}
                 >
                     Save Image

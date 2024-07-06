@@ -3,7 +3,7 @@ import { Container, Typography, Grid } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserContext } from './authentication/UserContext';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { getTeacher, updateTeacher, getStudent, updateStudent } from '../services/api.js';
@@ -46,7 +46,7 @@ const UserAccount = () => {
                 formData.append('name', values.name);
                 let response;
                 if (user.role === 'teacher') {
-                    response = await updateTeacher(user.username,  formData);
+                    response = await updateTeacher(user.username, formData);
                 } 
                 else if (user.role === 'student') {
                     if (values.filePath) {
@@ -117,6 +117,7 @@ const UserAccount = () => {
                 <br />
                 <Link to={`/home/${user.role}`}>Return to Home</Link>
             </form>
+            <ToastContainer />
         </Container>
     );
 };
