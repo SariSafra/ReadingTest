@@ -10,7 +10,7 @@ import TeacherHome from './teacherArea/TeacherHome.jsx';  // Your teacher home c
 import ProtectedRoute from './ProtectedRoute.jsx';  // New ProtectedRoute component
 import '../index.css';
 import TestManager from './studentArea/readingTest/TestManager.jsx';
-import UserAccount from './UserAccount.jsx';
+import UserAccount from './UserAccount/UserAccount.jsx'
 import UserArea from './UserArea.jsx';
 import Header from './Header.jsx';
 import StudentShow from './teacherArea/StudentShow.jsx'
