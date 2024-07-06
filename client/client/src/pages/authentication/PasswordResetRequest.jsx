@@ -3,7 +3,7 @@ import { requestPasswordReset } from '../../services/api.js'
 
 function PasswordResetRequest() {
   const [email, setEmail] = useState('');
-  const [userType, setUserType] = useState('Student');
+  const [userType, setUserType] = useState('Teacher');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
