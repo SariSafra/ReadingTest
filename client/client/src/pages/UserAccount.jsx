@@ -44,18 +44,16 @@ const UserAccount = () => {
             try {
                 const formData = new FormData();
                 formData.append('name', values.name);
+                let response;
                 if (user.role === 'teacher') {
                     response = await updateTeacher(user.username,  formData);
                 } 
                 else if (user.role === 'student') {
-                    formData.append('name', values.name);
                     if (values.filePath) {
                         formData.append('file', values.filePath);
                     }
                     response = await updateStudent(user.username, formData);
                 }
-                let response;
-
                 toast.success('User details updated successfully');
                 setEditableField(null);
                 if (response && response.data) {

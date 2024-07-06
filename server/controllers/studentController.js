@@ -73,15 +73,9 @@ export default class StudentController {
     let student;
 
     try {
-      // Fetch and update the student
-      student = await studentService.updateStudent(req.params.id,  req.body, session);
-      console.log("in update student controller student:", student);
-
-      if (!student) {
-          await session.abortTransaction();
-          return res.status(404).json({ message: 'Student not found' });
-      }
-
+    if(req.file)
+       req.body.filePath= req.file.path;
+         student = await studentService.updateStudent(req.params.id,  req.body, session);
       await session.commitTransaction();
       res.status(200).json(student);
   } catch (error) {
