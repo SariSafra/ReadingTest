@@ -26,7 +26,6 @@ const UserAccount = () => {
                     response = await getStudent(user.username);
                 }
                 setUserDetails(response.data);
-                toast.success('User details fetched successfully');
             } catch (error) {
                 toast.error('Failed to fetch user details');
             }
