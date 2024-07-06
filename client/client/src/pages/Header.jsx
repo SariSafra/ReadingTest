@@ -66,8 +66,8 @@ const Header = () => {
       <TopBar>
         <Logo src={logo} alt="Logo" />
         <NavLinks>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+          <Link to="/login">התחבר</Link>
+          <Link to="/signup">הירשם</Link>
         </NavLinks>
       </TopBar>
       <TextSection>

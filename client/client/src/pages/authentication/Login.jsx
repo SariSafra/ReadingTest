@@ -66,7 +66,7 @@ function Login() {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h2>Login</h2>
+          <h2>התחבר</h2>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="p-field">
@@ -76,8 +76,8 @@ function Login() {
               onChange={formik.handleChange}
               className="p-inputtext-lg"
             >
-              <MenuItem value="student">Student</MenuItem>
-              <MenuItem value="teacher">Teacher</MenuItem>
+              <MenuItem value="student">תלמיד</MenuItem>
+              <MenuItem value="teacher">מורה</MenuItem>
             </Select>
             {formik.errors.role && <div className="p-error">{formik.errors.role}</div>}
           </div>
@@ -111,10 +111,10 @@ function Login() {
         <button type="submit" disabled={formik.isSubmitting}>
           Login
         </button>
-        <button type="button" onClick={() => navigate('/signup')}>Sign Up</button>
-        <button type="button" onClick={() => navigate('/password-reset')}>Forgot Password?</button>
+        <button type="button" onClick={() => navigate('/signup')}>כניסה</button>
+        <button type="button" onClick={() => navigate('/password-reset')}>שכחתי סיסמא</button>
       </form>
-      <Link to="../password-reset-request">Forget password? Click to reset</Link>
+      <Link to="../password-reset-request">שכחת סיסמא? לחץ כאן כדי לעדכן</Link>
       <ToastContainer />
     </div>
     </div>
