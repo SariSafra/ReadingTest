@@ -132,7 +132,7 @@ export default class TeacherController {
         studentId: req.body.id,
         name: req.body.name,
         studentId: req.body.id,
-        filePath: req.file ? req.body.id : null // Handle optional file
+        filePath: req.file ? req.file.path : null
       };
 
       const student = await studentService.createStudent(studentData, session);
