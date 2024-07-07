@@ -55,7 +55,7 @@ function Login() {
         // localStorage.setItem('auth', JSON.stringify(authData)); // Save to localStorage
         navigate(values.role === 'student' ? '/home/student' : '/home/teacher'); // Redirect based on role
       } catch (error) {
-        toast.error('Error logging in: ' + error.message);
+        toast.error('Error logging in');
       } finally {
         setSubmitting(false);
       }
@@ -110,7 +110,6 @@ function Login() {
 
         <button type="submit" disabled={formik.isSubmitting}>התחבר </button>
         <button type="button" onClick={() => navigate('/signup')}>הירשם</button>
-        <button type="button" onClick={() => navigate('/password-reset')}>שכחתי סיסמא</button>
       </form>
       <Link to="../password-reset-request">שכחת סיסמא? לחץ כאן כדי לאפס</Link>
       <ToastContainer />

@@ -26,7 +26,7 @@ const StudentShow = ( { student, studentsArr, setStudentsArr ,setToShowStudent }
         <>
             <Box style={{ flex: 1 }}>
                 <Typography variant="h6">{student.name}</Typography>
-                <Typography variant="subtitle1" color="textSecondary"> {student.studentId}תעודת זהות:</Typography>
+                <Typography variant="subtitle1" color="textSecondary"> תעודת זהות: {student.studentId}</Typography>
                 <IconButton edge="end" aria-label="delete" onClick={() => handleStudentDelete(student.studentId)}>
                     <DeleteIcon />
                 </IconButton>
