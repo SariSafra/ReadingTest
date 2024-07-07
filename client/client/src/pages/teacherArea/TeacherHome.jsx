@@ -52,7 +52,7 @@ function TeacherHome() {
         </IconButton>
       </HeaderBox>
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>הוסף לתמיד</DialogTitle>
+        <DialogTitle>הוספת תלמיד</DialogTitle>
         <DialogContent>
           <AddStudent handleClose={() => setOpen(false)} studentsArr={students} setStudentsArr={setStudents} fetchStudents={fetchStudents} />
         </DialogContent>

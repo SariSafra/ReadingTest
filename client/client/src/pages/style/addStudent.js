@@ -14,7 +14,7 @@ export const modalStyle = {
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
-        transform: 'translate(-50%, 0%)',
+        transform: 'translate(-137%, 0%)',
         width: '400px',
         padding: '20px',
         borderRadius: '8px'

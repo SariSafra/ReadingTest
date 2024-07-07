@@ -6,7 +6,7 @@ import { MdContentCopy } from "react-icons/md";
 import AddStudentForm from './AddStudentForm';
 import { ModalContent, modalStyle, Message } from '../../style/addStudent.js';
 
-const AddStudent = ({ studentsArr, setStudentsArr, fetchStudents }) => {
+const AddStudent = ({ fetchStudents }) => {
     const [inputsValue, setInputsValue] = useState({ name: '', password: '', id: '', profile: null, profileImageUrl: 'http://localhost:3000/profile-image/profile.png' });
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [email, setEmail] = useState('');
@@ -62,20 +62,6 @@ const AddStudent = ({ studentsArr, setStudentsArr, fetchStudents }) => {
         }
     }
 
-    const handleInputChange = (e) => {
-        const { name, value, files } = e.target;
-        if (name === "profile" && files) {
-            const file = files[0];
-            if (!file.type.startsWith('image/')) {
-                setErrorMessage("Only image files are allowed.");
-                return;
-            }
-            setInputsValue(prev => ({ ...prev, profile: file }));
-            setErrorMessage('');
-        } else {
-            setInputsValue(prev => ({ ...prev, [name]: value }));
-        }
-    }
 
     return (
         <>
@@ -92,10 +78,10 @@ const AddStudent = ({ studentsArr, setStudentsArr, fetchStudents }) => {
                 </Box>
                 :
                 <ModalContent style={modalStyle.content}>
-                    <Typography variant="h6" gutterBottom>סטודנט הוסף בהצלחה</Typography>
-                    <Typography> {studentDetails?.name}שם:</Typography>
-                    <Typography>{studentDetails?.studentId}תעודת זהות:</Typography>
-                    <Typography>סיסמא:***** הקוד מוסתר לצרכי אבטחה</Typography>
+                    <Typography variant="h6" gutterBottom>סטודנט נוסף בהצלחה</Typography>
+                    <Typography>שם: {studentDetails?.name}</Typography>
+                    <Typography>תעודת זהות: {studentDetails?.studentId}</Typography>
+                    <Typography>סיסמא: ********</Typography>
                     <CopyToClipboard text={`Name: ${studentDetails?.name}\nID: ${studentDetails?.studentId}\nPassword: ${inputsValue?.password}`}>
                         <Button variant="contained" onClick={() => setSuccessMessage("Copied to clipboard!")} style={{ marginTop: 16 }}>
                             <MdContentCopy />
