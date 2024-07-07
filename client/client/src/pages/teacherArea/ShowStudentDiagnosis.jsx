@@ -3,14 +3,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import DeleteDiagnosis from './DeleteDiagnosis';
 import DiagnosisChart from './DiagnosisChart';
-import { getStudentDiagnoses } from '../../services/api.js';
+import { getStudentDiagnoses, deleteDiagnosis } from '../../services/api.js';
 
 const ShowStudentDiagnosis = ({ studentId }) => {
     const [diagnoses, setDiagnoses] = useState([]);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedDiagnosisId, setSelectedDiagnosisId] = useState(null);
 
     const fetchDiagnoses = async () => {
         try {
@@ -33,7 +30,7 @@ const ShowStudentDiagnosis = ({ studentId }) => {
         fetchDiagnoses();
     }, [studentId]);
 
-    const deleteDiagnosis = async (diagnosisId) => {
+    const deleteCurrentDiagnosis = async (diagnosisId) => {
         try {
             const response = await deleteDiagnosis(diagnosisId);
             if (response.status === 200) {
@@ -49,23 +46,8 @@ const ShowStudentDiagnosis = ({ studentId }) => {
 
     const handleDelete = (diagnosisId) => {
         if (confirm('Are you sure you want to delete?'))
-            deleteDiagnosis(diagnosisId);
+            deleteCurrentDiagnosis(diagnosisId);
     };
-
-    // const openModal = (diagnosisId) => {
-    //     setSelectedDiagnosisId(diagnosisId);
-    //     setModalIsOpen(true);
-    // };
-
-    // const closeModal = () => {
-    //     setModalIsOpen(false);
-    //     setSelectedDiagnosisId(null);
-    // };
-
-    // const handleDeleteSuccess = (deletedDiagnosisId) => {
-    //     setDiagnoses(diagnoses.filter(diagnosis => diagnosis._id !== deletedDiagnosisId));
-    //     toast.success('הדיאגנוזה נמחקה בהצלחה');
-    // };
 
     return (
         <div>
@@ -100,14 +82,6 @@ const ShowStudentDiagnosis = ({ studentId }) => {
             ) : (
                 <p>לא נמצאו דיאגנוזות זמינות</p>
             )}
-
-
-            {/* <DeleteDiagnosis
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                diagnosisId={selectedDiagnosisId}
-                onDeleteSuccess={handleDeleteSuccess}
-            /> */}
         </div>
     );
 };
