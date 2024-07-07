@@ -27,7 +27,7 @@ const UserAccount = () => {
                 }
                 setUserDetails(response.data);
             } catch (error) {
-                toast.error('Failed to fetch user details');
+                toast.error('לא הצלחנו למצא אותך במערכת');
             }
         };
 
@@ -37,7 +37,7 @@ const UserAccount = () => {
     const formik = useFormik({
         initialValues: { name: userDetails ? userDetails.name : '', filePath: null },
         validationSchema: Yup.object({
-            name: Yup.string().min(2, 'Name is too short!').max(30, 'Name is too long!').required('Name is required'),
+            name: Yup.string().min(2, 'השם קצר מדי!').max(30, '!השם ארוך מדי').required('זהו שדה חובה'),
         }),
         onSubmit: async (values) => {
             try {
@@ -53,13 +53,13 @@ const UserAccount = () => {
                     }
                     response = await updateStudent(user.username, formData);
                 }
-                toast.success('User details updated successfully');
+                toast.success('פרטי משתמש עודכנו בהצלחה');
                 setEditableField(null);
                 if (response && response.data) {
                     setUserDetails(response.data);
                 }
             } catch (error) {
-                toast.error('Failed to update user details');
+                toast.error('עדכון פרטי משתמש נכשל');
             }
         },
         enableReinitialize: true,
@@ -97,10 +97,10 @@ const UserAccount = () => {
                             <>
                                 <Grid container spacing={2} alignItems="center">
                                     <Grid item xs={8}>
-                                        <Typography variant="body1">Email: {userDetails.email}</Typography>
+                                        <Typography variant="body1">{userDetails.email}מייל:</Typography>
                                     </Grid>
                                 </Grid>
-                                <Link to={'/password-reset-request'}>Change Password</Link>
+                                <Link to={'/password-reset-request'}>שינוי סיסמא</Link>
                             </>
                         )}
                         {user.role === 'student' && (
@@ -114,7 +114,7 @@ const UserAccount = () => {
                     </>
                 )}
                 <br />
-                <Link to={`/home/${user.role}`}>Return to Home</Link>
+                <Link to={`/home/${user.role}`}>חזרה חעמוד הבית</Link>
             </form>
             <ToastContainer />
         </Container>

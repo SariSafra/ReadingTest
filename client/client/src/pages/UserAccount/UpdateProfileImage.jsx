@@ -44,17 +44,16 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
             await formik.submitForm();
             setShowSaveButton(false);
         } catch (error) {
-            toast.error('Failed to save image');
+            toast.error('שמירת תמונה נכשלה');
         }
     };
 
     return (
         <>
             <Typography variant="h6" gutterBottom>
-                Profile Image
-            </Typography>
+תמונת פרופיל            </Typography>
             <Avatar src={imageUrl} sx={{ width: 150, height: 150 }} />
-            <Button onClick={() => setToOpenUpload(prev => !prev)}>Update Image</Button>
+            <Button onClick={() => setToOpenUpload(prev => !prev)}>עדכון תמונת פרופיל</Button>
             {toOpenUpload && (
                 <>
                     <Box display="flex" alignItems="center" marginTop={2}>
@@ -97,7 +96,7 @@ const UpdateProfileImage = ({ formik, userDetails, newImage, setNewImage }) => {
                     onClick={handleSaveImage}
                     style={{ marginTop: 16 }}
                 >
-                    Save Image
+                   שמירת תמונה
                 </Button>
             )}
         </>

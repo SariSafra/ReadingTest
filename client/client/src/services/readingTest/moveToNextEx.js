@@ -1,6 +1,4 @@
 const moveToNextEx = (Diagnosis, setNextEx, toRepeat, setToRepeat, toEmphasis, setToEmphasis, setDiagnosis, currentEx) => {
-  console.log("Finish");
-  console.log(`Diagnosis frequencyMap: ${Diagnosis.frequencyMap}, Diagnosis successRate: ${Diagnosis.successRate}, Diagnosis time: ${Diagnosis.time}`);
   setDiagnosis((prev) => [...prev, { ExeNum: currentEx, Diagnosis, Mediation: { Emphasis: toEmphasis, Repeat: toRepeat } }]);
 
   if (Diagnosis.successRate < 80 && (!toEmphasis || !toRepeat)) {
