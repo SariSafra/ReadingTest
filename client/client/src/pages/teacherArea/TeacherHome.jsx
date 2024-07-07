@@ -1,7 +1,7 @@
 // TeacherHome.jsx
 import React, { useEffect, useState, useContext } from 'react';
 import { getStudents } from '../../services/api';
-import AddStudent from './AddStudent';
+import AddStudent from './addStudent/AddStudent.jsx';
 import StudentShow from './StudentShow';
 import { UserContext } from '../authentication/UserContext';
 import { Typography, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
@@ -16,17 +16,20 @@ function TeacherHome() {
   const [curStudent, setCurStudent] = useState();
   const [toShowStudent, setToShowStudent] = useState(false);
 
+
+  const fetchStudents = async () => {
+    try {
+      const response = await getStudents(user.username);
+      setStudents(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching students", error);
+      toast.error("Error fetching students");
+    }
+  };
+
   useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const response = await getStudents(user.username);
-        setStudents(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching students", error);
-        toast.error("Error fetching students");
-      }
-    };
+
 
     fetchStudents();
   }, [user]);
@@ -53,7 +56,7 @@ function TeacherHome() {
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>הוסף לתמיד</DialogTitle>
         <DialogContent>
-          <AddStudent handleClose={() => setOpen(false)} studentsArr={students} setStudentsArr={setStudents} />
+          <AddStudent handleClose={() => setOpen(false)} studentsArr={students} setStudentsArr={setStudents} fetchStudents={fetchStudents} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="primary">

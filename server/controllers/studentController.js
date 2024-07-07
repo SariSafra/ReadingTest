@@ -51,7 +51,7 @@ export default class StudentController {
       let studentData = req.body;
       if (req.body.diagnosis) {
         const diagnosis = await diagnosisService.createDiagnosis(req.body.diagnosis, session);
-        studentData = { ...req.body, diagnosis: diagnosis._id }
+        studentData = { ...req.body, diagnoses: diagnosis._id }
       }
       const student = await studentService.createStudent(studentData, session);
       await createPassword(new Password(student._id, 'Student', req.body.password), session);
@@ -126,8 +126,8 @@ export default class StudentController {
       const response = await diagnosisService.createDiagnosis(req.body, session);
       console.log("response: ",response);
       student[0].diagnoses.push(response._id);
-      await studentService.updateStudent(student[0]._id, student[0], session);
-      console.log
+      const updatedStudent = await studentService.updateStudent(student[0].studentId, student[0], session);
+      console.log('after adding diagnoses: '+updatedStudent);
       await session.commitTransaction();
       res.status(200).json(student[0]);
     } catch (error) {
