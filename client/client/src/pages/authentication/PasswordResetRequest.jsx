@@ -15,10 +15,10 @@ function PasswordResetRequest() {
       if (response.status!=201) {
         throw new Error(await response.text());
       }
-      setSuccessMessage('Link for reset sent to your email');
+      setSuccessMessage('קישור נשלח למייל שלך');
       setErrorMessage('');
     } catch (error) {
-      setErrorMessage('ERROR');
+      setErrorMessage('שגיאה');
       setSuccessMessage('');
     }
   };

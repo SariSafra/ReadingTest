@@ -11,25 +11,21 @@ const UpdateUserName = ({ formik, userDetails, editableField, handleEdit,setEdit
                         margin="dense"
                         id="name"
                         name="name"
-                        label="Name"
+                        label="שם"
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         error={formik.touched.name && Boolean(formik.errors.name)}
                         helperText={formik.touched.name && formik.errors.name}
                     />
                 ) : (
-                    <Typography variant="body1">Name: {userDetails.name}</Typography>
+                    <Typography variant="body1">{userDetails.name}שם:</Typography>
                 )}
             </Grid>
             <Grid item xs={4}>
                 {editableField === 'name' ? (
-                    <Button color="primary" onClick={() => {formik.handleSubmit(); setEditableField(null);}}>
-                        Save
-                    </Button>
+                    <Button color="primary" onClick={() => {formik.handleSubmit(); setEditableField(null);}}>שמירה </Button>
                 ) : (
-                    <Button color="primary" onClick={() => handleEdit('name')}>
-                        Update
-                    </Button>
+                    <Button color="primary" onClick={() => handleEdit('name')}>עדכון</Button>
                 )}
             </Grid>
         </Grid>

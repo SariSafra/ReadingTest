@@ -26,13 +26,13 @@ ChartJS.register(
 
 const DiagnosisChart = ({ diagnosisData }) => {
     if (!diagnosisData) {
-        return <p>No data available.</p>;
+        return <p>אין מידע זמין</p>;
     }
 
     const { frequencyMap, toEmphasis, toRepeat, successRate, time, consistentSwappingPercentage } = diagnosisData;
 
     if (!frequencyMap || Object.keys(frequencyMap).length === 0) {
-        return <p>No frequency map data available.</p>;
+        return <p></p>;
     }
 
     // Prepare data for the input-specific chart
@@ -43,7 +43,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
         labels: labels,
         datasets: [
             {
-                label: 'Correct',
+                label: 'נכון',
                 backgroundColor: 'rgba(75,192,192,0.4)',
                 borderColor: 'rgba(75,192,192,1)',
                 borderWidth: 1,
@@ -52,7 +52,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
                 data: correctData
             },
             {
-                label: 'Incorrect',
+                label: 'שגוי',
                 backgroundColor: 'rgba(255,99,132,0.4)',
                 borderColor: 'rgba(255,99,132,1)',
                 borderWidth: 1,
@@ -68,7 +68,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
     const inconsistentSwappingSum = 100 - consistentSwappingSum;
 
     const pieChartData = {
-        labels: ['Consistent Swapping', 'Inconsistent Swapping'],
+        labels: ['החלפות עקביות', 'החלפות לא עקביות'],
         datasets: [
             {
                 data: [consistentSwappingSum, inconsistentSwappingSum],
@@ -81,7 +81,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
     // Prepare data for the success rate pie chart
     const successRateValue = parseFloat(successRate || 0);
     const successRateChartData = {
-        labels: ['Success Rate', 'Failure Rate'],
+        labels: ['אחוזי הצלחה', 'אחוזי כישלון'],
         datasets: [
             {
                 data: [successRateValue, 100 - successRateValue],
@@ -93,19 +93,18 @@ const DiagnosisChart = ({ diagnosisData }) => {
 
     return (
         <div>
-            <h4>Diagnosis Chart</h4>
             <Bar data={inputChartData} />
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '20px' }}>
                 <div style={{ textAlign: 'center' }}>
-                    <p>Emphasis</p>
+                    <p>הדגשה</p>
                     <FontAwesomeIcon icon={toEmphasis ? faCheck : faTimes} size="2x" color={toEmphasis ? 'green' : 'red'} />
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <p>Repeat</p>
+                    <p>חזרתיות</p>
                     <FontAwesomeIcon icon={toRepeat ? faCheck : faTimes} size="2x" color={toRepeat ? 'green' : 'red'} />
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <p>Average Time</p>
+                    <p>זמן ממוצע</p>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <FontAwesomeIcon icon={faClock} size="2x" color="blue" style={{ marginRight: '10px' }} />
                         <p style={{ fontSize: '20px', fontWeight: 'bold', margin: 0 }}>{time}</p>
@@ -114,11 +113,11 @@ const DiagnosisChart = ({ diagnosisData }) => {
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginTop: '20px' }}>
                 <div style={{ width: '200px', height: '200px' }}>
-                    <h5>Consistent Swapping Percentage</h5>
+                    <h5>עקביות החלפות</h5>
                     <Pie data={pieChartData} />
                 </div>
                 <div style={{ width: '200px', height: '200px' }}>
-                    <h5>Success Rate</h5>
+                    <h5>הצלחה</h5>
                     <Pie data={successRateChartData} />
                 </div>
             </div>

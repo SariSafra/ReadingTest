@@ -47,20 +47,20 @@ function TeacherHome() {
     <StyledContainer maxWidth={false}>
       <HeaderBox>
         <Typography variant="h5" component="h2">
-          Students
+          תלמידים
         </Typography>
         <IconButton color="primary" onClick={() => setOpen(true)}>
           <AddIcon />
         </IconButton>
       </HeaderBox>
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
-        <DialogTitle>Add Student</DialogTitle>
+        <DialogTitle>הוסף לתמיד</DialogTitle>
         <DialogContent>
           <AddStudent handleClose={() => setOpen(false)} studentsArr={students} setStudentsArr={setStudents} fetchStudents={fetchStudents} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="primary">
-            Close
+            סגור
           </Button>
         </DialogActions>
       </Dialog>
@@ -77,7 +77,7 @@ function TeacherHome() {
           <StudentShow student={curStudent} studentsArr={students} setStudentsArr={setStudents} setToShowStudent={setToShowStudent} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseStudent} color="primary">Close</Button>
+          <Button onClick={handleCloseStudent} color="primary">סגור</Button>
         </DialogActions>
       </Dialog>
     </StyledContainer>
