@@ -71,15 +71,15 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
         try {
             const savedStudent = await createStudent(formData);
             setStudentDetails(savedStudent.data);
-            setSuccessMessage("Student added successfully!");
+            setSuccessMessage("סטודנט הוסף בהצלחה");
             setErrorMessage('');
             setModalIsOpen(true);
             setStudentsArr([...studentsArr, savedStudent.data]);
         } catch (error) {
             if (error.response?.status === 400) {
-                setErrorMessage("ID already in use");
+                setErrorMessage("תעודת זהות קיימת");
             } else {
-                setErrorMessage("An error occurred. Please try again.");
+                setErrorMessage("שגיאה! בבקשה נסה מאוחר יותר");
             }
             setSuccessMessage('');
         }
@@ -98,10 +98,10 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                 payload: payload,
                 templatePath: 'loginDetails.hbs'
             });
-            setSuccessMessage("Email sent successfully!");
+            setSuccessMessage("המייל נשלח בהצלחה!");
             setErrorMessage('');
         } catch (error) {
-            setErrorMessage("Failed to send email. Please try again.");
+            setErrorMessage("לא הצלחנו לשלוח לך מייל. בבקשה נסה שוב");
             setSuccessMessage('');
         }
     }
@@ -111,7 +111,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
         if (name === "profile" && files) {
             const file = files[0];
             if (!file.type.startsWith('image/')) {
-                setErrorMessage("Only image files are allowed.");
+                setErrorMessage("ניתן להעלות רק קבצי תמונות");
                 return;
             }
             setInputsValue(prev => ({ ...prev, profile: file }));
@@ -138,9 +138,9 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
             {!modalIsOpen ?
                 <Box mb={4} display="flex" flexDirection="column" alignItems="center">
                     <form onSubmit={handleSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Typography variant="h5" gutterBottom>Add New Student</Typography>
+                        <Typography variant="h5" gutterBottom>הוספת תלמיד חדש</Typography>
                         <TextField
-                            label="Name"
+                            label="שם"
                             variant="outlined"
                             name="name"
                             value={inputsValue.name}
@@ -149,7 +149,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                             required
                         />
                         <TextField
-                            label="ID"
+                            label="תעודת זהות"
                             variant="outlined"
                             name="id"
                             value={inputsValue.id}
@@ -158,7 +158,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                             required
                         />
                         <TextField
-                            label="Password"
+                            label="סיסמא"
                             type="password"
                             variant="outlined"
                             name="password"
@@ -192,7 +192,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                         </div>
                     )}
                        </>}
-                        <Button type="submit" variant="contained" color="primary">Add</Button>
+                        <Button type="submit" variant="contained" color="primary">הוספה</Button>
                     </form>
                     
                     {successMessage && (
@@ -208,18 +208,18 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                 </Box>
                 :
                 <Box>
-                    <Typography variant="h6" gutterBottom>Student Added Successfully</Typography>
-                    <Typography>Name: {studentDetails?.name}</Typography>
-                    <Typography>ID: {studentDetails?.studentId}</Typography>
-                    <Typography>Password: ******** (Hidden for security)</Typography>
+                    <Typography variant="h6" gutterBottom>תלמיד הוסף בהצלחה</Typography>
+                    <Typography>{studentDetails?.name}שם: </Typography>
+                    <Typography>{studentDetails?.studentId}תעודת זהות:</Typography>
+                    <Typography>*****:סיסמא</Typography>
                     {console.log(studentDetails)}
-                    <CopyToClipboard text={`Name: ${studentDetails?.name}\nID: ${studentDetails?.studentId}\nPassword: ${inputsValue?.password}`}>
-                        <Button variant="contained" onClick={() => setSuccessMessage("Copied to clipboard!")} style={{ marginTop: 16 }}>
+                    <CopyToClipboard text={`סיסמא:${inputsValue?.password}תעודת זהות \n:${studentDetails?.studentId}\n${studentDetails?.name}שם:`}>
+                        <Button variant="contained" onClick={() => setSuccessMessage("הועתק ללוח!")} style={{ marginTop: 16 }}>
                             <MdContentCopy />
                         </Button>
                     </CopyToClipboard>
                     <TextField
-                        label="Enter student's email"
+                        label="הכנס אימייל של סטודנט"
                         type="email"
                         variant="outlined"
                         value={email}
@@ -237,7 +237,7 @@ const AddStudent = ({ studentsArr, setStudentsArr }) => {
                             {errorMessage}
                         </Message>
                     )}
-                    <Button onClick={handleSendEmail} variant="contained" color="primary" style={{ marginTop: 16 }}>Send Email</Button>
+                    <Button onClick={handleSendEmail} variant="contained" color="primary" style={{ marginTop: 16 }}>שלח מייל</Button>
                 </Box>
             }
         </>

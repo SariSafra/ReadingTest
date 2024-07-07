@@ -88,7 +88,7 @@ function Login() {
               name="username"
               value={formik.values.username}
               onChange={formik.handleChange}
-              placeholder={formik.values.role === 'teacher' ? 'Email' : 'ID'}
+              placeholder={formik.values.role === 'teacher' ? 'Email' : 'תעודת זהות'}
               className="p-inputtext-lg"
               required
             />
@@ -101,20 +101,18 @@ function Login() {
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
-              placeholder="Password"
+              placeholder="סיסמא"
               className="p-inputtext-lg"
               required
             />
             {formik.errors.password && <div className="p-error">{formik.errors.password}</div>}
           </div>
 
-        <button type="submit" disabled={formik.isSubmitting}>
-          Login
-        </button>
-        <button type="button" onClick={() => navigate('/signup')}>כניסה</button>
+        <button type="submit" disabled={formik.isSubmitting}>התחבר </button>
+        <button type="button" onClick={() => navigate('/signup')}>הירשם</button>
         <button type="button" onClick={() => navigate('/password-reset')}>שכחתי סיסמא</button>
       </form>
-      <Link to="../password-reset-request">שכחת סיסמא? לחץ כאן כדי לעדכן</Link>
+      <Link to="../password-reset-request">שכחת סיסמא? לחץ כאן כדי לאפס</Link>
       <ToastContainer />
     </div>
     </div>

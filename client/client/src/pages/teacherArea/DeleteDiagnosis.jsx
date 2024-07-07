@@ -13,12 +13,12 @@ const DeleteDiagnosis = ({ isOpen, onRequestClose, diagnosisId, onDeleteSuccess 
             const response = await deleteDiagnosis(diagnosisId);
             if (response.status === 200) {
                 onDeleteSuccess();
-                toast.success('Diagnosis deleted successfully.');
+                toast.success('הדיאגנוזה נמחקה בהצלחה');
             } else {
-                toast.error('Error deleting diagnosis.');
+                toast.error('שגיאה במחיקת הבעיה');
             }
         } catch (error) {
-            toast.error('Error deleting diagnosis.');
+            toast.error('שגיאה במחיקת הדיאגנוזה');
         } finally {
             onRequestClose();
         }
@@ -30,10 +30,10 @@ const DeleteDiagnosis = ({ isOpen, onRequestClose, diagnosisId, onDeleteSuccess 
             onRequestClose={onRequestClose}
             contentLabel="Delete Confirmation"
         >
-            <h2>Confirm Deletion</h2>
-            <p>Are you sure you want to delete this diagnosis?</p>
-            <button onClick={handleDelete}>Yes, delete it</button>
-            <button onClick={onRequestClose}>Cancel</button>
+            <h2>אימות מחיקה</h2>
+            <p>אתה בטוח שאתה רוצה למחוק את הדיאגנוזה?</p>
+            <button onClick={handleDelete}>כן, מחק</button>
+            <button onClick={onRequestClose}>ביטול</button>
         </Modal>
     );
 };

@@ -37,7 +37,7 @@ const AudioPlayer = ({ src, onEnded, playOnClick }) => {
                 onEnded={handleAudioEnded}
             />
             {playOnClick && !audioEnded && (
-                <button onClick={handlePlay}>Play Audio</button>
+                <button onClick={handlePlay}>הוראות</button>
             )}
         </div>
     );

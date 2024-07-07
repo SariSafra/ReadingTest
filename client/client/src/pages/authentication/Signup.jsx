@@ -64,8 +64,7 @@ const Signup = () => {
       <Card className="signup-card">
         <ToastContainer />
         <div className="signup-header">
-          <h2>Save Your Account Now</h2>
-          <p>Get unlimited type of forms, questions and responses, Free forever</p>
+          <h2>הירשם עכשיו</h2>
         </div>
         {isCodeSent ? (
           <Formik
@@ -80,7 +79,7 @@ const Signup = () => {
                   <ErrorMessage name="verificationCode" component="div" className="p-error" />
                 </div>
                 <div className="p-field">
-                  <Field name="name" placeholder="Full Name" as={InputText} className="p-inputtext-lg" />
+                  <Field name="name" placeholder="שם מלא" as={InputText} className="p-inputtext-lg" />
                   <ErrorMessage name="name" component="div" className="p-error" />
                 </div>
                 <div className="p-field">
@@ -88,10 +87,10 @@ const Signup = () => {
                   <ErrorMessage name="email" component="div" className="p-error" />
                 </div>
                 <div className="p-field">
-                  <Field name="password" placeholder="Password" type="password" as={Password} feedback={false} className="p-password-lg" />
+                  <Field name="password" placeholder="סיסמא" type="password" as={Password} feedback={false} className="p-password-lg" />
                   <ErrorMessage name="password" component="div" className="p-error" />
                 </div>
-                <Button label="Sign Up" icon="pi pi-user" type="submit" disabled={isSubmitting} className="signup-button" />
+                <Button label="הירשם" icon="pi pi-user" type="submit" disabled={isSubmitting} className="signup-button" />
               </Form>
             )}
           </Formik>
@@ -107,13 +106,13 @@ const Signup = () => {
                   <Field name="email" placeholder="E-mail" type="email" as={InputText} className="p-inputtext-lg" />
                   <ErrorMessage name="email" component="div" className="p-error" />
                 </div>
-                <Button label="Send Verification Code" icon="pi pi-envelope" type="submit" disabled={isSubmitting} className="signup-button" />
+                <Button label="שלח קוד אימות" icon="pi pi-envelope" type="submit" disabled={isSubmitting} className="signup-button" />
               </Form>
             )}
           </Formik>
         )}
         <p className="login-prompt">
-          Already have an account? <a href="#" onClick={() => navigate('/login')}>Login</a>
+         יש לך כבר חשבון? <a href="#" onClick={() => navigate('/login')}>היכנס</a>
         </p>
       </Card>
     </div>

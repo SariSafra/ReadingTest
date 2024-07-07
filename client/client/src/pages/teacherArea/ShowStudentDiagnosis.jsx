@@ -18,13 +18,13 @@ const ShowStudentDiagnosis = ({ studentId }) => {
             if (response.data[0]) {
                 setDiagnoses(response.data);
             } else {
-                toast.info('No diagnoses found for this student.');
+                toast.info('לא נמצאו דיאגנוזות');
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {
-                toast.error('No diagnoses found for this student.');
+                toast.error('לא נמצאו דיאגנוזות');
             } else {
-                toast.error('Error fetching diagnoses.');
+                toast.error('בעיה בהצגת הדיאגנוזה');
             }
         }
     };
@@ -45,12 +45,11 @@ const ShowStudentDiagnosis = ({ studentId }) => {
 
     const handleDeleteSuccess = (deletedDiagnosisId) => {
         setDiagnoses(diagnoses.filter(diagnosis => diagnosis._id !== deletedDiagnosisId));
-        toast.success('Diagnosis deleted successfully.');
+        toast.success('הדיאגנוזה נמחקה בהצלחה');
     };
 
     return (
         <div>
-            <h3>Diagnoses</h3>
             {diagnoses.length > 0 ? (
                <> <br/>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -73,16 +72,14 @@ const ShowStudentDiagnosis = ({ studentId }) => {
                                 }}
                             >
                                 <br/>
-                                <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />
-                                Delete Diagnosis
-                            </button>
+                                <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />מחק דיאגנוזה </button>
                             <DiagnosisChart diagnosisData={diagnosis} />
                            <br/>
                         </div>
                     ))}
                 </div></>
             ) : (
-                <p>No diagnoses available.</p>
+                <p>לא נמצאו דיאגנוזות זמינות</p>
             )}
 
 
