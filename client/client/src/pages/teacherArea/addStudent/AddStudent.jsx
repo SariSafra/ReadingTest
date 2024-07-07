@@ -27,15 +27,15 @@ const AddStudent = ({ fetchStudents }) => {
         try {
             const savedStudent = await createStudent(formData);
             setStudentDetails(savedStudent.data);
-            setSuccessMessage("Student added successfully!");
+            setSuccessMessage("סטודנט התווסף בהצלחה");
             setErrorMessage('');
             setModalIsOpen(true);
             fetchStudents();
         } catch (error) {
             if (error.response?.status === 400) {
-                setErrorMessage("ID already in use");
+                setErrorMessage("תעודת זהות קיימת במערכת");
             } else {
-                setErrorMessage("An error occurred. Please try again.");
+                setErrorMessage("התרחשה שגיאה, אנא נסה שנית");
             }
             setSuccessMessage('');
         }
@@ -83,12 +83,12 @@ const AddStudent = ({ fetchStudents }) => {
                     <Typography>תעודת זהות: {studentDetails?.studentId}</Typography>
                     <Typography>סיסמא: ********</Typography>
                     <CopyToClipboard text={`Name: ${studentDetails?.name}\nID: ${studentDetails?.studentId}\nPassword: ${inputsValue?.password}`}>
-                        <Button variant="contained" onClick={() => setSuccessMessage("Copied to clipboard!")} style={{ marginTop: 16 }}>
+                        <Button variant="contained" onClick={() => setSuccessMessage("הועתק ללוח בהצלחה")} style={{ marginTop: 16 }}>
                             <MdContentCopy />
                         </Button>
                     </CopyToClipboard>
                     <TextField
-                        label="הכנס מייל תלמיד"
+                        label="אכנס מייל תלמיד"
                         type="email"
                         variant="outlined"
                         value={email}

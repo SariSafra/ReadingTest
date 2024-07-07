@@ -4,8 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import DiagnosisChart from './DiagnosisChart';
-import { getStudentDiagnoses, deleteDiagnosis } from '../../services/api.js';
-
+import { getStudentDiagnoses,deleteDiagnosis } from '../../services/api.js';
 const ShowStudentDiagnosis = ({ studentId }) => {
     const [diagnoses, setDiagnoses] = useState([]);
 
@@ -31,6 +30,7 @@ const ShowStudentDiagnosis = ({ studentId }) => {
     }, [studentId]);
 
     const deleteCurrentDiagnosis = async (diagnosisId) => {
+    const deleteCurrentDiagnosis = async (diagnosisId) => {
         try {
             const response = await deleteDiagnosis(diagnosisId);
             if (response.status === 200) {
@@ -46,6 +46,8 @@ const ShowStudentDiagnosis = ({ studentId }) => {
 
     const handleDelete = (diagnosisId) => {
         if (confirm('Are you sure you want to delete?'))
+            deleteCurrentDiagnosis(diagnosisId);
+    };
             deleteCurrentDiagnosis(diagnosisId);
     };
 
