@@ -33,62 +33,81 @@ const ShowStudentDiagnosis = ({ studentId }) => {
         fetchDiagnoses();
     }, [studentId]);
 
-    const openModal = (diagnosisId) => {
-        setSelectedDiagnosisId(diagnosisId);
-        setModalIsOpen(true);
+    const deleteDiagnosis = async (diagnosisId) => {
+        try {
+            const response = await deleteDiagnosis(diagnosisId);
+            if (response.status === 200) {
+                setDiagnoses(diagnoses.filter(diagnosis => diagnosis._id !== diagnosisId));
+                toast.success('הדיאגנוזה נמחקה בהצלחה');
+            } else {
+                toast.error('שגיאה במחיקה');
+            }
+        } catch (error) {
+            toast.error('שגיאה במחיקת הדיאגנוזה');
+        }
     };
 
-    const closeModal = () => {
-        setModalIsOpen(false);
-        setSelectedDiagnosisId(null);
+    const handleDelete = (diagnosisId) => {
+        if (confirm('Are you sure you want to delete?'))
+            deleteDiagnosis(diagnosisId);
     };
 
-    const handleDeleteSuccess = (deletedDiagnosisId) => {
-        setDiagnoses(diagnoses.filter(diagnosis => diagnosis._id !== deletedDiagnosisId));
-        toast.success('הדיאגנוזה נמחקה בהצלחה');
-    };
+    // const openModal = (diagnosisId) => {
+    //     setSelectedDiagnosisId(diagnosisId);
+    //     setModalIsOpen(true);
+    // };
+
+    // const closeModal = () => {
+    //     setModalIsOpen(false);
+    //     setSelectedDiagnosisId(null);
+    // };
+
+    // const handleDeleteSuccess = (deletedDiagnosisId) => {
+    //     setDiagnoses(diagnoses.filter(diagnosis => diagnosis._id !== deletedDiagnosisId));
+    //     toast.success('הדיאגנוזה נמחקה בהצלחה');
+    // };
 
     return (
         <div>
             {diagnoses.length > 0 ? (
-               <> <br/>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <> <br />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-                    {diagnoses.map(diagnosis => (
-                        <div key={diagnosis._id} style={{ marginBottom: '70px', textAlign: 'center' }}>
-                                                 <button 
-                                onClick={() => openModal(diagnosis._id)} 
-                                style={{ 
-                                    display: 'flex', 
-                                    alignItems: 'center', 
-                                    justifyContent: 'center', 
-                                    padding: '10px 20px', 
-                                    backgroundColor: '#ff4d4f', 
-                                    color: '#fff', 
-                                    border: 'none', 
-                                    borderRadius: '5px', 
-                                    cursor: 'pointer', 
-                                    marginTop: '10px' 
-                                }}
-                            >
-                                <br/>
-                                <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />מחק דיאגנוזה </button>
-                            <DiagnosisChart diagnosisData={diagnosis} />
-                           <br/>
-                        </div>
-                    ))}
-                </div></>
+                        {diagnoses.map(diagnosis => (
+                            <div key={diagnosis._id} style={{ marginBottom: '70px', textAlign: 'center' }}>
+                                <button
+                                    onClick={() => handleDelete(diagnosis._id)}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        padding: '10px 20px',
+                                        backgroundColor: '#ff4d4f',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '5px',
+                                        cursor: 'pointer',
+                                        marginTop: '10px'
+                                    }}
+                                >
+                                    <br />
+                                    <FontAwesomeIcon icon={faTrash} style={{ marginRight: '10px' }} />מחק דיאגנוזה </button>
+                                <DiagnosisChart diagnosisData={diagnosis} />
+                                <br />
+                            </div>
+                        ))}
+                    </div></>
             ) : (
                 <p>לא נמצאו דיאגנוזות זמינות</p>
             )}
 
 
-            <DeleteDiagnosis
+            {/* <DeleteDiagnosis
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
                 diagnosisId={selectedDiagnosisId}
                 onDeleteSuccess={handleDeleteSuccess}
-            />
+            /> */}
         </div>
     );
 };
