@@ -76,10 +76,10 @@ const TestManager = () => {
                 const final_diagnosis = finalDiagnosis(diagnosis);
                 postDiagnosis(final_diagnosis, user.username)
                     .then(() => {
-                        toast.success("האבחון נקלטה בהצלחה במערכת");
+                        toast.success("האבחון נקלט בהצלחה במערכת");
                     })
                     .catch((error) => {
-                        toast.error("שגיאה שבליחת העדכון");
+                        toast.error("שגיאה בשליחת העדכון");
                         console.error(error);
                     });
                     setCurrentEx(1);

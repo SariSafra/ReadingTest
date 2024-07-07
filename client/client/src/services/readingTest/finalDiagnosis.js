@@ -1,18 +1,17 @@
 const createCombinedFrequencyMap = (diagnosisesArray) => {
     return diagnosisesArray.reduce((acc, diagnosis) => {
-        if (diagnosis.Diagnosis && diagnosis.Diagnosis.frequencyMap) { // Check if frequencyMap exists under Diagnosis
+        if (diagnosis.Diagnosis && diagnosis.Diagnosis.frequencyMap) { 
             for (const [key, value] of Object.entries(diagnosis.Diagnosis.frequencyMap)) {
                 if (!acc[key]) {
                     acc[key] = { correct: 0, incorrect: 0, swaps: [] };
                 }
-                acc[key].correct += value.correct || 0; // Ensure value.correct exists
-                acc[key].incorrect += value.incorrect || 0; // Ensure value.incorrect exists
+                acc[key].correct += value.correct || 0; 
+                acc[key].incorrect += value.incorrect || 0; 
   
                 value.swaps.forEach(swap => {
                     const existingSwap = acc[key].swaps.find(s => s.input === swap.input);
                     if (existingSwap) {
                       const index=acc[key].swaps.findIndex(t=>t==existingSwap);
-                      //check how to enter it to acc
                         acc[key].swaps[index].times+=swap.times;
                     } else {
                         acc[key].swaps.push({ ...swap });
@@ -27,7 +26,6 @@ const createCombinedFrequencyMap = (diagnosisesArray) => {
 };
 
   
-  // Function to determine final emphasis and repeat settings
   const determineFinalSettings = (diagnosisesArray) => {
     const emphasisCount = diagnosisesArray.filter(diagnosis => diagnosis.Mediation.Emphasis).length;
     const repeatCount = diagnosisesArray.filter(diagnosis => diagnosis.Mediation.Repeat).length;
@@ -39,11 +37,10 @@ const createCombinedFrequencyMap = (diagnosisesArray) => {
     };
   };
   
-  // Function to calculate swap consistency
   const calculateSwapConsistency = (combinedFrequencyMap) => {
     const swapConsistency = {};
     for (const [key, value] of Object.entries(combinedFrequencyMap)) {
-      const totalSwaps = value.incorrect; // Only consider incorrect attempts for consistency
+      const totalSwaps = value.incorrect; 
       if (totalSwaps > 0) {
         value.swaps.forEach(swap => {
           if (!swapConsistency[key]) {
@@ -61,24 +58,22 @@ const createCombinedFrequencyMap = (diagnosisesArray) => {
     }, {});
   };
   
-  // Function to calculate the total success rate
   const calculateTotalSuccessRate = (diagnosisesArray) => {
     const totalSuccessRate = diagnosisesArray.reduce((acc, diagnosis) => acc + parseFloat(diagnosis.Diagnosis.successRate), 0) / diagnosisesArray.length;
     return totalSuccessRate.toFixed(2);
   };
   
-  // Function to calculate the total time
   const calculateTotalTime = (diagnosisesArray) => {
     return diagnosisesArray.reduce((acc, diagnosis) => acc + diagnosis.Diagnosis.time, 0);
   };
   
-  // Final diagnosis function
    const finalDiagnosis = (diagnosisesArray) => {
     const combinedFrequencyMap = createCombinedFrequencyMap(diagnosisesArray);
     const finalSettings = determineFinalSettings(diagnosisesArray);
     const consistentSwappingPercentageObj = calculateSwapConsistency(combinedFrequencyMap);
     const consistentSwappingPercentage = Object.keys(consistentSwappingPercentageObj).length === 0 ? 100 :
-    Object.values(consistentSwappingPercentageObj).reduce((sum, value) => sum + parseFloat(value), 0) / Object.keys(consistentSwappingPercentageObj).length;    const successRate = calculateTotalSuccessRate(diagnosisesArray);
+    Object.values(consistentSwappingPercentageObj).reduce((sum, value) => sum + parseFloat(value), 0) / Object.keys(consistentSwappingPercentageObj).length;
+    const successRate = calculateTotalSuccessRate(diagnosisesArray);
     const time = calculateTotalTime(diagnosisesArray);
   
     return {

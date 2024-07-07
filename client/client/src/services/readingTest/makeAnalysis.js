@@ -1,5 +1,3 @@
-//import analyzeSwaps from './analyzeSwaps.js'
-//import averageTimeCalculat from './averageTimeCalculat.js'
 const makeAnalysis = (result) => {
   const frequencyMap = analyzeSwaps(result);
   const successRate = calculateSuccessRate(result);
@@ -42,7 +40,6 @@ const analyzeSwaps = (dataArray) => {
           frequencyMap[output].correct++;
         } else {
           frequencyMap[output].incorrect++;
-          //check how to add it to freqencyMap
           const swap = frequencyMap[output].swaps.find(s => s.input === input);
           if (swap) {
             frequencyMap[output].swaps[frequencyMap[output].swaps.findIndex(t=>t===swap)].times++;
@@ -58,8 +55,7 @@ const analyzeSwaps = (dataArray) => {
 
 
   const averageTimeCalculat = (dataArray) => {
-    if (dataArray.length === 0) return 0; // Handle the case of an empty array
-  
+    if (dataArray.length === 0) return 0; 
     let totalTime = 0;
   
     dataArray.forEach(element => {
