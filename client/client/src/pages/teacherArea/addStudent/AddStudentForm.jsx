@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Typography, Button } from '@mui/material';
+import {  TextField, Typography, Button } from '@mui/material';
 import UpdateProfileImage from '../../UserAccount/UpdateProfileImage';
 import { Message } from '../../style/addStudent.js';
 
@@ -14,9 +14,9 @@ const AddStudentForm = ({
 
     return (
         <form onSubmit={handleSubmit} encType="multipart/form-data" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h5" gutterBottom>Add New Student</Typography>
+            <Typography variant="h5" gutterBottom>הוספת תלמיד חדש</Typography>
             <TextField
-                label="Name"
+                label="שם"
                 variant="outlined"
                 name="name"
                 value={inputsValue.name}
@@ -25,7 +25,7 @@ const AddStudentForm = ({
                 required
             />
             <TextField
-                label="ID"
+                label="תעודת זהות"
                 variant="outlined"
                 name="id"
                 value={inputsValue.id}
@@ -34,7 +34,7 @@ const AddStudentForm = ({
                 required
             />
             <TextField
-                label="Password"
+                label="סיסמא"
                 type="password"
                 variant="outlined"
                 name="password"
@@ -53,7 +53,7 @@ const AddStudentForm = ({
                 newImage={newImage}
                 setNewImage={setNewImage}
             />
-            <Button type="submit" variant="contained" color="primary">Add</Button>
+            <Button type="submit" variant="contained" color="primary">הוספה</Button>
             {successMessage && (
                 <Message variant="body1" style={{ color: 'green' }}>
                     {successMessage}

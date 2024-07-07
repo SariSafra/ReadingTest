@@ -9,10 +9,7 @@ export default class StudentService {
     };
 
     getAllStudents = async (queries = {}) => {
-        console.log('student service query: '+queries.studentId);
         const students = await Student.find(queries);
-        console.log('student service: '+students);
-
         return students.map(student => {
             const profileImageUrl =  `http://localhost:3000/profile-image/${student.filePath? path.basename(student.filePath):'profile.png'}`
 
@@ -37,14 +34,10 @@ export default class StudentService {
         };
     }
     getStudentByStudentId = async (id) => {
-        console.log("in gete student by student id service", id)
         const student = await Student.findOne({ studentId: id }).populate('diagnoses');
-        if (!student) {
+        if (!student) 
             throw new Error('Student not found');
-        }
-        console.log("student in dervice before img",student)
         const profileImageUrl = `http://localhost:3000/profile-image/${student.filePath? path.basename(student.filePath):'profile.png'}`;
-
         return {
             ...student.toObject(),
             profileImageUrl
@@ -52,7 +45,6 @@ export default class StudentService {
     }
     createStudent = async (studentData, session) => {
         const student = new Student(studentData);
-        console.log('student service, student: ', student);
         return await student.save({ session });
     }
 
@@ -62,13 +54,10 @@ export default class StudentService {
             student = await Student.findOneAndUpdate({studentId:id}, {$set:studentData}, { new: true, runValidators: true, session });
         else
             student = await Student.findOneAndUpdate({studentId:id}, {$set:studentData}, { new: true, runValidators: true });
-
-            console.log("in student service, student",student)
         return student;
     }
 
     deleteStudent = async (id, session) => {
-        console.log('hi');
         if (session)
             return Student.findOneAndDelete({ studentId: id }, { session });
         else

@@ -12,12 +12,10 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    console.log("sike in upload",file)
-    if (file.mimetype.startsWith('image/')) {
+    if (file.mimetype.startsWith('image/')) 
         cb(null, true);
-    } else {
+     else 
         cb(new Error('Only image files are allowed!'), false);
-    }
 };
 
 const upload = multer({

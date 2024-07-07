@@ -5,7 +5,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const sendEmail = async (to, subject, payload, templatePath) => {
-  console.log("in send email email: " + to);
 
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -46,7 +45,6 @@ const sendEmail = async (to, subject, payload, templatePath) => {
     throw new Error('Email not accepted by any recipient.');
   }
 
-  console.log(`Email sent: ${info.response}`);
 };
 
 export default sendEmail;

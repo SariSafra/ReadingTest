@@ -14,12 +14,9 @@ const getUserModel = (userType) => {
 };
 
 export const requestPasswordReset = async (email, userType) => {
-  console.log("in service, email: "+email);
   const User = getUserModel(userType);
   const user = await User.findOne({ email });
   if (!user) throw new Error('User does not exist');
-  console.log("user : "+user);
-
   let token = await Token.findOne({ userId: user._id, userType });
   if (token) await token.deleteOne();
 
@@ -31,7 +28,6 @@ export const requestPasswordReset = async (email, userType) => {
     token: hash,
     createdAt: Date.now(),
   }).save();
-  console.log("before sending email");
   const link = `${process.env.CLIENT_URL}/password-reset?token=${resetToken}&id=${user._id}&type=${userType}`;
   const payload = { name: user.name, link: link };
   sendEmail(user.email, 'Password Reset Request', payload, 'requestResetPassword.hbs');
@@ -39,7 +35,6 @@ export const requestPasswordReset = async (email, userType) => {
 };
 
 export const resetPassword = async (userId, token, newPassword, userType) => {
-  console.log('reset password service');
   const passwordResetToken = await Token.findOne({ userId, userType });
   if (!passwordResetToken) throw new Error('Invalid or expired password reset token');
 
@@ -49,7 +44,5 @@ export const resetPassword = async (userId, token, newPassword, userType) => {
   const updatedRecord =  await updatePassword(userId,newPassword)
   if(!updatedRecord)
     throw new Error('Not updated')
-  // const hash = await bcrypt.hash(newPassword, 10);
-  // await Password.updateOne({ userId: userId }, {$set: {password: hash} });
   await passwordResetToken.deleteOne();
 };

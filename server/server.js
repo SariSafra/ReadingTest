@@ -38,13 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 // Routes
 app.use((req, res, next) => {
-  console.log(`Received request: ${req.method} ${req.url}`);
-  if (req.body) {
-    console.log('Request Body:', req.body);
-  }
-  if (req.file) {
-    console.log('Request file:', req.file);
-  }
+
   next();
 });
 
