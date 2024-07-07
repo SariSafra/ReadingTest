@@ -7,8 +7,6 @@ import DiagnosisChart from './DiagnosisChart';
 import { getStudentDiagnoses,deleteDiagnosis } from '../../services/api.js';
 const ShowStudentDiagnosis = ({ studentId }) => {
     const [diagnoses, setDiagnoses] = useState([]);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [selectedDiagnosisId, setSelectedDiagnosisId] = useState(null);
 
     const fetchDiagnoses = async () => {
         try {
@@ -32,6 +30,7 @@ const ShowStudentDiagnosis = ({ studentId }) => {
     }, [studentId]);
 
     const deleteCurrentDiagnosis = async (diagnosisId) => {
+    const deleteCurrentDiagnosis = async (diagnosisId) => {
         try {
             const response = await deleteDiagnosis(diagnosisId);
             if (response.status === 200) {
@@ -47,6 +46,8 @@ const ShowStudentDiagnosis = ({ studentId }) => {
 
     const handleDelete = (diagnosisId) => {
         if (confirm('Are you sure you want to delete?'))
+            deleteCurrentDiagnosis(diagnosisId);
+    };
             deleteCurrentDiagnosis(diagnosisId);
     };
 
@@ -83,14 +84,6 @@ const ShowStudentDiagnosis = ({ studentId }) => {
             ) : (
                 <p>לא נמצאו דיאגנוזות זמינות</p>
             )}
-
-
-            {/* <DeleteDiagnosis
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                diagnosisId={selectedDiagnosisId}
-                onDeleteSuccess={handleDeleteSuccess}
-            /> */}
         </div>
     );
 };

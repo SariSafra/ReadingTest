@@ -2,8 +2,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3000', // Adjust the base URL as needed
-  timeout: 10000, // Timeout of 10 seconds
+  baseURL: 'http://localhost:3000',
+  timeout: 10000,
   withCredentials: true,
 });
 
@@ -13,7 +13,6 @@ API.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    // Only set Content-Type for JSON requests, let FormData set it automatically
     if (!config.headers['Content-Type'] && !(config.data instanceof FormData)) {
       config.headers['Content-Type'] = 'application/json';
     }
@@ -32,7 +31,7 @@ export const requestPasswordReset = (data) => API.post('/password/requestPasswor
 export const resetPassword = (data) => API.post('/password/resetPassword', data);
 export const createStudent = (data) => API.post('/teachers/students', data, {
   headers: {
-    'Content-Type': 'multipart/form-data' // Only needed for file uploads
+    'Content-Type': 'multipart/form-data'
   }
 });
 export const sendEmail = (data) => API.post('/email/send-email', data);
@@ -44,11 +43,11 @@ export const postDiagnosis = (diagnosis, studentId) => API.post(`/students/${stu
 export const getStudent = (studentId) => API.get(`/students/${studentId}`);
 export const getTeacher = (teacherId) => API.get(`/teachers/${teacherId}`);
 export const updateTeacher = (teacherId, data) => API.put(`/teachers/${teacherId}`, data,{  headers: {
-  'Content-Type': 'multipart/form-data' // Only needed for file uploads
+  'Content-Type': 'multipart/form-data'
 }});
 export const updateStudent = (studentId, data) => API.put(`/students/${studentId}`, data,{
   headers: {
-    'Content-Type': 'multipart/form-data' // Only needed for file uploads
+    'Content-Type': 'multipart/form-data'
   }});
 
 
