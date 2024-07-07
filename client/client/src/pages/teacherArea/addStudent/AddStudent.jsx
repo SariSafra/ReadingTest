@@ -30,7 +30,6 @@ const AddStudent = ({ studentsArr, setStudentsArr, fetchStudents }) => {
             setSuccessMessage("Student added successfully!");
             setErrorMessage('');
             setModalIsOpen(true);
-            //setStudentsArr([...studentsArr, savedStudent.data]);
             fetchStudents();
         } catch (error) {
             if (error.response?.status === 400) {
@@ -55,10 +54,10 @@ const AddStudent = ({ studentsArr, setStudentsArr, fetchStudents }) => {
                 payload: payload,
                 templatePath: 'loginDetails.hbs'
             });
-            setSuccessMessage("Email sent successfully!");
+            setSuccessMessage("מייל נשלח בהצלחה");
             setErrorMessage('');
         } catch (error) {
-            setErrorMessage("Failed to send email. Please try again.");
+            setErrorMessage("שליחת המייל נכשלה, נסה שנית");
             setSuccessMessage('');
         }
     }
@@ -93,17 +92,17 @@ const AddStudent = ({ studentsArr, setStudentsArr, fetchStudents }) => {
                 </Box>
                 :
                 <ModalContent style={modalStyle.content}>
-                    <Typography variant="h6" gutterBottom>Student Added Successfully</Typography>
-                    <Typography>Name: {studentDetails?.name}</Typography>
-                    <Typography>ID: {studentDetails?.studentId}</Typography>
-                    <Typography>Password: ******** (Hidden for security)</Typography>
+                    <Typography variant="h6" gutterBottom>סטודנט הוסף בהצלחה</Typography>
+                    <Typography> {studentDetails?.name}שם:</Typography>
+                    <Typography>{studentDetails?.studentId}תעודת זהות:</Typography>
+                    <Typography>סיסמא:***** הקוד מוסתר לצרכי אבטחה</Typography>
                     <CopyToClipboard text={`Name: ${studentDetails?.name}\nID: ${studentDetails?.studentId}\nPassword: ${inputsValue?.password}`}>
                         <Button variant="contained" onClick={() => setSuccessMessage("Copied to clipboard!")} style={{ marginTop: 16 }}>
                             <MdContentCopy />
                         </Button>
                     </CopyToClipboard>
                     <TextField
-                        label="Enter student's email"
+                        label="הכנס מייל תלמיד"
                         type="email"
                         variant="outlined"
                         value={email}
@@ -121,7 +120,7 @@ const AddStudent = ({ studentsArr, setStudentsArr, fetchStudents }) => {
                             {errorMessage}
                         </Message>
                     )}
-                    <Button onClick={handleSendEmail} variant="contained" color="primary" style={{ marginTop: 16 }}>Send Email</Button>
+                    <Button onClick={handleSendEmail} variant="contained" color="primary" style={{ marginTop: 16 }}>שלח מייל</Button>
                 </ModalContent>
             }
         </>
