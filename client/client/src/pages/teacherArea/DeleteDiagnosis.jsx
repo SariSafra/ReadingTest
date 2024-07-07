@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteDiagnosis } from '../../services/api';
 
-// Set app element for accessibility (for react-modal)
 Modal.setAppElement('#root');
 
 const DeleteDiagnosis = ({ isOpen, onRequestClose, diagnosisId, onDeleteSuccess }) => {

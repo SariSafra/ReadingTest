@@ -1,23 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 import Cookies from 'js-cookie';
 import '../style/Signup.css'
 import { generateVerificationCode, completeSignup } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AuthContext from './AuthContext';
 import { UserContext } from './UserContext'; 
 import { Card } from '@mui/material';
-import { InputText } from 'primereact/inputtext'; // Import InputText from primereact
-import { Password } from 'primereact/password'; // Import Password from primereact
-import { Button } from 'primereact/button'; // Import Button from primereact
+import { InputText } from 'primereact/inputtext';
+import { Password } from 'primereact/password';
+import { Button } from 'primereact/button';
 import { emailValidationSchema,completeSignupValidationSchema } from '../../schemas/signup';
 
 const Signup = () => {
   const [isCodeSent, setIsCodeSent] = useState(false);
-  const { user, setUser } = useContext(UserContext); // Use setUser from UserContext
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleGenerateCode = async (values, { setSubmitting }) => {
@@ -25,7 +23,6 @@ const Signup = () => {
       const response = await generateVerificationCode({ email: values.email });
       setIsCodeSent(true);
       toast.success('Verification code sent to your email');
-      console.log('Verification code sent:', response.data.message);
     } catch (error) {
       console.error('Error generating verification code:', error);
       if (error.response && error.response.status === 400) {
@@ -47,12 +44,10 @@ const Signup = () => {
         },
         verificationCode: values.verificationCode,
       });
-      console.log("user email from signup", values.email);
-      setUser({ username: values.email, role: 'teacher' }); // Set user details from response
-      console.log("user from signup", user);
-      Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
-      localStorage.setItem('user', JSON.stringify(values.email)); // Save user data to localStorage
-      navigate('/home/teacher'); // Redirect to teacher home page
+      setUser({ username: values.email, role: 'teacher' });
+      Cookies.set('token', response.data.token, { expires: 1 });
+      localStorage.setItem('user', JSON.stringify(values.email));
+      navigate('/home/teacher');
     } catch (error) {
       console.error('Error completing signup:', error);
       toast.error('Error completing signup, try later');

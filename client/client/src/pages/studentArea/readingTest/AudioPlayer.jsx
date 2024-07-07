@@ -10,9 +10,6 @@ const AudioPlayer = ({ src, onEnded, playOnClick }) => {
 
             if (playPromise !== undefined) {
                 playPromise
-                    .then(_ => {
-                        // Playback started
-                    })
                     .catch(error => {
                         console.error('Auto-play was prevented:', error);
                     });

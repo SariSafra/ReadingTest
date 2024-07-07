@@ -1,18 +1,17 @@
 import React, { useContext, useEffect } from 'react';
 import { useFormik } from 'formik';
-import * as Joi from 'joi';
 import Cookies from 'js-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from './AuthContext';
-import { UserContext } from './UserContext'; // Import UserContext
-import '../style/Login.css'; // Ensure this import points to your CSS file
+import { UserContext } from './UserContext';
+import '../style/Login.css';
 import { Select , MenuItem, Input} from '@mui/material';
 import { validationSchema } from '../../schemas/login';
 
-  // Helper function to convert Joi validation to Formik validation
+
   const validate = (values) => {
     const { error } = validationSchema.validate(values, { abortEarly: false });
     if (!error) return {};
@@ -26,11 +25,9 @@ import { validationSchema } from '../../schemas/login';
 
 function Login() {
   const navigate = useNavigate();
-  //const { auth, setAuth } = useContext(AuthContext);
-  const { user,setUser } = useContext(UserContext); // Use setUser from UserContext
+  const { user,setUser } = useContext(UserContext);
 
   useEffect(() => {
-    console.log('user: '+user);
     if (user) {
       navigate(user.role === 'student' ? '/home/student' : '/home/teacher');
     }
@@ -46,14 +43,9 @@ function Login() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await login(values);
-        setUser({username: values.username, role: values.role }); // Set user details from response
-        Cookies.set('token', response.data.token, { expires: 1 }); // Set token in cookies for 1 day
-        // const authData = { role: values.role, token: response.data.token };
-        // setAuth(authData);
-        console.log("in login values.username",values.username)
-        //console.log("user", user);
-        // localStorage.setItem('auth', JSON.stringify(authData)); // Save to localStorage
-        navigate(values.role === 'student' ? '/home/student' : '/home/teacher'); // Redirect based on role
+        setUser({username: values.username, role: values.role });
+        Cookies.set('token', response.data.token, { expires: 1 });
+        navigate(values.role === 'student' ? '/home/student' : '/home/teacher');
       } catch (error) {
         toast.error('Error logging in');
       } finally {

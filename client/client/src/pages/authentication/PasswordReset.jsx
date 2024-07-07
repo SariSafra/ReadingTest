@@ -1,5 +1,3 @@
-// File: src/components/PasswordReset.js
-
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '../../services/api';
@@ -28,10 +26,9 @@ const PasswordReset = () => {
 
     try {
       const response = await resetPassword({ userId, token, newPassword, userType });
-      console.log('Password reset successful:', response.data);
       setSuccessMessage('Password reset successful');
       setErrorMessage('');
-      navigate('/login'); // Redirect to login page after successful reset
+      navigate('/login');
     } catch (error) {
       setErrorMessage(error.message);
       setSuccessMessage('');

@@ -5,9 +5,9 @@ import Login from './authentication/Login.jsx';
 import Signup from './authentication/Signup.jsx';
 import PasswordReset from './authentication/PasswordReset.jsx';
 import PasswordResetRequest from './authentication/PasswordResetRequest.jsx';
-import StudentHome from './studentArea/StudentHome.jsx';  // Your student home component
-import TeacherHome from './teacherArea/TeacherHome.jsx';  // Your teacher home component
-import ProtectedRoute from './ProtectedRoute.jsx';  // New ProtectedRoute component
+import StudentHome from './studentArea/StudentHome.jsx';
+import TeacherHome from './teacherArea/TeacherHome.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 import '../index.css';
 import TestManager from './studentArea/readingTest/TestManager.jsx';
 import UserAccount from './UserAccount/UserAccount.jsx'

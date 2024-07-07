@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Typography, Button } from '@mui/material';
+import { TextField, Typography, Button } from '@mui/material';
 import UpdateProfileImage from '../../UserAccount/UpdateProfileImage';
 import { Message } from '../../style/addStudent.js';
 
@@ -8,8 +8,7 @@ const AddStudentForm = ({
     setInputsValue, 
     handleSubmit, 
     successMessage, 
-    errorMessage, 
-    setErrorMessage 
+    errorMessage
 }) => {
     const [newImage, setNewImage] = useState(null);
 

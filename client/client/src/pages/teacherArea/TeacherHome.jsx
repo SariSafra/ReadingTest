@@ -1,4 +1,3 @@
-// TeacherHome.jsx
 import React, { useEffect, useState, useContext } from 'react';
 import { getStudents } from '../../services/api';
 import AddStudent from './addStudent/AddStudent.jsx';
@@ -21,7 +20,6 @@ function TeacherHome() {
     try {
       const response = await getStudents(user.username);
       setStudents(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching students", error);
       toast.error("Error fetching students");

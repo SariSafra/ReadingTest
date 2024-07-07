@@ -8,7 +8,7 @@ import finalDiagnosis from '../../../services/readingTest/finalDiagnosis.js';
 import { UserContext } from '../../authentication/UserContext.jsx';
 import { postDiagnosis } from '../../../services/api.js';
 import AudioPlayer from './AudioPlayer.jsx';
-import '../../style/TestManager.css';  // Importing the CSS file
+import '../../style/TestManager.css';
 
 export { currentExercise };
 const currentExercise = createContext(null);
@@ -93,7 +93,6 @@ const TestManager = () => {
 
     const handleExerciseComplete = () => {
         setShowAudioPlayer(true);
-        //setCurrentEx((prev) => prev + 1);
     };
 
     return (

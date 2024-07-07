@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { delStudent } from "../../services/api";
-import { ToastContainer, toast } from 'react-toastify';
-import { Container, Typography, List, ListItem, Paper, IconButton, Box, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Typography, IconButton, Box, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShowStudentDiagnosis from "./ShowStudentDiagnosis";
-import { useNavigate } from "react-router-dom";
 
 const StudentShow = ( { student, studentsArr, setStudentsArr ,setToShowStudent }) => {
 

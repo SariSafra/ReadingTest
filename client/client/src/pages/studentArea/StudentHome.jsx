@@ -7,7 +7,6 @@ function StudentHome() {
   return (
     <div>
       <h1>ברוכים הבאים לאותילוגיה</h1>
-      {/* Add more content here */}
       <button onClick={() => navigate('/home/test')}>להתחלת מבחן</button>
     </div>
   );

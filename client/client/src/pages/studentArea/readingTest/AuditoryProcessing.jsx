@@ -15,10 +15,7 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmph
   const inputRef = useRef(null);
   const { currentEx, setCurrentEx } = useContext(currentExercise);
 
-  console.log("AuditoryProcessing render" + JSON.stringify(data) + "\nindex: " + index);
-
   useEffect(() => {
-    console.log("data: " + data + "\n");
     const synth = window.speechSynthesis;
     const u = new SpeechSynthesisUtterance(data[index].toSpeak.repeat(toRepeat ? 2 : 1));
     const voices = synth.getVoices();
@@ -47,7 +44,6 @@ const AuditoryProcessing = ({ data, setToRepeat, setToEmphasis, toRepeat, toEmph
       const inputTime = Date.now();
       setInputStartTime(inputTime);
       const difference = inputTime - buttonClickTime;
-      console.log("towrite: " + data[index].toWrite + " the input: " + inputValue);
       const newResult = { time: difference, elementAnalysis: correctnessChecking(data[index], inputValue) };
       if (index < data.length - 1) {
         setInputValue("");

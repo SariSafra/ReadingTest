@@ -13,7 +13,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes, faClock } from '@fortawesome/free-solid-svg-icons';
 
-// Register the required components
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -35,7 +35,6 @@ const DiagnosisChart = ({ diagnosisData }) => {
         return <p></p>;
     }
 
-    // Prepare data for the input-specific chart
     const labels = Object.keys(frequencyMap);
     const correctData = labels.map(key => frequencyMap[key]?.correct || 0);
     const incorrectData = labels.map(key => frequencyMap[key]?.incorrect || 0);
@@ -63,7 +62,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
         ]
     };
 
-    // Prepare data for the consistent swapping percentage pie chart
+
     const consistentSwappingSum = labels.reduce((sum, key) => sum + parseFloat(consistentSwappingPercentage?.[key] || 0), 0);
     const inconsistentSwappingSum = 100 - consistentSwappingSum;
 
@@ -78,7 +77,7 @@ const DiagnosisChart = ({ diagnosisData }) => {
         ]
     };
 
-    // Prepare data for the success rate pie chart
+ 
     const successRateValue = parseFloat(successRate || 0);
     const successRateChartData = {
         labels: ['אחוזי הצלחה', 'אחוזי כישלון'],
