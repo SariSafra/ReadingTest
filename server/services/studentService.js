@@ -58,8 +58,6 @@ export default class StudentService {
 
     updateStudent = async (id, studentData, session) => {
         let student;
-        console.log("student data in service: "+studentData)
-        console.log("student ןג in service: "+id)
         if (session)
             student = await Student.findOneAndUpdate({studentId:id}, {$set:studentData}, { new: true, runValidators: true, session });
         else

@@ -1,8 +1,9 @@
 // File: src/components/PasswordReset.js
 
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '../../services/api';
+import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
 
 const PasswordReset = () => {
   const location = useLocation();
@@ -38,32 +39,48 @@ const PasswordReset = () => {
   };
 
   return (
-    <div className="password-reset-container">
-      <h2>איפוס סיסמא</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>סיסמא חדשה:</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>אימות סיסמא:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
-        <button type="submit">אפס סיסמא</button>
-      </form>
-    </div>
+    <Container maxWidth="sm">
+      <Box sx={{ mt: 5 }}>
+        <Typography variant="h4" component="h2" gutterBottom>
+          איפוס סיסמא
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Box sx={{ mb: 2 }}>
+            <TextField
+              type="password"
+              label="סיסמא חדשה"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              fullWidth
+              required
+            />
+          </Box>
+          <Box sx={{ mb: 2 }}>
+            <TextField
+              type="password"
+              label="אימות סיסמא"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              fullWidth
+              required
+            />
+          </Box>
+          {errorMessage && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {errorMessage}
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              {successMessage}
+            </Alert>
+          )}
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            אפס סיסמא
+          </Button>
+        </form>
+      </Box>
+    </Container>
   );
 };
 

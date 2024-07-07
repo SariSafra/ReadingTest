@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { requestPasswordReset } from '../../services/api.js'
+import {Input, Select, MenuItem, FormControl} from '@mui/material'
 
 function PasswordResetRequest() {
   const [email, setEmail] = useState('');
@@ -24,14 +25,28 @@ function PasswordResetRequest() {
 
   return (
     <div>
-      <form onSubmit={handleRequestReset}>
+    <form onSubmit={handleRequestReset}>
         <h2>איפוס סיסמא</h2>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-        <select value={userType} onChange={(e) => setUserType(e.target.value)}>
-          <option value="Teacher">מורה</option>
-        </select>
+
+        <FormControl fullWidth margin="normal">
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <Select value={userType} onChange={(e) => setUserType(e.target.value)}>
+            <MenuItem value="Teacher">מורה</MenuItem>
+          </Select>
+        </FormControl>
+
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
+
         <button type="submit">איפוס סיסמא</button>
       </form>
     </div>
