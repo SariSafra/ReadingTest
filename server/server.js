@@ -36,11 +36,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
-// Routes
-app.use((req, res, next) => {
-
-  next();
-});
 
 app.use('/password', passwordResetRoute);
 app.use('/signup', checkEmailExists, signupRoute);
@@ -52,9 +47,5 @@ app.use('/students', studentRoute);
 app.use('/teachers', teacherRoute);
 app.use('/email', emailRoute);
 
-
-app.get('/', (req, res) => {
-  res.send('Reading Diagnosis Server');
-});
 
 app.listen(port, () => console.log(`listening on port: ${port}`));

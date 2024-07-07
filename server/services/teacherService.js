@@ -1,10 +1,5 @@
 import Teacher from '../models/Teacher.model.js';
-import Student from '../models/Student.model.js';
-import Password from '../models/Password.js';
-import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
 import path from 'path';
-import emailRoute from '../routes/emailRoute.route.js';
 
 export default class TeacherService {
 

@@ -1,9 +1,7 @@
 import mongoose from 'mongoose';
 import TeacherService from '../services/teacherService.js';
 import { createPassword, deletePassword } from '../services/passwordService.js';
-import Password from '../models/Password.js';
 import StudentService from '../services/studentService.js';
-import Student from '../models/Student.model.js';
 
 
 
@@ -59,7 +57,7 @@ export default class TeacherController {
       await session.endSession();
     }
     res.status(201).json(teacher);
-  };
+  }
 
   updateTeacher = async (req, res) => {
     try {
@@ -70,7 +68,8 @@ export default class TeacherController {
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-  };
+  }
+
   updateTeacherByEmail = async (req, res) => {
     try {
       const teacher = await teacherService.updateTeacher({email:req.params.email}, req.body);
@@ -80,7 +79,8 @@ export default class TeacherController {
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-  };
+  }
+
   deleteTeacher = async (req, res) => {
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -105,7 +105,7 @@ export default class TeacherController {
       await session.endSession();
     }
     res.status(200).json(teacher);
-  };
+  }
 
   createStudent = async (req, res) => {
     const session = await mongoose.startSession();

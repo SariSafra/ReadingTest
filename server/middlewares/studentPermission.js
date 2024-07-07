@@ -1,6 +1,3 @@
-import StudentService from '../services/studentService.js';
-
-const studentService = new StudentService();
 
 
 const studentPermission = async (req, res, next) => {
