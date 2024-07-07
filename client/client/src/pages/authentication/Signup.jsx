@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Cookies from 'js-cookie';
+import '../style/Signup.css'
 import { generateVerificationCode, completeSignup } from '../../services/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -75,7 +76,7 @@ const Signup = () => {
             {({ isSubmitting }) => (
               <Form>
                 <div className="p-field">
-                  <Field name="verificationCode" placeholder="Verification Code" as={InputText} className="p-inputtext-lg" />
+                  <Field name="verificationCode" placeholder="קוד אימות" as={InputText} className="p-inputtext-lg" />
                   <ErrorMessage name="verificationCode" component="div" className="p-error" />
                 </div>
                 <div className="p-field">

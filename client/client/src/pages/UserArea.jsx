@@ -26,8 +26,8 @@ const UserArea = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                        אותילוגיה
                     </Typography>
-                    <Button color="inherit" onClick={handleLogout}>יציאה</Button>
                     <Button color="inherit" component={Link} to="/home/my-account">החשבון שלי</Button>
+                    <Button color="inherit" onClick={handleLogout}>יציאה</Button>
                 </Toolbar>
             </AppBar>
             <Toolbar /> {/* This empty Toolbar will push the content down */}

@@ -18,7 +18,7 @@ const UpdateUserName = ({ formik, userDetails, editableField, handleEdit,setEdit
                         helperText={formik.touched.name && formik.errors.name}
                     />
                 ) : (
-                    <Typography variant="body1">{userDetails.name}שם:</Typography>
+                    <Typography variant="body1">שם: {userDetails.name}</Typography>
                 )}
             </Grid>
             <Grid item xs={4}>

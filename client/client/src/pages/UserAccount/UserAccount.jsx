@@ -81,7 +81,7 @@ const UserAccount = () => {
     return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                Update {user.role === 'teacher' ? 'Teacher' : 'Student'} Details
+                עדכון פרטי {user.role === 'teacher' ? 'מורה' : 'תלמיד'}
             </Typography>
             <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
                 {userDetails && (
@@ -97,7 +97,7 @@ const UserAccount = () => {
                             <>
                                 <Grid container spacing={2} alignItems="center">
                                     <Grid item xs={8}>
-                                        <Typography variant="body1">{userDetails.email}מייל:</Typography>
+                                        <Typography variant="body1">מייל: {userDetails.email}</Typography>
                                     </Grid>
                                 </Grid>
                                 <Link to={'/password-reset-request'}>שינוי סיסמא</Link>
