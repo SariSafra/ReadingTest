@@ -88,7 +88,7 @@ const AddStudent = ({ fetchStudents }) => {
                         </Button>
                     </CopyToClipboard>
                     <TextField
-                        label="אכנס מייל תלמיד"
+                        label="הכנס מייל תלמיד"
                         type="email"
                         variant="outlined"
                         value={email}
