@@ -10,18 +10,10 @@ export default class DiagnosisService {
     return await Diagnosis.findById(id);
   }
   getDiagnosesByStudentId = async (id) => {
-    //console.log("in get diagnosis by student id service::", id);
-    console.log("in get diagnosis by student id service::", id);
     const student = await Student.findById(id).populate('diagnoses');
-    console.log("student with populated diagnosis: ", student);
-    console.log("diagnosis service:  !student",!student);
-    console.log("diagnosis service:  !student.diagnoses ", !student.diagnoses)
-
     if (!student || !student.diagnoses) {
-      console.log("No diagnosis found for this student.");
       return null;
     }
-    console.log("Diagnosis found:", student.diagnoses);
     return student.diagnoses;
   }
 
@@ -54,20 +46,14 @@ export default class DiagnosisService {
   };
 
   createDiagnosis = async (diagnosisData, session) => {
-    //const diagnosis = new Diagnosis(diagnosisData);
-    console.log(" from create diagnosis, diagnosisData:",diagnosisData)
     const diagnosis = new Diagnosis(diagnosisData);
-
     if (session)
-     { console.log("sss")
-      return await diagnosis.save({ session });}
+      return await diagnosis.save({ session });
     else
-      {console.log("aaa")
-        return await diagnosis.save();}
+        return await diagnosis.save();
   }
 
   updateDiagnosis = async (id, diagnosisData, session) => {
-    console.log("in update diagnosis in dia service id:",id,diagnosisData)
     if (session)
       return await Diagnosis.findByIdAndUpdate(id, diagnosisData, { new: true, runValidators: true, session: { session } });
     else

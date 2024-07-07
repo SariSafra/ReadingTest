@@ -23,9 +23,8 @@ export default class TeacherController {
   getTeacherById = async (req, res) => {
     try {
       const teacher = await teacherService.getTeacherById(req.params.id);
-      if (!teacher) {
+      if (!teacher) 
         return res.status(404).json({ message: 'Teacher not found' });
-      }
       res.status(200).json(teacher);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -35,9 +34,8 @@ export default class TeacherController {
   getTeacherByEmail = async (req, res) => {
     try {
       const teacher = await teacherService.getTeacherByEmail(req.params.email);
-      if (!teacher) {
+      if (!teacher) 
         return res.status(404).json({ message: 'Teacher not found' });
-      }
       res.status(200).json(teacher);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -65,11 +63,9 @@ export default class TeacherController {
 
   updateTeacher = async (req, res) => {
     try {
-      console.log("in update teacher", req.params.id,req.body)
       const teacher = await teacherService.updateTeacherById(req.params.id, req.body);
-      if (!teacher) {
+      if (!teacher) 
         return res.status(404).json({ message: 'Teacher not found' });
-      }
       res.status(200).json(teacher);
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -77,11 +73,9 @@ export default class TeacherController {
   };
   updateTeacherByEmail = async (req, res) => {
     try {
-      console.log("in update teacher", req.params.email,req.body)
       const teacher = await teacherService.updateTeacher({email:req.params.email}, req.body);
-      if (!teacher) {
+      if (!teacher) 
         return res.status(404).json({ message: 'Teacher not found' });
-      }
       res.status(200).json(teacher);
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -114,20 +108,13 @@ export default class TeacherController {
   };
 
   createStudent = async (req, res) => {
-    console.log('create student controller ' + req.user._id);
     const session = await mongoose.startSession();
     session.startTransaction();
 
     try {
       const teacher = await teacherService.getTeacherById(req.user._id);
-      console.log("teacher: ", teacher);
-
-      if (!teacher) {
+      if (!teacher) 
         throw new Error("Teacher doesn't exist");
-      }
-
-      console.log("after teacher");
-
       const studentData = {
         studentId: req.body.id,
         name: req.body.name,
@@ -137,11 +124,8 @@ export default class TeacherController {
 
       const student = await studentService.createStudent(studentData, session);
       await createPassword(student._id, req.body.password, 'Student', session);
-      console.log("student: " + student);
       teacher.students.push(student._id);
       await teacherService.updateTeacher({email:teacher.email}, teacher, session);
-      console.log('after creating, student: ' + student);
-
       await session.commitTransaction();
       res.status(201).json(student);
 

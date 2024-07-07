@@ -15,13 +15,11 @@ export const createPassword = async (userId, plainPassword, userType, session) =
 };
 
 export const updatePassword = async (userId, newPlainPassword, session) => {
-    console.log('password service update password');
     let password;
     if (session)
         password = await Password.findOneAndUpdate({ userId: userId }, { password: newPlainPassword }, { new: true, session });
     else
         password = await Password.findOneAndUpdate({ userId: userId }, { password: newPlainPassword }, { new: true });
-    console.log('password saved: '+password);
         return password;
 };
 

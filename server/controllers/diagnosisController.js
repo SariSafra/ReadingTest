@@ -16,9 +16,8 @@ getAllDiagnosis = async (req, res) => {
 getDiagnosisById = async (req, res) => {
     try {
       const diagnosis = await diagnosisService.getDiagnosisById(req.params.id);
-      if (!diagnosis) {
+      if (!diagnosis) 
         return res.status(404).json({ message: 'Diagnosis not found' });
-      }
       res.status(200).json(diagnosis);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -26,20 +25,14 @@ getDiagnosisById = async (req, res) => {
   }
   getDiagnosisByStudentId = async (req,res) => {
     try{
-      console.log("in get diagnosis by student id")
       const id=req.params.studentId;
-      console.log("id", id);
         const diagnoses= await diagnosisService.getDiagnosesByStudentId(id);
-        console.log("diagnosis[0] from diagnosis controller",diagnoses[0]);
-        if (!diagnoses) {
+        if (!diagnoses) 
           return res.status(404).json({ message: 'Diagnosis not found' });
-        }
-        console.log("before return diagnosis controller")
        return res.status(200).json(diagnoses);
     }
     catch(error)
     {
-      console.log("error accourd in diagnosis service")
       res.status(500).json({ message: error.message });
     }
   }
@@ -56,9 +49,8 @@ getDiagnosisById = async (req, res) => {
   updateDiagnosis = async (req, res) => {
     try {
       const diagnosis = await diagnosisService.updateDiagnosis(req.params.id, req.body);
-      if (!diagnosis) {
+      if (!diagnosis) 
         return res.status(404).json({ message: 'Diagnosis not found' });
-      }
       res.status(200).json(diagnosis);
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -68,9 +60,8 @@ getDiagnosisById = async (req, res) => {
   deleteDiagnosis = async (req, res) => {
     try {
       const diagnosis = await diagnosisService.deleteDiagnosis(req.params.id);
-      if (!diagnosis) {
+      if (!diagnosis) 
         return res.status(404).json({ message: 'Diagnosis not found' });
-      }
       res.status(200).json(diagnosis);
     } catch (error) {
       res.status(500).json({ message: error.message });
