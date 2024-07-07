@@ -15,13 +15,12 @@ const correctnessChecking = (data, input) => {
       j++;
     } else {
       if (toWrite.length > inputValue.length) {
-        // Assume a character is missing in inputValue
         resultArray.push({
           output: toWrite[i],
           input: null,
           correctness: false,
         });
-        i++; // Skip the current character in toWrite
+        i++; 
       } else {
         resultArray.push({
           output: toWrite[i],
@@ -34,7 +33,6 @@ const correctnessChecking = (data, input) => {
     }
   }
 
-  // Handle any remaining characters
   while (i < toWrite.length) {
     resultArray.push({
       output: toWrite[i],

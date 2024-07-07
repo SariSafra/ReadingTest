@@ -1,6 +1,5 @@
 const averageTimeCalculat = (dataArray) => {
-  if (dataArray.length === 0) return 0; // Handle the case of an empty array
-
+  if (dataArray.length === 0) return 0; 
   let totalTime = 0;
 
   dataArray.forEach(element => {
